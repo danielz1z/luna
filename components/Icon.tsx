@@ -3,6 +3,7 @@ import * as LucideIcons from 'lucide-react-native';
 import { LucideProps } from 'lucide-react-native';
 import React from 'react';
 import { Pressable, View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { useThemeColors } from '@/app/contexts/ThemeColors';
 
@@ -42,12 +43,12 @@ const Icon: React.FC<IconProps> = ({
   const colors = useThemeColors();
 
   const sizeMap = {
-    xs: { container: 'w-8 h-8', icon: 16 },
-    s: { container: 'w-10 h-10', icon: 20 },
-    m: { container: 'w-12 h-12', icon: 24 },
-    l: { container: 'w-16 h-16', icon: 32 },
-    xl: { container: 'w-20 h-20', icon: 40 },
-    xxl: { container: 'w-24 h-24', icon: 48 },
+    xs: { containerSize: 32, icon: 16 },
+    s: { containerSize: 40, icon: 20 },
+    m: { containerSize: 48, icon: 24 },
+    l: { containerSize: 64, icon: 32 },
+    xl: { containerSize: 80, icon: 40 },
+    xxl: { containerSize: 96, icon: 48 },
   };
 
   const getSize = () => {
@@ -55,38 +56,35 @@ const Icon: React.FC<IconProps> = ({
       return sizeMap[iconSize];
     }
     if (typeof size === 'number') {
-      return { container: '', icon: size };
+      return { containerSize: 0, icon: size };
     }
-    return { container: '', icon: 24 };
+    return { containerSize: 0, icon: 24 };
   };
 
-  const getVariantClass = () => {
+  const getVariantStyle = () => {
     switch (variant) {
       case 'bordered':
-        return 'border border-light-secondary dark:border-dark-secondary rounded-full items-center justify-center';
+        return styles.bordered;
       case 'contained':
-        return 'bg-light-secondary dark:bg-dark-secondary rounded-full items-center justify-center';
+        return styles.contained;
       default:
-        return '';
+        return null;
     }
   };
 
-  const { container, icon } = getSize();
-
-  const classes = [
-    'items-center justify-center',
-    variant !== 'plain' && container ? container : '',
-    variant !== 'plain' ? getVariantClass() : '',
-    className || '',
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .trim();
+  const { containerSize, icon } = getSize();
 
   const IconComponent = LucideIcons[name] as React.ComponentType<LucideProps>;
 
+  const containerStyle = [
+    styles.base,
+    variant !== 'plain' && containerSize > 0 && { width: containerSize, height: containerSize },
+    getVariantStyle(),
+    style,
+  ];
+
   const content = (
-    <View style={style} className={classes || undefined}>
+    <View style={containerStyle}>
       <IconComponent
         size={icon}
         color={color || colors.text}
@@ -109,15 +107,39 @@ const Icon: React.FC<IconProps> = ({
       <Pressable
         onPress={disabled ? undefined : onPress}
         disabled={disabled}
-        style={style}
-        className={classes || undefined}>
-        {content}
+        style={containerStyle}>
+        <IconComponent
+          size={icon}
+          color={color || colors.text}
+          strokeWidth={strokeWidth}
+          fill={fill}
+        />
       </Pressable>
     );
   }
 
   return content;
 };
+
+const styles = StyleSheet.create((theme) => ({
+  base: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bordered: {
+    borderWidth: 1,
+    borderColor: theme.colors.secondary,
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contained: {
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
 
 export default Icon;
 export type { IconName };
