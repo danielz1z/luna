@@ -3,20 +3,13 @@ import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
 import React, { useRef, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Pressable,
-  ViewStyle,
-  Animated,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ViewStyle, Animated } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
+
+import { palette, withOpacity } from '@/app/unistyles';
 
 type HeaderProps = {
   title?: string;
@@ -41,11 +34,8 @@ const Header: React.FC<HeaderProps> = ({
   showBackButton = false,
   onBackPress,
   rightComponents = [],
-  backgroundColor,
-  textColor,
   leftComponent,
   middleComponent,
-  className,
   style,
   collapsible = false,
   visible = true,
@@ -115,32 +105,32 @@ const Header: React.FC<HeaderProps> = ({
       <BlurView
         intensity={30}
         tint="light"
-        style={[style, containerStyle, { paddingTop: insets.top }]}
-        className={`z-50 w-full  bg-light-primary/60 px-global pt-4 dark:bg-dark-primary/80 ${className}`}>
-        <View className="flex-row justify-between">
-          <View className="flex-row items-center">
+        style={[
+          styles.blurredContainer,
+          style,
+          containerStyle,
+          { paddingTop: insets.top + stylesVars.extraTopPadding },
+        ]}>
+        <View style={styles.row}>
+          <View style={styles.leftSection}>
             {showBackButton && (
-              <TouchableOpacity onPress={handleBackPress} className="relative z-50 mr-global">
+              <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
                 <Icon name="ArrowLeft" size={24} color="white" />
               </TouchableOpacity>
             )}
 
-            <View className="relative z-50 flex-row items-center">
+            <View style={styles.leftContent}>
               {leftComponent}
 
-              {title && <Text className="text-lg font-bold text-white">{title}</Text>}
+              {title && <Text style={styles.titleWhite}>{title}</Text>}
             </View>
           </View>
 
-          {middleComponent && (
-            <View className="absolute bottom-0 left-0 right-0 top-0 flex-row items-center justify-center">
-              {middleComponent}
-            </View>
-          )}
+          {middleComponent && <View style={styles.middleContainer}>{middleComponent}</View>}
 
-          <View className="relative z-50 flex-row items-center">
+          <View style={styles.rightSection}>
             {rightComponents.map((component, index) => (
-              <View key={index} className="ml-6">
+              <View key={index} style={styles.rightItem}>
                 {component}
               </View>
             ))}
@@ -155,34 +145,34 @@ const Header: React.FC<HeaderProps> = ({
     return (
       <LinearGradient
         colors={['rgba(0,0,0,0.8)', 'transparent']}
-        style={[style, containerStyle, { paddingTop: insets.top }]}
-        className={`z-50 w-full px-global pb-10 pt-4 ${className}`}
+        style={[
+          styles.transparentContainer,
+          style,
+          containerStyle,
+          { paddingTop: insets.top + stylesVars.extraTopPadding },
+        ]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}>
-        <View className="flex-row justify-between">
-          <View className="flex-row items-center">
+        <View style={styles.transparentRow}>
+          <View style={styles.transparentLeftSection}>
             {showBackButton && (
-              <TouchableOpacity onPress={handleBackPress} className="relative z-50 mr-global">
+              <TouchableOpacity onPress={handleBackPress} style={styles.transparentBackButton}>
                 <Icon name="ArrowLeft" size={24} color="white" />
               </TouchableOpacity>
             )}
 
-            <View className="relative z-50 flex-row items-center">
+            <View style={styles.transparentLeftContent}>
               {leftComponent}
 
-              {title && <Text className="text-lg font-bold text-white">{title}</Text>}
+              {title && <Text style={styles.titleWhite}>{title}</Text>}
             </View>
           </View>
 
-          {middleComponent && (
-            <View className="absolute bottom-0 left-0 right-0 top-0 flex-row items-center justify-center">
-              {middleComponent}
-            </View>
-          )}
+          {middleComponent && <View style={styles.middleOverlay}>{middleComponent}</View>}
 
-          <View className="relative z-50 flex-row items-center">
+          <View style={styles.transparentRightSection}>
             {rightComponents.map((component, index) => (
-              <View key={index} className="ml-6">
+              <View key={index} style={styles.rightItem}>
                 {component}
               </View>
             ))}
@@ -195,38 +185,31 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <AnimatedView
-      style={[
-        collapsible ? { paddingTop: insets.top } : { paddingTop: insets.top },
-        style,
-        containerStyle,
-      ]}
-      className={`relative z-50 w-full flex-row justify-between bg-light-primary px-global pb-3 dark:bg-dark-primary ${className}`}>
+      style={[styles.defaultContainer, style, containerStyle, { paddingTop: insets.top }]}>
       {(showBackButton || leftComponent || title) && (
-        <View className="flex-1 flex-row items-center">
+        <View style={styles.defaultLeftSection}>
           {showBackButton && (
-            <TouchableOpacity onPress={handleBackPress} className="relative z-50 mr-global py-4">
+            <TouchableOpacity onPress={handleBackPress} style={styles.defaultBackButton}>
               <Icon name="ArrowLeft" size={24} color={isTransparent ? 'white' : colors.icon} />
             </TouchableOpacity>
           )}
 
           {leftComponent ||
             (title && (
-              <View className="relative z-50 flex-row items-center py-4  ">
+              <View style={styles.defaultLeftContent}>
                 {leftComponent}
 
-                {title && <Text className="text-lg font-bold dark:text-white">{title}</Text>}
+                {title && <Text style={styles.title}>{title}</Text>}
               </View>
             ))}
         </View>
       )}
-      {middleComponent && (
-        <View className="flex-1 flex-row items-center justify-center py-4 ">{middleComponent}</View>
-      )}
+      {middleComponent && <View style={styles.defaultMiddleSection}>{middleComponent}</View>}
 
       {rightComponents.length > 0 && (
-        <View className="relative z-50 flex-1 flex-row items-center justify-end ">
+        <View style={styles.defaultRightSection}>
           {rightComponents.map((component, index) => (
-            <View key={index} className="ml-6">
+            <View key={index} style={styles.rightItem}>
               {component}
             </View>
           ))}
@@ -248,33 +231,20 @@ type HeaderItemProps = {
   isWhite?: boolean;
 };
 
-export const HeaderIcon = ({
-  href,
-  icon,
-  hasBadge,
-  onPress,
-  className = '',
-  isWhite = false,
-}: HeaderItemProps) => (
+export const HeaderIcon = ({ href, icon, hasBadge, onPress, isWhite = false }: HeaderItemProps) => (
   <>
     {onPress ? (
-      <TouchableOpacity onPress={onPress} className="overflow-visible">
-        <View
-          className={`relative h-7 w-7 flex-row items-center justify-center overflow-visible ${className}`}>
-          {hasBadge && (
-            <View className="absolute -right-0 -top-0 z-30 h-4 w-4 rounded-full border-2 border-light-primary bg-red-500 dark:border-dark-primary" />
-          )}
+      <TouchableOpacity onPress={onPress} style={styles.headerIconTouchable}>
+        <View style={styles.headerIconContainer}>
+          {hasBadge && <View style={styles.headerIconBadge} />}
           {isWhite ? <Icon name={icon} size={25} color="white" /> : <Icon name={icon} size={25} />}
         </View>
       </TouchableOpacity>
     ) : (
       <Link href={href} asChild>
-        <TouchableOpacity className="overflow-visible">
-          <View
-            className={`relative h-7 w-7 flex-row items-center justify-center overflow-visible ${className}`}>
-            {hasBadge && (
-              <View className="absolute -right-[3px] -top-0 z-30 h-4 w-4 rounded-full border-2 border-light-primary bg-red-500 dark:border-dark-primary" />
-            )}
+        <TouchableOpacity style={styles.headerIconTouchable}>
+          <View style={styles.headerIconContainer}>
+            {hasBadge && <View style={styles.headerIconBadgeOffset} />}
             {isWhite ? (
               <Icon name={icon} size={25} color="white" />
             ) : (
@@ -286,3 +256,198 @@ export const HeaderIcon = ({
     )}
   </>
 );
+
+const stylesVars = {
+  extraTopPadding: 16,
+} as const;
+
+const styles = StyleSheet.create((theme) => {
+  const isDark = UnistylesRuntime.themeName === 'dark';
+
+  return {
+    blurredContainer: {
+      zIndex: 50,
+      width: '100%',
+      paddingHorizontal: theme.spacing.global,
+      paddingBottom: 40,
+      backgroundColor: isDark
+        ? withOpacity(theme.colors.primary, 0.65)
+        : withOpacity(theme.colors.primary, 0.85),
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    leftSection: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    backButton: {
+      position: 'relative',
+      zIndex: 50,
+      marginRight: theme.spacing.global,
+      paddingVertical: theme.spacing.md,
+    },
+    leftContent: {
+      position: 'relative',
+      zIndex: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    titleWhite: {
+      fontSize: 18,
+      fontFamily: theme.fonts.bold,
+      color: 'white',
+    },
+    middleContainer: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    rightSection: {
+      position: 'relative',
+      zIndex: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    },
+    rightItem: {
+      marginLeft: theme.spacing.lg,
+    },
+
+    transparentContainer: {
+      zIndex: 50,
+      width: '100%',
+      paddingHorizontal: theme.spacing.global,
+      paddingBottom: 40,
+    },
+    transparentRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    transparentLeftSection: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    transparentBackButton: {
+      position: 'relative',
+      zIndex: 50,
+      marginRight: theme.spacing.global,
+    },
+    transparentLeftContent: {
+      position: 'relative',
+      zIndex: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    middleOverlay: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    transparentRightSection: {
+      position: 'relative',
+      zIndex: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+
+    defaultContainer: {
+      position: 'relative',
+      zIndex: 50,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: theme.colors.primary,
+      paddingHorizontal: theme.spacing.global,
+      paddingBottom: 12,
+    },
+    defaultLeftSection: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    defaultBackButton: {
+      position: 'relative',
+      zIndex: 50,
+      marginRight: theme.spacing.global,
+      paddingVertical: theme.spacing.md,
+    },
+    defaultLeftContent: {
+      position: 'relative',
+      zIndex: 50,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: theme.spacing.md,
+    },
+    title: {
+      fontSize: 18,
+      fontFamily: theme.fonts.bold,
+      color: theme.colors.text,
+    },
+    defaultMiddleSection: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: theme.spacing.md,
+    },
+    defaultRightSection: {
+      position: 'relative',
+      zIndex: 50,
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+    },
+
+    headerIconTouchable: {
+      overflow: 'visible',
+    },
+    headerIconContainer: {
+      position: 'relative',
+      height: 28,
+      width: 28,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'visible',
+    },
+    headerIconBadge: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      zIndex: 30,
+      height: 16,
+      width: 16,
+      borderRadius: 9999,
+      borderWidth: 2,
+      borderColor: theme.colors.primary,
+      backgroundColor: palette.red500,
+    },
+    headerIconBadgeOffset: {
+      position: 'absolute',
+      right: -3,
+      top: 0,
+      zIndex: 30,
+      height: 16,
+      width: 16,
+      borderRadius: 9999,
+      borderWidth: 2,
+      borderColor: theme.colors.primary,
+      backgroundColor: palette.red500,
+    },
+  };
+});
