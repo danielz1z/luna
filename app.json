@@ -43,7 +43,8 @@
         "enableOnBackInvokedCallback": false
       },
       "navigationBarColor": "transparent",
-      "navigationBarHidden": true
+      "navigationBarHidden": true,
+      "package": "com.blobsid.luna"
     },
     "extra": {
       "router": {
