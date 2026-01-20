@@ -1686,7 +1686,7 @@ Task 9 (Update Cursor rules + Final build and verification)
 
 ---
 
-- [ ] 8. Migrate all app screens
+- [x] 8. Migrate all app screens
 
   **What to do**:
   - Find all screens with className: `grep -rn "className=" app/`
