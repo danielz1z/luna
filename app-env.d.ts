@@ -1,2 +1,1 @@
-// @ts-ignore
-/// <reference types="nativewind/types" />
+// Empty file - NativeWind types removed
