@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 interface ThemeScrollerProps extends ScrollViewProps {
   children: React.ReactNode;
@@ -29,18 +30,29 @@ export default function ThemedScroller({
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{ width: '100%' }}
+      style={[styles.scroller, { width: '100%' }]}
       bounces={false}
       overScrollMode="never"
-      className={`flex-1 bg-light-primary px-global dark:bg-dark-primary ${className || ''}`}
       onScroll={onScroll}
       scrollEventThrottle={scrollEventThrottle}
       contentContainerStyle={[headerSpace && { paddingTop: 70 }, contentContainerStyle]}
       {...props}>
       {children}
-      <View className="h-20 w-full" />
+      <View style={styles.spacer} />
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  scroller: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.global,
+  },
+  spacer: {
+    height: 80,
+    width: '100%',
+  },
+}));
 
 export const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);

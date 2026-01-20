@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { FlatList, FlatListProps } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 export type ThemedFlatListProps<T> = FlatListProps<T> & {
   className?: string;
@@ -15,11 +16,19 @@ function ThemedFlatListInner<T>(
       overScrollMode="never"
       ref={ref}
       showsVerticalScrollIndicator={false}
-      className={`flex-1 bg-light-primary px-global dark:bg-dark-primary ${className || ''}`}
+      style={styles.list}
       {...props}
     />
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  list: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.global,
+  },
+}));
 
 const ThemedFlatList = forwardRef(ThemedFlatListInner) as <T>(
   props: ThemedFlatListProps<T> & { ref?: React.Ref<FlatList<T>> }

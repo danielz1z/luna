@@ -8,6 +8,8 @@ import {
   ViewStyle,
   BackHandler,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
+import { withOpacity } from '@/app/unistyles';
 
 import AnimatedView from './AnimatedView';
 import ThemedText from './ThemedText';
@@ -31,11 +33,7 @@ type ThemeTabProps = {
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export const ThemeTab: React.FC<ThemeTabProps> = ({ children }) => {
-  return (
-    <View className="" style={{ width: SCREEN_WIDTH, height: '100%' }}>
-      {children}
-    </View>
-  );
+  return <View style={{ width: SCREEN_WIDTH, height: '100%' }}>{children}</View>;
 };
 
 const ThemeTabs: React.FC<ThemeTabsProps> = ({
@@ -94,60 +92,56 @@ const ThemeTabs: React.FC<ThemeTabsProps> = ({
   const stickyHeaderIndices = headerComponent ? [1] : [0];
 
   return (
-    <View className="flex-1 bg-light-primary dark:bg-dark-primary">
+    <View style={styles.container}>
       <ScrollView
         ref={mainScrollRef}
         stickyHeaderIndices={stickyHeaderIndices}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
-        className="flex-1">
+        style={styles.mainScroll}>
         {/* Header Component - Will scroll up */}
         {headerComponent && <View>{headerComponent}</View>}
 
         {/* Tab Bar - This will be sticky */}
-        <View className="z-10">
+        <View style={styles.tabBarWrapper}>
           {type === 'scrollview' ? (
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal
-              className="h-[48px] flex-row border-b border-light-secondary bg-light-primary dark:border-white/20 dark:bg-dark-primary">
+              style={styles.tabBarScroll}>
               {tabs.map((tab, index) => {
                 if (!React.isValidElement(tab)) return null;
                 return (
                   <Animated.View key={index}>
                     <TouchableOpacity
                       activeOpacity={0.7}
-                      className="relative h-full items-center justify-center px-4"
+                      style={styles.tabButton}
                       onPress={() => handleTabPress(index)}>
                       <ThemedText
-                        className={`text-base ${activeTab === index ? 'text-highlight' : ''}`}>
+                        style={[styles.tabText, activeTab === index && styles.tabTextActive]}>
                         {tab.props.name}
                       </ThemedText>
-                      {activeTab === index && (
-                        <View className="absolute bottom-0 h-[2px] w-full bg-highlight" />
-                      )}
+                      {activeTab === index && <View style={styles.tabIndicator} />}
                     </TouchableOpacity>
                   </Animated.View>
                 );
               })}
             </ScrollView>
           ) : (
-            <View className="h-[48px] flex-row border-b border-light-secondary bg-light-primary dark:border-white/20 dark:bg-dark-primary">
+            <View style={styles.tabBarFixed}>
               {tabs.map((tab, index) => {
                 if (!React.isValidElement(tab)) return null;
                 return (
-                  <Animated.View key={index} className="flex-1">
+                  <Animated.View key={index} style={styles.tabButtonWrapper}>
                     <TouchableOpacity
                       activeOpacity={0.7}
-                      className="relative flex-1 items-center justify-center px-3"
+                      style={styles.tabButtonFixed}
                       onPress={() => handleTabPress(index)}>
                       <ThemedText
-                        className={`text-base ${activeTab === index ? 'text-highlight' : ''}`}>
+                        style={[styles.tabText, activeTab === index && styles.tabTextActive]}>
                         {tab.props.name}
                       </ThemedText>
-                      {activeTab === index && (
-                        <View className="absolute bottom-0 h-[2px] w-full bg-highlight" />
-                      )}
+                      {activeTab === index && <View style={styles.tabIndicator} />}
                     </TouchableOpacity>
                   </Animated.View>
                 );
@@ -157,7 +151,7 @@ const ThemeTabs: React.FC<ThemeTabsProps> = ({
         </View>
 
         {/* Tab Content - Horizontal scrollable area */}
-        <View className="flex-1">
+        <View style={styles.tabContent}>
           {scrollEnabled ? (
             <ScrollView
               ref={tabContentRef}
@@ -167,7 +161,7 @@ const ThemeTabs: React.FC<ThemeTabsProps> = ({
               onScroll={handleScroll}
               scrollEventThrottle={16}
               onMomentumScrollEnd={handleScrollEnd}
-              className="flex-1"
+              style={styles.tabContentScroll}
               scrollEnabled={scrollEnabled}>
               {tabs}
             </ScrollView>
@@ -176,8 +170,7 @@ const ThemeTabs: React.FC<ThemeTabsProps> = ({
               key={activeTab}
               duration={600}
               animation="fadeIn"
-              className="flex-1"
-              style={{ width: SCREEN_WIDTH }}>
+              style={[styles.tabContentFixed, { width: SCREEN_WIDTH }]}>
               {tabs[activeTab]}
             </AnimatedView>
           )}
@@ -188,5 +181,71 @@ const ThemeTabs: React.FC<ThemeTabsProps> = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  mainScroll: {
+    flex: 1,
+  },
+  tabBarWrapper: {
+    zIndex: 10,
+  },
+  tabBarScroll: {
+    height: 48,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.secondary,
+    backgroundColor: theme.colors.primary,
+  },
+  tabBarFixed: {
+    height: 48,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: withOpacity('white', 0.2),
+    backgroundColor: theme.colors.primary,
+  },
+  tabButton: {
+    position: 'relative',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  tabButtonWrapper: {
+    flex: 1,
+  },
+  tabButtonFixed: {
+    position: 'relative',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+  },
+  tabText: {
+    fontSize: 16,
+  },
+  tabTextActive: {
+    color: theme.colors.highlight,
+  },
+  tabIndicator: {
+    position: 'absolute',
+    bottom: 0,
+    height: 2,
+    width: '100%',
+    backgroundColor: theme.colors.highlight,
+  },
+  tabContent: {
+    flex: 1,
+  },
+  tabContentScroll: {
+    flex: 1,
+  },
+  tabContentFixed: {
+    flex: 1,
+  },
+}));
 
 export default ThemeTabs;
