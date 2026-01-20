@@ -1,27 +1,31 @@
 import React, { forwardRef } from 'react';
 import ActionSheet, { ActionSheetProps, ActionSheetRef } from 'react-native-actions-sheet';
-import useThemeColors from '@/app/contexts/ThemeColors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-interface ActionSheetThemedProps extends ActionSheetProps {}
+import useThemeColors from '@/app/contexts/ThemeColors';
 
-const ActionSheetThemed = forwardRef<ActionSheetRef, ActionSheetThemedProps>(({ containerStyle, ...props }, ref) => {
+type ActionSheetThemedProps = ActionSheetProps;
+
+const ActionSheetThemed = forwardRef<ActionSheetRef, ActionSheetThemedProps>(
+  ({ containerStyle, ...props }, ref) => {
+    const mergedContainerStyle = typeof containerStyle === 'object' ? containerStyle : {};
     const colors = useThemeColors();
     const insets = useSafeAreaInsets();
 
     return (
-        <ActionSheet
-            {...props}
-            ref={ref}
-            containerStyle={{
-                backgroundColor: colors.sheet,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-                ...containerStyle,
-                paddingBottom: insets.bottom
-            }}
-        />
+      <ActionSheet
+        {...props}
+        ref={ref}
+        containerStyle={{
+          backgroundColor: colors.sheet,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          ...mergedContainerStyle,
+          paddingBottom: insets.bottom,
+        }}
+      />
     );
-});
+  }
+);
 
 export default ActionSheetThemed;

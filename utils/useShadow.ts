@@ -22,10 +22,10 @@ export const useShadow = (options?: ShadowProps): ViewStyle => {
     shadowColor = '#000',
     shadowOpacity = 0.2,
     shadowRadius = 3.84,
-    shadowOffset = { 
-      width: 0, 
-      height: 2 
-    }
+    shadowOffset = {
+      width: 0,
+      height: 2,
+    },
   } = options || {};
 
   // iOS shadows
@@ -42,38 +42,54 @@ export const useShadow = (options?: ShadowProps): ViewStyle => {
   };
 
   // Return platform-specific shadow styles
-  return Platform.OS === 'ios' 
-    ? iosShadow 
-    : { ...iosShadow, ...androidShadow };
+  return Platform.OS === 'ios' ? iosShadow : { ...iosShadow, ...androidShadow };
 };
 
-/**
- * Preset shadow styles for common use cases
- */
+const getShadow = (options: ShadowProps): ViewStyle => {
+  const {
+    elevation = 5,
+    shadowColor = '#000',
+    shadowOpacity = 0.2,
+    shadowRadius = 3.84,
+    shadowOffset = { width: 0, height: 2 },
+  } = options || {};
+
+  const iosShadow: ViewStyle = {
+    shadowColor,
+    shadowOpacity,
+    shadowRadius,
+    shadowOffset,
+  };
+
+  const androidShadow: ViewStyle = { elevation };
+
+  return Platform.OS === 'ios' ? iosShadow : { ...iosShadow, ...androidShadow };
+};
+
 export const shadowPresets = {
-  small: useShadow({
+  small: getShadow({
     elevation: 3,
     shadowRadius: 2.5,
-    shadowOffset: { width: 0, height: 1 }
+    shadowOffset: { width: 0, height: 1 },
   }),
-  
-  medium: useShadow({
+
+  medium: getShadow({
     elevation: 8,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 3 }
+    shadowOffset: { width: 0, height: 3 },
   }),
-  
-  large: useShadow({
+
+  large: getShadow({
     elevation: 15,
     shadowRadius: 10.84,
-    shadowOffset: { width: 0, height: 10 }
+    shadowOffset: { width: 0, height: 10 },
   }),
-  
-  card: useShadow({
+
+  card: getShadow({
     elevation: 4,
     shadowRadius: 3.84,
-    shadowOffset: { width: 0, height: 2 }
-  })
+    shadowOffset: { width: 0, height: 2 },
+  }),
 };
 
-export default useShadow; 
+export default useShadow;
