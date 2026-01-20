@@ -1595,7 +1595,7 @@ Task 9 (Update Cursor rules + Final build and verification)
 
 ---
 
-- [ ] 7. Migrate all remaining components
+- [x] 7. Migrate all remaining components
 
   **What to do**:
 
