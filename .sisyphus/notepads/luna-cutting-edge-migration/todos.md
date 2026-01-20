@@ -8,4 +8,4 @@
 - [completed] 6. Verify no `className` usage in `app/` (grep)
 - [completed] 7. Run `npx tsc --noEmit`
 - [completed] 8. Commit changes (app screens only)
-- [todo] 9. Plan checkbox update (blocked: plan file is read-only in this environment)
+- [blocked] 9. Plan checkbox update (blocked: plan file is read-only in this environment)
