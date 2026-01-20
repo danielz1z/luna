@@ -7,5 +7,5 @@
 - [completed] 5. Migrate screens: `ai-voice`, `edit-profile`, `forgot-password`, `help`, `login`, `profile`, `provider`, `search-form`, `signup`, `subscription`, `welcome`
 - [completed] 6. Verify no `className` usage in `app/` (grep)
 - [completed] 7. Run `npx tsc --noEmit`
-- [in_progress] 8. Commit changes (app screens only)
+- [completed] 8. Commit changes (app screens only)
 - [todo] 9. Plan checkbox update (blocked: plan file is read-only in this environment)
