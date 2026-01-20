@@ -1,45 +1,41 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
+import { withOpacity } from '@/app/unistyles';
 
 interface ListProps {
   children: React.ReactNode;
   spacing?: number;
   variant?: 'plain' | 'separated' | 'divided';
-  className?: string;
   style?: ViewStyle;
 }
 
-export const List: React.FC<ListProps> = ({
-  children,
-  spacing = 0,
-  variant = 'plain',
-  className = '',
-  style,
-}) => {
+export const List: React.FC<ListProps> = ({ children, spacing = 0, variant = 'plain', style }) => {
   // Convert children to array and filter out null/undefined
   const items = React.Children.toArray(children).filter(Boolean);
 
-  const getVariantClass = () => {
-    switch (variant) {
-      case 'separated':
-        return 'divide-y-0';
-      case 'divided':
-        return 'divide-y divide-black/10 dark:divide-white/10';
-      default:
-        return '';
-    }
-  };
+  // For 'divided' variant, we need to add borders to children
+  // In RN, we render items with conditional borders instead of using divide-y
+  if (variant === 'divided') {
+    return (
+      <View style={[{ gap: spacing }, style]}>
+        {items.map((child, index) => (
+          <View key={index} style={[index > 0 && styles.dividedItem]}>
+            {child}
+          </View>
+        ))}
+      </View>
+    );
+  }
 
-  return (
-    <View
-      className={`
-                ${getVariantClass()}
-                ${className}
-            `}
-      style={[{ gap: spacing }, style]}>
-      {items}
-    </View>
-  );
+  return <View style={[{ gap: spacing }, style]}>{items}</View>;
 };
+
+const styles = StyleSheet.create(() => ({
+  dividedItem: {
+    borderTopWidth: 1,
+    borderTopColor: withOpacity('black', 0.1),
+  },
+}));
 
 export default List;

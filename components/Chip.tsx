@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React, { ReactNode } from 'react';
 import { Text, View, TouchableOpacity, ViewStyle, Image, ImageSourcePropType } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
@@ -40,17 +41,24 @@ export const Chip = ({
   leftContent,
   selectable,
 }: ChipProps) => {
-  // Size mappings
-  const sizeClasses = {
-    xs: 'px-1.5 py-0.5 text-xs',
-    sm: 'px-2 py-0.5 text-xs',
-    md: 'px-3 py-1 text-sm',
-    lg: 'px-4 py-1.5 text-base',
-    xl: 'px-5 py-2 text-lg',
-    xxl: 'px-6 py-2.5 text-xl',
+  const sizePadding = {
+    xs: { paddingHorizontal: 6, paddingVertical: 2 },
+    sm: { paddingHorizontal: 8, paddingVertical: 2 },
+    md: { paddingHorizontal: 12, paddingVertical: 4 },
+    lg: { paddingHorizontal: 16, paddingVertical: 6 },
+    xl: { paddingHorizontal: 20, paddingVertical: 8 },
+    xxl: { paddingHorizontal: 24, paddingVertical: 10 },
   };
 
-  // Default icon/image sizes based on chip size
+  const textSizes = {
+    xs: 12,
+    sm: 12,
+    md: 14,
+    lg: 16,
+    xl: 18,
+    xxl: 20,
+  };
+
   const getDefaultIconSize = () => {
     const sizes = { xs: 12, sm: 14, md: 16, lg: 18, xl: 20, xxl: 24 };
     return iconSize || sizes[size];
@@ -61,7 +69,6 @@ export const Chip = ({
     return imageSize || sizes[size];
   };
 
-  // Handle selectable chips - if selectable is true and no onPress is provided, create a toggle handler
   const [selected, setSelected] = React.useState(isSelected || false);
 
   const handlePress = () => {
@@ -71,10 +78,9 @@ export const Chip = ({
     onPress && onPress();
   };
 
-  // Use either the controlled isSelected prop or internal selected state
   const isChipSelected = selectable ? selected : isSelected;
   const colors = useThemeColors();
-  // Render left content (icon, image, or custom content)
+
   const renderLeftContent = () => {
     if (leftContent) {
       return leftContent;
@@ -85,8 +91,8 @@ export const Chip = ({
         <Icon
           name={icon}
           size={getDefaultIconSize()}
-          color={iconColor || (isChipSelected ? colors.icon : colors.icon)}
-          className="-ml-1 mr-2"
+          color={iconColor || colors.icon}
+          style={styles.iconLeft}
         />
       );
     }
@@ -94,12 +100,14 @@ export const Chip = ({
     if (image) {
       return (
         <Image
-          className="-ml-2 mr-2 rounded-lg"
           source={image}
-          style={{
-            width: getDefaultImageSize(),
-            height: getDefaultImageSize(),
-          }}
+          style={[
+            styles.imageLeft,
+            {
+              width: getDefaultImageSize(),
+              height: getDefaultImageSize(),
+            },
+          ]}
         />
       );
     }
@@ -107,33 +115,34 @@ export const Chip = ({
     return null;
   };
 
-  // Extract size-specific classes
-  const [paddingClasses, textSizeClass] = sizeClasses[size].split(' text-');
-
-  // The chip content
   const chipContent = (
     <>
-      <View className="flex-row items-center">
+      <View style={styles.contentContainer}>
         {renderLeftContent()}
         <Text
-          className={`text-${textSizeClass} ${isChipSelected ? 'text-light-primary dark:text-dark-primary' : 'text-light-subtext dark:text-dark-subtext'}`}>
+          style={[
+            { fontSize: textSizes[size] },
+            isChipSelected ? styles.textSelected : styles.textUnselected,
+          ]}>
           {label}
         </Text>
       </View>
     </>
   );
 
-  // Wrapper with appropriate styling
   const chipWrapper = (children: ReactNode) => (
-    <View className={`${className || ''}`} style={style}>
+    <View style={style}>
       <View
-        className={`${paddingClasses} rounded-lg ${isChipSelected ? 'bg-dark-primary dark:bg-light-primary' : 'bg-light-secondary dark:bg-dark-secondary'} flex-row items-center justify-center`}>
+        style={[
+          sizePadding[size],
+          styles.chipContainer,
+          isChipSelected ? styles.chipSelected : styles.chipUnselected,
+        ]}>
         {children}
       </View>
     </View>
   );
 
-  // Return either a Link or TouchableOpacity based on props
   if (href) {
     return (
       <Link href={href} asChild>
@@ -148,3 +157,37 @@ export const Chip = ({
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  chipContainer: {
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chipSelected: {
+    backgroundColor: theme.colors.invert,
+  },
+  chipUnselected: {
+    backgroundColor: theme.colors.secondary,
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textSelected: {
+    color: theme.colors.primary,
+  },
+  textUnselected: {
+    color: theme.colors.subtext,
+  },
+  iconLeft: {
+    marginLeft: -4,
+    marginRight: 8,
+  },
+  imageLeft: {
+    marginLeft: -8,
+    marginRight: 8,
+    borderRadius: 8,
+  },
+}));

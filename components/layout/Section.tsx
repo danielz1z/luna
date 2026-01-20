@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from '../Icon';
 import ThemedText from '../ThemedText';
@@ -38,57 +39,56 @@ export const Section: React.FC<SectionProps> = ({
   linkText,
   linkClassName = '',
 }) => {
-  const getPaddingClass = () => {
+  const getPaddingValue = () => {
     switch (padding) {
       case 'none':
-        return 'py-0';
+        return 0;
       case 'sm':
-        return 'py-2';
+        return 8;
       case 'md':
-        return 'py-4';
+        return 16;
       case 'lg':
-        return 'py-6';
+        return 24;
       case 'xl':
-        return 'py-8';
+        return 32;
       case '2xl':
-        return 'py-10';
+        return 40;
       case '3xl':
-        return 'py-12';
+        return 48;
       case '4xl':
-        return 'py-16';
+        return 64;
       default:
-        return 'py-4';
+        return 16;
     }
   };
 
-  const getTitleClass = () => {
+  const getTitleFontSize = () => {
     switch (titleSize) {
       case 'sm':
-        return 'text-sm';
+        return 14;
       case 'md':
-        return 'text-base';
+        return 16;
       case 'lg':
-        return 'text-lg';
+        return 18;
       case 'xl':
-        return 'text-xl';
+        return 20;
       case '2xl':
-        return 'text-2xl';
+        return 24;
       case '3xl':
-        return 'text-3xl';
+        return 30;
       case '4xl':
-        return 'text-4xl';
+        return 36;
       default:
-        return 'text-xl';
+        return 20;
     }
   };
 
   return (
-    <View className={`w-full ${getPaddingClass()} ${className}`} style={style}>
-      {/* Header Section */}
+    <View style={[{ width: '100%', paddingVertical: getPaddingValue() }, style]}>
       {(title || header) && (
-        <View className="flex-row items-center">
+        <View style={styles.headerContainer}>
           {icon && (
-            <View className="mr-4">
+            <View style={styles.iconContainer}>
               <Icon name={icon} size={24} />
             </View>
           )}
@@ -96,35 +96,57 @@ export const Section: React.FC<SectionProps> = ({
             {header || (
               <>
                 {title && (
-                  <View className="w-full flex-row items-center justify-between">
-                    <ThemedText className={`${getTitleClass()} font-bold`}>{title}</ThemedText>
+                  <View style={styles.titleRow}>
+                    <ThemedText style={[styles.title, { fontSize: getTitleFontSize() }]}>
+                      {title}
+                    </ThemedText>
                     {link && (
-                      <Link
-                        href={link}
-                        className={`${linkClassName} text-black underline dark:text-white`}>
-                        {linkText}
+                      <Link href={link} asChild>
+                        <ThemedText style={styles.link}>{linkText}</ThemedText>
                       </Link>
                     )}
                   </View>
                 )}
-                {subtitle && (
-                  <ThemedText className={` text-light-subtext dark:text-dark-subtext`}>
-                    {subtitle}
-                  </ThemedText>
-                )}
+                {subtitle && <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>}
               </>
             )}
           </View>
         </View>
       )}
 
-      {/* Content */}
       <View>{children}</View>
 
-      {/* Footer Section */}
-      {footer && <View className="mt-4">{footer}</View>}
+      {footer && <View style={styles.footer}>{footer}</View>}
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    marginRight: 16,
+  },
+  titleRow: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontWeight: '700',
+  },
+  link: {
+    textDecorationLine: 'underline',
+  },
+  subtitle: {
+    color: theme.colors.subtext,
+  },
+  footer: {
+    marginTop: 16,
+  },
+}));
 
 export default Section;

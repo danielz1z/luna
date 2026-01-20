@@ -4,19 +4,12 @@ import { View, ViewStyle } from 'react-native';
 interface SpacerProps {
   size?: number;
   orientation?: 'horizontal' | 'vertical';
-  className?: string;
   style?: ViewStyle;
 }
 
-export const Spacer: React.FC<SpacerProps> = ({
-  size = 4,
-  orientation = 'vertical',
-  className = '',
-  style,
-}) => {
+export const Spacer: React.FC<SpacerProps> = ({ size = 4, orientation = 'vertical', style }) => {
   return (
     <View
-      className={className}
       style={[
         {
           width: orientation === 'horizontal' ? size : 'auto',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle } from 'react-native';
+import { View, ViewStyle, FlexAlignType } from 'react-native';
 
 interface StackProps {
   children: React.ReactNode;
@@ -7,7 +7,6 @@ interface StackProps {
   direction?: 'vertical' | 'horizontal';
   align?: 'start' | 'center' | 'end' | 'stretch';
   justify?: 'start' | 'center' | 'end' | 'between' | 'around';
-  className?: string;
   style?: ViewStyle;
 }
 
@@ -17,49 +16,49 @@ export const Stack: React.FC<StackProps> = ({
   direction = 'vertical',
   align = 'start',
   justify = 'start',
-  className = '',
   style,
 }) => {
-  // Convert children to array and filter out null/undefined
   const items = React.Children.toArray(children).filter(Boolean);
 
-  const getAlignmentClass = () => {
+  const getAlignment = (): FlexAlignType => {
     switch (align) {
       case 'center':
-        return 'items-center';
+        return 'center';
       case 'end':
-        return 'items-end';
+        return 'flex-end';
       case 'stretch':
-        return 'items-stretch';
+        return 'stretch';
       default:
-        return 'items-start';
+        return 'flex-start';
     }
   };
 
-  const getJustifyClass = () => {
+  const getJustify = () => {
     switch (justify) {
       case 'center':
-        return 'justify-center';
+        return 'center';
       case 'end':
-        return 'justify-end';
+        return 'flex-end';
       case 'between':
-        return 'justify-between';
+        return 'space-between';
       case 'around':
-        return 'justify-around';
+        return 'space-around';
       default:
-        return 'justify-start';
+        return 'flex-start';
     }
   };
 
   return (
     <View
-      className={`
-                ${direction === 'vertical' ? 'flex-col' : 'flex-row'}
-                ${getAlignmentClass()}
-                ${getJustifyClass()}
-                ${className}
-            `}
-      style={[{ gap: spacing }, style]}>
+      style={[
+        {
+          flexDirection: direction === 'vertical' ? 'column' : 'row',
+          alignItems: getAlignment(),
+          justifyContent: getJustify(),
+          gap: spacing,
+        },
+        style,
+      ]}>
       {items.map((child, index) => (
         <View key={index}>{child}</View>
       ))}

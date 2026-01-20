@@ -1,7 +1,7 @@
-// components/Button.tsx
 import { Link, router } from 'expo-router';
 import React from 'react';
 import { Text, ActivityIndicator, TouchableOpacity, View, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
@@ -43,39 +43,8 @@ export const Button: React.FC<ButtonProps> = ({
   iconClassName = '',
   ...props
 }) => {
-  const buttonStyles = {
-    primary: 'bg-black dark:bg-white',
-    secondary: 'bg-light-secondary dark:bg-dark-secondary',
-    outline: 'border border-black dark:border-white bg-transparent',
-    ghost: 'bg-transparent',
-  };
-
-  const buttonSize = {
-    small: 'py-2',
-    medium: 'py-3',
-    large: 'py-5',
-  };
-
-  const roundedStyles = {
-    none: 'rounded-none',
-    xs: 'rounded-xs',
-    sm: 'rounded-sm',
-    md: 'rounded-md',
-    lg: 'rounded-lg',
-    xl: 'rounded-xl',
-    full: 'rounded-full',
-  };
-
-  const textColor =
-    variant === 'outline' || variant === 'secondary' || variant === 'ghost'
-      ? 'text-black dark:text-white'
-      : 'text-white dark:text-black';
-  const disabledStyle = disabled ? 'opacity-50' : '';
-
-  // Default icon sizes based on button size
   const getIconSize = () => {
     if (iconSize) return iconSize;
-
     switch (size) {
       case 'small':
         return 16;
@@ -88,13 +57,24 @@ export const Button: React.FC<ButtonProps> = ({
     }
   };
 
-  // Default icon color based on variant
   const getIconColor = () => {
     if (iconColor) return iconColor;
+    return undefined;
+  };
 
-    // return variant === 'outline' || variant === 'secondary' || variant === 'ghost'
-    //   ? '#000000' // highlight color
-    //   : '#FFFFFF'; // white
+  const getButtonStyle = (): any[] => {
+    const variantStyle = styles[`variant_${variant}` as keyof typeof styles];
+    const sizeStyle = styles[`size_${size}` as keyof typeof styles];
+    const roundedStyle = styles[`rounded_${rounded}` as keyof typeof styles];
+    return [styles.base, variantStyle, sizeStyle, roundedStyle, disabled && styles.disabled];
+  };
+
+  const getTextStyle = () => {
+    const textColorStyle =
+      variant === 'outline' || variant === 'secondary' || variant === 'ghost'
+        ? styles.textPrimary
+        : styles.textInverse;
+    return [styles.text, textColorStyle];
   };
 
   const ButtonContent = (
@@ -108,24 +88,24 @@ export const Button: React.FC<ButtonProps> = ({
           }
         />
       ) : (
-        <View className="flex-row items-center justify-center">
+        <View style={styles.contentContainer}>
           {iconStart && (
             <Icon
               name={iconStart}
               size={getIconSize()}
               color={getIconColor()}
-              className={`mr-2 ${iconClassName} `}
+              style={styles.iconStart}
             />
           )}
 
-          <Text className={`${textColor} font-medium ${textClassName}`}>{title}</Text>
+          <Text style={getTextStyle()}>{title}</Text>
 
           {iconEnd && (
             <Icon
               name={iconEnd}
               size={getIconSize()}
               color={getIconColor()}
-              className={`ml-2 ${iconClassName}`}
+              style={styles.iconEnd}
             />
           )}
         </View>
@@ -138,7 +118,7 @@ export const Button: React.FC<ButtonProps> = ({
       <TouchableOpacity
         disabled={loading || disabled}
         activeOpacity={0.8}
-        className={`relative px-4 ${buttonStyles[variant]} ${buttonSize[size]} ${roundedStyles[rounded]} items-center justify-center ${disabledStyle} ${className}`}
+        style={getButtonStyle()}
         {...props}
         onPress={() => {
           router.push(href);
@@ -153,9 +133,85 @@ export const Button: React.FC<ButtonProps> = ({
       onPress={onPress}
       disabled={loading || disabled}
       activeOpacity={0.8}
-      className={`relative px-4 ${buttonStyles[variant]} ${buttonSize[size]} ${roundedStyles[rounded]} items-center justify-center ${disabledStyle} ${className}`}
+      style={getButtonStyle()}
       {...props}>
       {ButtonContent}
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  base: {
+    position: 'relative',
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  variant_primary: {
+    backgroundColor: theme.colors.invert,
+  },
+  variant_secondary: {
+    backgroundColor: theme.colors.secondary,
+  },
+  variant_outline: {
+    borderWidth: 1,
+    borderColor: theme.colors.text,
+    backgroundColor: 'transparent',
+  },
+  variant_ghost: {
+    backgroundColor: 'transparent',
+  },
+  size_small: {
+    paddingVertical: 8,
+  },
+  size_medium: {
+    paddingVertical: 12,
+  },
+  size_large: {
+    paddingVertical: 20,
+  },
+  rounded_none: {
+    borderRadius: 0,
+  },
+  rounded_xs: {
+    borderRadius: 2,
+  },
+  rounded_sm: {
+    borderRadius: 4,
+  },
+  rounded_md: {
+    borderRadius: 6,
+  },
+  rounded_lg: {
+    borderRadius: 8,
+  },
+  rounded_xl: {
+    borderRadius: 12,
+  },
+  rounded_full: {
+    borderRadius: 9999,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    fontWeight: '500',
+  },
+  textPrimary: {
+    color: theme.colors.text,
+  },
+  textInverse: {
+    color: theme.colors.primary,
+  },
+  iconStart: {
+    marginRight: 8,
+  },
+  iconEnd: {
+    marginLeft: 8,
+  },
+}));

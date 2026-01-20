@@ -1,6 +1,8 @@
 import { Link } from 'expo-router';
 import React, { forwardRef } from 'react';
 import { View, Pressable, ViewStyle, PressableProps } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
+import { withOpacity } from '@/app/unistyles';
 
 import Avatar from '../Avatar';
 import Icon, { IconName } from '../Icon';
@@ -66,54 +68,33 @@ const ListItem = forwardRef<View, ListItemProps>((props, ref) => {
   const hasTrailing = trailing || trailingIcon;
 
   const itemContent = (
-    <View
-      className={`
-                flex-row items-center
-                ${disabled ? 'opacity-50' : ''}
-                ${className}
-            `}
-      style={style}>
-      {hasLeading && <View className="mr-3">{renderLeading()}</View>}
+    <View style={[styles.container, disabled && styles.disabled, style]}>
+      {hasLeading && <View style={styles.leading}>{renderLeading()}</View>}
 
-      <View className="flex-1">
-        {typeof title === 'string' ? (
-          <ThemedText className="text-base font-semibold">{title}</ThemedText>
-        ) : (
-          title
-        )}
-        {subtitle && (
-          <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
-            {subtitle}
-          </ThemedText>
-        )}
+      <View style={styles.content}>
+        {typeof title === 'string' ? <ThemedText style={styles.title}>{title}</ThemedText> : title}
+        {subtitle && <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>}
       </View>
 
-      {hasTrailing && <View className="ml-4">{renderTrailing()}</View>}
+      {hasTrailing && <View style={styles.trailing}>{renderTrailing()}</View>}
     </View>
   );
 
-  // If href is provided, use Link component
   if (href && !disabled) {
     return (
       <Link href={href} asChild>
-        <Pressable
-          ref={ref}
-          className="active:bg-light-secondary/10 dark:active:bg-dark-secondary/10"
-          {...rest}>
+        <Pressable ref={ref} style={({ pressed }) => [pressed && styles.pressed]} {...rest}>
           {itemContent}
         </Pressable>
       </Link>
     );
   }
 
-  // Otherwise, use standard Pressable
   return (
     <Pressable
       ref={ref}
       onPress={disabled ? undefined : onPress}
-      className={`
-                ${onPress ? 'active:bg-light-secondary/10 dark:active:bg-dark-secondary/10' : ''}
-            `}
+      style={({ pressed }) => [onPress && pressed && styles.pressed]}
       {...rest}>
       {itemContent}
     </Pressable>
@@ -121,5 +102,35 @@ const ListItem = forwardRef<View, ListItemProps>((props, ref) => {
 });
 
 ListItem.displayName = 'ListItem';
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  leading: {
+    marginRight: 12,
+  },
+  content: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  trailing: {
+    marginLeft: 16,
+  },
+  pressed: {
+    backgroundColor: withOpacity(theme.colors.secondary, 0.1),
+  },
+}));
 
 export default ListItem;

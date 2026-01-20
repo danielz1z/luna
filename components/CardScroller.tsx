@@ -1,9 +1,9 @@
 import { Link } from 'expo-router';
 import { ScrollView, View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
-// Define prop types
 interface CardScrollerProps {
   title?: string;
   img?: string;
@@ -11,7 +11,6 @@ interface CardScrollerProps {
   children: React.ReactNode;
   enableSnapping?: boolean;
   snapInterval?: number;
-  className?: string;
   style?: ViewStyle;
   space?: number;
 }
@@ -23,23 +22,19 @@ export const CardScroller = ({
   children,
   enableSnapping = false,
   snapInterval = 0,
-  className,
   style,
   space = 10,
 }: CardScrollerProps) => {
   return (
-    <View
-      className={`flex w-full flex-col  ${title ? 'pt-global' : 'pt-0'} ${className}`}
-      style={style}>
-      <View
-        className={`flex w-full flex-row items-center justify-between ${title ? 'mb-2' : 'mb-0'}`}>
-        {title && <ThemedText className="text-base font-bold dark:text-white">{title}</ThemedText>}
+    <View style={[styles.container, { paddingTop: title ? 16 : 0 }, style]}>
+      <View style={[styles.header, { marginBottom: title ? 8 : 0 }]}>
+        {title && <ThemedText style={styles.title}>{title}</ThemedText>}
         {allUrl && (
-          <View className="flex flex-col">
-            <Link href={allUrl} className="dark:text-white">
-              See all
+          <View style={styles.linkContainer}>
+            <Link href={allUrl} asChild>
+              <ThemedText style={styles.linkText}>See all</ThemedText>
             </Link>
-            <View className="mt-[1px] h-px w-full bg-black dark:bg-white" />
+            <View style={styles.linkUnderline} />
           </View>
         )}
       </View>
@@ -49,12 +44,51 @@ export const CardScroller = ({
         snapToAlignment="center"
         decelerationRate={enableSnapping ? 0.85 : 'normal'}
         snapToInterval={enableSnapping ? snapInterval : undefined}
-        className="-mx-global px-global"
-        contentContainerStyle={{ columnGap: space }}
-        style={style}>
+        style={styles.scrollView}
+        contentContainerStyle={[styles.scrollContent, { columnGap: space }]}>
         {children}
-        <View className="h-px w-4" />
+        <View style={styles.spacer} />
       </ScrollView>
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'column',
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  linkContainer: {
+    flexDirection: 'column',
+  },
+  linkText: {
+    color: theme.colors.text,
+  },
+  linkUnderline: {
+    marginTop: 1,
+    height: 1,
+    width: '100%',
+    backgroundColor: theme.colors.text,
+  },
+  scrollView: {
+    marginHorizontal: -16,
+  },
+  scrollContent: {
+    paddingHorizontal: 16,
+  },
+  spacer: {
+    height: 1,
+    width: 16,
+  },
+}));

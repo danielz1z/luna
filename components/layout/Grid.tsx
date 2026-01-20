@@ -5,11 +5,10 @@ interface GridProps {
   children: React.ReactNode[];
   columns?: number;
   spacing?: number;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 }
 
-export default function Grid({ children, columns = 2, spacing = 16, className, style }: GridProps) {
+export default function Grid({ children, columns = 2, spacing = 16, style }: GridProps) {
   const [containerWidth, setContainerWidth] = React.useState(0);
 
   const handleLayout = (event: LayoutChangeEvent) => {
@@ -17,11 +16,9 @@ export default function Grid({ children, columns = 2, spacing = 16, className, s
     setContainerWidth(width);
   };
 
-  // Calculate item dimensions
   const totalSpacing = spacing * (columns - 1);
   const itemWidth = containerWidth > 0 ? (containerWidth - totalSpacing) / columns : 0;
 
-  // Create rows based on number of children and columns
   const rows = React.useMemo(() => {
     const items = React.Children.toArray(children);
     const rowsArray = [];
@@ -34,12 +31,12 @@ export default function Grid({ children, columns = 2, spacing = 16, className, s
   }, [children, columns]);
 
   return (
-    <View className={`w-full ${className}`} style={style} onLayout={handleLayout}>
+    <View style={[{ width: '100%' }, style]} onLayout={handleLayout}>
       {rows.map((row, rowIndex) => (
         <View
           key={rowIndex}
-          className="flex-row"
           style={{
+            flexDirection: 'row',
             marginBottom: rowIndex < rows.length - 1 ? spacing : 0,
           }}>
           {row.map((item, colIndex) => (
@@ -53,7 +50,6 @@ export default function Grid({ children, columns = 2, spacing = 16, className, s
             </View>
           ))}
 
-          {/* Add placeholder views to maintain grid structure when row is not complete */}
           {row.length < columns &&
             Array(columns - row.length)
               .fill(null)

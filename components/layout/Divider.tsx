@@ -8,7 +8,6 @@ interface DividerProps {
   color?: string;
   thickness?: number;
   spacing?: number;
-  className?: string;
   style?: ViewStyle;
 }
 
@@ -17,7 +16,6 @@ export const Divider: React.FC<DividerProps> = ({
   color,
   thickness = 1,
   spacing = 0,
-  className = '',
   style,
 }) => {
   const colors = useThemeColors();
@@ -25,10 +23,6 @@ export const Divider: React.FC<DividerProps> = ({
 
   return (
     <View
-      className={`
-                ${orientation === 'horizontal' ? 'w-full' : 'h-full'}
-                ${className}
-            `}
       style={[
         {
           backgroundColor: dividerColor,
