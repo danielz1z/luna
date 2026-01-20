@@ -1,6 +1,7 @@
 import { useIsFocused } from '@react-navigation/native';
 import React from 'react';
 import { View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from './AnimatedView';
 import type { AnimationType } from './AnimatedView';
@@ -30,7 +31,7 @@ export default function TabScreenWrapper({
   }, [isFocused]);
 
   return (
-    <View className="flex-1 bg-light-primary dark:bg-dark-primary">
+    <View style={styles.container}>
       <AnimatedView
         style={{ flex: 1 }}
         key={key}
@@ -43,3 +44,10 @@ export default function TabScreenWrapper({
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+}));

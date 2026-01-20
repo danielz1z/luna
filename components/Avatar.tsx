@@ -1,6 +1,7 @@
 import { Link, router } from 'expo-router';
 import React from 'react';
 import { Image, Pressable, View, Text, ViewStyle, ImageSourcePropType } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
@@ -9,7 +10,7 @@ type AvatarProps = {
   src?: string | ImageSourcePropType; // Can be a URL string or required image
   name?: string; // for displaying initials if no image
   border?: boolean;
-  bgColor?: string; // Optional background color
+  bgColor?: string; // Optional background color (unused - kept for API compatibility)
   onPress?: () => void; // Optional onPress for Pressable or Link
   link?: string; // Optional URL for Link
   className?: string;
@@ -21,7 +22,7 @@ const Avatar: React.FC<AvatarProps> = ({
   src,
   name,
   border = false,
-  bgColor = 'bg-light-secondary dark:bg-dark-secondary',
+  bgColor,
   onPress,
   link,
   className,
@@ -29,17 +30,14 @@ const Avatar: React.FC<AvatarProps> = ({
 }) => {
   // Avatar size styles
   const sizeMap = {
-    xxs: 'w-7 h-7',
-    xs: 'w-8 h-8',
-    sm: 'w-10 h-10',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16',
-    xl: 'w-20 h-20',
-    xxl: 'w-24 h-24',
+    xxs: { width: 28, height: 28 },
+    xs: { width: 32, height: 32 },
+    sm: { width: 40, height: 40 },
+    md: { width: 48, height: 48 },
+    lg: { width: 64, height: 64 },
+    xl: { width: 80, height: 80 },
+    xxl: { width: 96, height: 96 },
   };
-
-  // Define border size and color if enabled
-  const borderStyle = border ? 'border-2 border-light-secondary dark:border-dark-secondary' : '';
 
   // Component for initials if image is not provided
   const renderInitials = () => {
@@ -48,7 +46,7 @@ const Avatar: React.FC<AvatarProps> = ({
       .split(' ')
       .map((part) => part[0].toUpperCase())
       .join('');
-    return <ThemedText className=" text-center font-medium">{initials}</ThemedText>;
+    return <ThemedText style={styles.initialsText}>{initials}</ThemedText>;
   };
 
   // Convert the src prop to an appropriate Image source prop
@@ -70,14 +68,8 @@ const Avatar: React.FC<AvatarProps> = ({
   };
 
   const avatarContent = (
-    <View
-      className={`flex-shrink-0 rounded-full ${bgColor} ${sizeMap[size]} ${borderStyle} items-center justify-center ${className}`}
-      style={style}>
-      {src ? (
-        <Image source={getImageSource()} className="h-full w-full rounded-full object-cover" />
-      ) : (
-        renderInitials()
-      )}
+    <View style={[styles.container, sizeMap[size], border && styles.border, style]}>
+      {src ? <Image source={getImageSource()} style={styles.image} /> : renderInitials()}
     </View>
   );
 
@@ -87,5 +79,29 @@ const Avatar: React.FC<AvatarProps> = ({
 
   return onPress ? <Pressable onPress={onPress}>{avatarContent}</Pressable> : avatarContent;
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flexShrink: 0,
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  border: {
+    borderWidth: 2,
+    borderColor: theme.colors.secondary,
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+    borderRadius: 9999,
+    resizeMode: 'cover',
+  },
+  initialsText: {
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+}));
 
 export default Avatar;

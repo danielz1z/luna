@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
 import { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable, Animated, Easing, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from './Button';
 import Icon from './Icon';
@@ -60,49 +61,43 @@ export const VoiceSelectCard = (props: VoiceItemProps) => {
   };
 
   return (
-    <View
-      style={{ width: windowWidth / 2 - 30 }}
-      className="relative mx-1.5 mb-3 overflow-hidden rounded-3xl bg-transparent p-1.5">
-      {/* The gradient background that scales */}
+    <View style={[styles.container, { width: windowWidth / 2 - 30 }]}>
       <Animated.View
-        style={{
-          overflow: 'hidden',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          transform: [{ scale: scaleAnim }],
-        }}
-        className="rounded-3xl">
+        style={[
+          styles.gradientContainer,
+          {
+            transform: [{ scale: scaleAnim }],
+          },
+        ]}>
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           colors={['#FD984D', '#F77B79', '#F265D6']}
-          className="h-full w-full"
+          style={styles.gradient}
         />
       </Animated.View>
       <Pressable
-        className={`relative z-50 flex w-full flex-col items-start ${props.isSelected ? 'bg-light-secondary dark:bg-dark-secondary' : 'bg-light-secondary dark:bg-dark-secondary'}`}
+        style={[styles.pressable, shadowPresets.card]}
         onPress={() => {
           toggleVisibility();
           toggleScale();
-        }}
-        style={{ ...shadowPresets.card, borderRadius: 20 }}>
-        <View className="items-start p-global">
+        }}>
+        <View style={styles.content}>
           <Icon name={isVisible ? 'Pause' : 'Play'} fill={colors.icon} size={20} />
-          <Text className="mt-16 font-outfit-bold text-lg text-white">{props.name}</Text>
-          <Text className="-mt-px text-xs text-white opacity-60">{props.description}</Text>
+          <Text style={styles.name}>{props.name}</Text>
+          <Text style={styles.description}>{props.description}</Text>
         </View>
         <Animated.View
-          style={{
-            opacity: slideAnim.interpolate({
-              inputRange: [0, 10],
-              outputRange: [1, 0],
-            }),
-            transform: [{ translateY: slideAnim }],
-          }}
-          className="absolute bottom-4 left-0 w-full">
+          style={[
+            styles.lottieContainer,
+            {
+              opacity: slideAnim.interpolate({
+                inputRange: [0, 10],
+                outputRange: [1, 0],
+              }),
+              transform: [{ translateY: slideAnim }],
+            },
+          ]}>
           <LottieView
             autoPlay
             style={{
@@ -116,3 +111,59 @@ export const VoiceSelectCard = (props: VoiceItemProps) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    position: 'relative',
+    marginHorizontal: 6,
+    marginBottom: 12,
+    overflow: 'hidden',
+    borderRadius: 24,
+    backgroundColor: 'transparent',
+    padding: 6,
+  },
+  gradientContainer: {
+    overflow: 'hidden',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 24,
+  },
+  gradient: {
+    height: '100%',
+    width: '100%',
+  },
+  pressable: {
+    position: 'relative',
+    zIndex: 50,
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 20,
+  },
+  content: {
+    alignItems: 'flex-start',
+    padding: 16,
+  },
+  name: {
+    marginTop: 64,
+    fontFamily: 'Outfit_700Bold',
+    fontSize: 18,
+    color: '#ffffff',
+  },
+  description: {
+    marginTop: -1,
+    fontSize: 12,
+    color: '#ffffff',
+    opacity: 0.6,
+  },
+  lottieContainer: {
+    position: 'absolute',
+    bottom: 16,
+    left: 0,
+    width: '100%',
+  },
+}));
