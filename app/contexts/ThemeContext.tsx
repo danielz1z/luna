@@ -1,5 +1,5 @@
-import { useColorScheme } from 'nativewind';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+import { UnistylesRuntime, useUnistyles } from 'react-native-unistyles';
 
 type ThemeContextType = {
   isDark: boolean;
@@ -9,19 +9,15 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const { colorScheme, toggleColorScheme, setColorScheme } = useColorScheme();
-  const [isDark, setIsDark] = useState(false);
+  const { theme } = useUnistyles();
 
-  useEffect(() => {
-    // 👇 Force dark mode on initial load
-    setColorScheme('dark');
-    setIsDark(true);
-  }, []);
+  const isDark = UnistylesRuntime.themeName === 'dark';
 
   const toggleTheme = () => {
-    const next = isDark ? 'light' : 'dark';
-    setColorScheme(next);
-    setIsDark(!isDark);
+    if (UnistylesRuntime.hasAdaptiveThemes) {
+      UnistylesRuntime.setAdaptiveThemes(false);
+    }
+    UnistylesRuntime.setTheme(isDark ? 'light' : 'dark');
   };
 
   return <ThemeContext.Provider value={{ isDark, toggleTheme }}>{children}</ThemeContext.Provider>;
