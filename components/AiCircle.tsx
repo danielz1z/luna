@@ -2,6 +2,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import LottieView from 'lottie-react-native';
 import { useState } from 'react';
 import { Pressable, TouchableOpacity, View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from './AnimatedView';
 import Icon from './Icon';
@@ -14,24 +15,19 @@ export const AiCircle = () => {
     setIsSpeaking((prev) => !prev);
   };
   return (
-    <View className="flex-1 items-center justify-center">
+    <View style={styles.container}>
       <AnimatedView animation="scaleIn" duration={200} shouldResetAnimation>
-        <View
-          //activeOpacity={0.5}
-          className="relative h-[250px] w-[250px] items-center justify-center">
-          <View
-            style={shadowPresets.large}
-            className="relative z-[9999] h-[140px] w-[140px] items-center justify-center rounded-full bg-light-secondary dark:bg-dark-primary">
+        <View style={styles.circleWrapper}>
+          <View style={[shadowPresets.large, styles.outerCircle]}>
             <LinearGradient
               colors={['#D883E4', '#016BF0', '#3DE3E0', '#E57DDF']}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
-              className="h-[140px] w-[140px] items-center justify-center rounded-full"
-              style={{ ...shadowPresets.large }}>
+              style={[styles.gradientCircle, shadowPresets.large]}>
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={toggleSpeaking}
-                className="h-[120px] w-[120px] items-center justify-center rounded-full bg-light-secondary dark:bg-dark-primary">
+                style={styles.innerCircle}>
                 <Icon name={isSpeaking ? 'Pause' : 'Mic'} size={34} strokeWidth={1.2} />
               </TouchableOpacity>
             </LinearGradient>
@@ -39,17 +35,7 @@ export const AiCircle = () => {
           {isSpeaking && (
             <LottieView
               autoPlay
-              style={{
-                width: 250,
-                height: 250,
-                opacity: 0.4,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 500,
-              }}
+              style={styles.lottie}
               source={require('@/assets/lottie/speaking.json')}
             />
           )}
@@ -58,3 +44,54 @@ export const AiCircle = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  circleWrapper: {
+    position: 'relative',
+    height: 250,
+    width: 250,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  outerCircle: {
+    position: 'relative',
+    zIndex: 9999,
+    height: 140,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  gradientCircle: {
+    height: 140,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+  },
+  innerCircle: {
+    height: 120,
+    width: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  lottie: {
+    width: 250,
+    height: 250,
+    opacity: 0.4,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 500,
+  },
+}));
