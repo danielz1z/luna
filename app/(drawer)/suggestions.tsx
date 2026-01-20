@@ -8,6 +8,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 import Rive from 'rive-react-native';
 
 import { BotSwitch } from '@/components/BotSwitch';
@@ -36,22 +37,22 @@ const HomeScreen = () => {
 
   const leftComponent = [
     <DrawerButton key="drawer-button" />,
-    <ThemedText key="app-title" className="ml-4 font-outfit-bold text-2xl">
-      Luna<Text className="text-highlight">.</Text>
+    <ThemedText key="app-title" style={styles.appTitle}>
+      Luna<Text style={styles.appTitleDot}>.</Text>
     </ThemedText>,
   ];
 
   return (
-    <View className="relative flex-1 bg-light-primary dark:bg-dark-primary">
+    <View style={styles.root}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 180}
         style={{ flex: 1 }}>
-        <View className="flex-1 ">
+        <View style={styles.flex1}>
           <Header title="" leftComponent={leftComponent} rightComponents={rightComponents} />
 
-          <View className="flex-1 items-center justify-end">
-            <CardScroller className="px-global pb-2">
+          <View style={styles.suggestionsContainer}>
+            <CardScroller style={styles.cardScroller}>
               <SuggestionCard
                 title="Make a recipe"
                 description="Find the best recipes for a healthy diet"
@@ -85,19 +86,73 @@ const SuggestionCard = (props: any) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={{ ...shadowPresets.card }}
-      className="flex w-[270px] flex-row items-center rounded-2xl border border-light-secondary bg-light-primary p-4 dark:border-dark-secondary dark:bg-dark-primary">
+      style={[shadowPresets.card, styles.suggestionCard]}>
       <Icon
         name={props.icon}
         size={20}
-        className="h-12 w-12 rounded-full bg-light-secondary dark:bg-dark-secondary"
+        style={styles.suggestionIcon}
       />
-      <View className="ml-4 flex-1">
-        <ThemedText className="text-lg font-semibold">{props.title}</ThemedText>
-        <ThemedText className="text-sm">{props.description}</ThemedText>
+      <View style={styles.suggestionBody}>
+        <ThemedText style={styles.suggestionTitle}>{props.title}</ThemedText>
+        <ThemedText style={styles.suggestionDescription}>{props.description}</ThemedText>
       </View>
     </TouchableOpacity>
   );
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    position: 'relative',
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  flex1: {
+    flex: 1,
+  },
+  appTitle: {
+    marginLeft: 16,
+    fontFamily: theme.fonts.bold,
+    fontSize: 24,
+  },
+  appTitleDot: {
+    color: theme.colors.highlight,
+  },
+  suggestionsContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  cardScroller: {
+    paddingHorizontal: theme.spacing.global,
+    paddingBottom: theme.spacing.sm,
+  },
+  suggestionCard: {
+    width: 270,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.secondary,
+    backgroundColor: theme.colors.primary,
+    padding: 16,
+  },
+  suggestionIcon: {
+    height: 48,
+    width: 48,
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  suggestionBody: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  suggestionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  suggestionDescription: {
+    fontSize: 14,
+  },
+}));

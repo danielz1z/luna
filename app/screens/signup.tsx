@@ -1,15 +1,15 @@
 import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette } from '@/app/unistyles';
 import { Button } from '@/components/Button';
 import ThemedText from '@/components/ThemedText';
 import Input from '@/components/forms/Input';
 
 export default function SignupScreen() {
-  const colors = useThemeColors();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -115,17 +115,20 @@ export default function SignupScreen() {
     }
   };
 
-  const handleSocialLogin = (_provider: string) => {
-    // Implement social login logic here
-  };
   const insets = useSafeAreaInsets();
+
+  const strengthColor =
+    passwordStrength >= 75
+      ? palette.green500
+      : passwordStrength >= 50
+        ? palette.yellow500
+        : palette.red500;
+
   return (
-    <View
-      style={{ paddingTop: insets.top }}
-      className="flex-1 bg-light-primary p-6 dark:bg-dark-primary">
-      <View className="mt-8">
-        <ThemedText className="mb-14 font-outfit-bold text-4xl">Luna.</ThemedText>
-        <ThemedText className="mb-10 text-xl font-bold">Create account</ThemedText>
+    <View style={[styles.root, { paddingTop: insets.top }]}>
+      <View style={styles.content}>
+        <ThemedText style={styles.brand}>Luna.</ThemedText>
+        <ThemedText style={styles.title}>Create account</ThemedText>
 
         <Input
           label="Email"
@@ -169,34 +172,29 @@ export default function SignupScreen() {
           autoCapitalize="none"
         />
         {password.length > 0 && (
-          <View className="mb-4">
-            <View className="h-1 w-full overflow-hidden rounded-full bg-light-secondary dark:bg-dark-secondary">
+          <View style={styles.strengthWrap}>
+            <View style={styles.strengthTrack}>
               <View
-                className={`h-full rounded-full ${passwordStrength >= 75 ? 'bg-green-500' : passwordStrength >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                style={{ width: `${passwordStrength}%` }}
+                style={[styles.strengthFill, { width: `${passwordStrength}%`, backgroundColor: strengthColor }]}
               />
             </View>
-            <ThemedText className="mt-1 text-xs text-light-subtext dark:text-dark-subtext">
+            <ThemedText style={styles.strengthText}>
               {strengthText}
             </ThemedText>
           </View>
         )}
 
-        <Button
-          title="Sign up"
-          onPress={handleSignup}
-          loading={isLoading}
-          size="large"
-          className="mb-6"
-        />
+        <View style={styles.buttonSpacer}>
+          <Button title="Sign up" onPress={handleSignup} loading={isLoading} size="large" />
+        </View>
 
-        <View className="flex-row justify-center">
-          <ThemedText className="text-light-subtext dark:text-dark-subtext">
+        <View style={styles.footerRow}>
+          <ThemedText style={styles.footerText}>
             Already have an account?{' '}
           </ThemedText>
           <Link href="/screens/login" asChild>
             <Pressable>
-              <ThemedText className="underline">Log in</ThemedText>
+              <ThemedText style={styles.underline}>Log in</ThemedText>
             </Pressable>
           </Link>
         </View>
@@ -205,11 +203,56 @@ export default function SignupScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  googleIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#4285F4',
-    borderRadius: 2,
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
-});
+  content: {
+    marginTop: 32,
+  },
+  brand: {
+    marginBottom: 56,
+    fontFamily: theme.fonts.bold,
+    fontSize: 36,
+  },
+  title: {
+    marginBottom: 40,
+    fontSize: 20,
+    fontFamily: theme.fonts.bold,
+  },
+  strengthWrap: {
+    marginBottom: 16,
+  },
+  strengthTrack: {
+    height: 4,
+    width: '100%',
+    overflow: 'hidden',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  strengthFill: {
+    height: '100%',
+    borderRadius: 9999,
+  },
+  strengthText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: theme.colors.subtext,
+  },
+  buttonSpacer: {
+    marginBottom: 24,
+  },
+  footerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  footerText: {
+    color: theme.colors.subtext,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  },
+}));

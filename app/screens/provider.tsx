@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { View, Image } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/Button';
 import Header from '@/components/Header';
@@ -12,40 +13,32 @@ const ProviderScreen = () => {
     <>
       <Header showBackButton />
       <ThemedScroller>
-        <View className="flex-1 items-center justify-center bg-light-primary p-6 dark:bg-dark-primary">
-          <View className="mb-4 h-24 w-24 items-center justify-center rounded-2xl bg-light-secondary dark:bg-dark-secondary">
-            <Image source={require('@/assets/img/logo-3.png')} className="h-14 w-14" />
+        <View style={styles.hero}>
+          <View style={styles.logoWrap}>
+            <Image source={require('@/assets/img/logo-3.png')} style={styles.logo} />
           </View>
-          <ThemedText className="text-2xl font-bold">Gemini Pro</ThemedText>
-          <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
-            by Google
-          </ThemedText>
-          <ThemedText className="my-4 text-center text-base">
+          <ThemedText style={styles.title}>Gemini Pro</ThemedText>
+          <ThemedText style={styles.subtext}>by Google</ThemedText>
+          <ThemedText style={styles.description}>
             Multimodal AI for creative and technical tasks. Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Quisquam, quos.
           </ThemedText>
         </View>
-        <View className="w-full flex-row justify-between border-y border-neutral-200 py-7 dark:border-dark-secondary">
-          <View className="flex-1 items-center justify-normal">
+        <View style={styles.statsRow}>
+          <View style={styles.statsCell}>
             <ShowRating rating={4.5} size="lg" />
-            <ThemedText className="mt-1 text-sm text-light-subtext dark:text-dark-subtext">
-              1k+ Reviews
-            </ThemedText>
+            <ThemedText style={[styles.subtext, styles.mt1]}>1k+ Reviews</ThemedText>
           </View>
-          <View className="flex-1 items-center justify-normal">
-            <ThemedText className="text-lg font-bold">#1</ThemedText>
-            <ThemedText className="mt-1 text-sm text-light-subtext dark:text-dark-subtext">
-              in Lifestyle
-            </ThemedText>
+          <View style={styles.statsCell}>
+            <ThemedText style={styles.statsValue}>#1</ThemedText>
+            <ThemedText style={[styles.subtext, styles.mt1]}>in Lifestyle</ThemedText>
           </View>
-          <View className="flex-1 items-center justify-normal">
-            <ThemedText className="text-lg font-bold">5M+</ThemedText>
-            <ThemedText className="mt-1 text-sm text-light-subtext dark:text-dark-subtext">
-              Conversations
-            </ThemedText>
+          <View style={styles.statsCell}>
+            <ThemedText style={styles.statsValue}>5M+</ThemedText>
+            <ThemedText style={[styles.subtext, styles.mt1]}>Conversations</ThemedText>
           </View>
         </View>
-        <ThemedText className="my-4 text-lg font-bold">Ratings</ThemedText>
+        <ThemedText style={styles.ratingsTitle}>Ratings</ThemedText>
         <RatingProgress rating={5} progress={75} />
         <RatingProgress rating={4} progress={25} />
         <RatingProgress rating={3} progress={10} />
@@ -61,12 +54,11 @@ const ProviderScreen = () => {
 
 const RatingProgress = (props: any) => {
   return (
-    <View className="my-2 w-full flex-row items-center justify-center">
+    <View style={styles.ratingRow}>
       <ShowRating rating={props.rating} size="md" />
-      <View className="ml-4 h-1 flex-1 rounded-full bg-neutral-200 dark:bg-dark-secondary">
+      <View style={styles.ratingTrack}>
         <View
-          className="h-1 rounded-full bg-black dark:bg-white"
-          style={{ width: `${props.progress}%` }}
+          style={[styles.ratingFill, { width: `${props.progress}%` }]}
         />
       </View>
     </View>
@@ -74,3 +66,84 @@ const RatingProgress = (props: any) => {
 };
 
 export default ProviderScreen;
+
+const styles = StyleSheet.create((theme) => ({
+  hero: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+    padding: 24,
+  },
+  logoWrap: {
+    marginBottom: 16,
+    height: 96,
+    width: 96,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    backgroundColor: theme.colors.secondary,
+  },
+  logo: {
+    height: 56,
+    width: 56,
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: theme.fonts.bold,
+  },
+  subtext: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  description: {
+    marginVertical: 16,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  statsRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: theme.colors.border,
+    paddingVertical: 28,
+  },
+  statsCell: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  statsValue: {
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+  },
+  mt1: {
+    marginTop: 4,
+  },
+  ratingsTitle: {
+    marginVertical: 16,
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+  },
+  ratingRow: {
+    marginVertical: 8,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ratingTrack: {
+    marginLeft: 16,
+    height: 4,
+    flex: 1,
+    borderRadius: 9999,
+    backgroundColor: theme.colors.border,
+    overflow: 'hidden',
+  },
+  ratingFill: {
+    height: 4,
+    borderRadius: 9999,
+    backgroundColor: theme.colors.text,
+  },
+}));

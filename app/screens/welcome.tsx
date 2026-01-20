@@ -1,10 +1,10 @@
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import LottieView from 'lottie-react-native';
 import React, { useState, useRef } from 'react';
-import { View, Text, FlatList, Dimensions, Image, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, FlatList, Dimensions, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '../contexts/ThemeColors';
 
@@ -46,11 +46,9 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-light-primary dark:bg-dark-primary"
-      style={{ paddingTop: insets.top }}>
-      <View className="relative flex-1 bg-light-primary dark:bg-dark-primary">
-        <View className="w-full items-end justify-end pr-6 pt-6">
+    <View style={[styles.safeArea, { paddingTop: insets.top }]}>
+      <View style={styles.root}>
+        <View style={styles.topRight}>
           <ThemeToggle />
         </View>
         <FlatList
@@ -64,58 +62,156 @@ export default function OnboardingScreen() {
           decelerationRate="fast"
           snapToInterval={windowWidth} // 👈 Ensures snapping works perfectly
           renderItem={({ item }) => (
-            <View style={{ width: windowWidth }} className="items-center justify-center p-6">
+            <View style={[styles.slide, { width: windowWidth }]}>
               <LottieView
                 source={item.image}
                 autoPlay
                 loop
                 style={{ width: windowWidth, height: 300 }}
               />
-              <ThemedText className="mt-4 font-outfit-bold text-2xl">{item.title}</ThemedText>
-              <Text className="mt-2 text-center text-light-subtext dark:text-dark-subtext">
+              <ThemedText style={styles.slideTitle}>{item.title}</ThemedText>
+              <Text style={styles.slideDescription}>
                 {item.description}
               </Text>
             </View>
           )}
-          ListFooterComponent={() => <View className="h-28 w-full" />}
+          ListFooterComponent={() => <View style={styles.listFooter} />}
           keyExtractor={(item) => item.id}
         />
 
-        <View className="mb-20 w-full flex-row  justify-center">
+        <View style={styles.dotsRow}>
           {slides.map((_, index) => (
             <View
               key={index}
-              className={`mx-1 h-2 rounded-full ${index === currentIndex ? 'w-2 bg-highlight' : 'w-2 bg-light-secondary dark:bg-dark-secondary'}`}
+              style={[styles.dot, index === currentIndex ? styles.dotActive : styles.dotInactive]}
             />
           ))}
         </View>
 
         {/* Login/Signup Buttons */}
-        <View className="mb-global flex w-full flex-col space-y-2 px-6">
-          <View className="flex flex-row flex-wrap items-center justify-center gap-2">
-            <View className="w-full flex-row gap-2">
+        <View style={styles.actionsWrap}>
+          <View style={styles.actionsInner}>
+            <View style={styles.providerRow}>
               <Pressable
                 onPress={() => router.push('/(drawer)/')}
-                className="flex flex-1 flex-row items-center justify-center rounded-full border border-black py-4 dark:border-white">
+                style={styles.providerButton}>
                 <AntDesign name="google" size={22} color={colors.text} />
-                <ThemedText className="ml-2 text-sm">Google</ThemedText>
+                <ThemedText style={styles.providerButtonText}>Google</ThemedText>
               </Pressable>
               <Pressable
                 onPress={() => router.push('/(drawer)/')}
-                className="flex flex-1 flex-row items-center justify-center rounded-full border border-black py-4 dark:border-white">
+                style={styles.providerButton}>
                 <AntDesign name="apple" size={22} color={colors.text} />
-                <ThemedText className="ml-2 text-sm">Apple</ThemedText>
+                <ThemedText style={styles.providerButtonText}>Apple</ThemedText>
               </Pressable>
             </View>
             <Pressable
               onPress={() => router.push('/screens/signup')}
-              className="flex w-1/4 flex-1 flex-row items-center justify-center rounded-full bg-black py-4 dark:bg-white">
+              style={styles.emailButton}>
               <Icon name="Mail" size={20} color={colors.invert} />
-              <ThemedText className="ml-2 text-sm text-white dark:text-black">Email</ThemedText>
+              <ThemedText style={[styles.providerButtonText, { color: colors.invert }]}>Email</ThemedText>
             </Pressable>
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  safeArea: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  root: {
+    position: 'relative',
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  topRight: {
+    width: '100%',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    paddingRight: 24,
+    paddingTop: 24,
+  },
+  slide: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 24,
+  },
+  slideTitle: {
+    marginTop: 16,
+    fontFamily: theme.fonts.bold,
+    fontSize: 24,
+  },
+  slideDescription: {
+    marginTop: 8,
+    textAlign: 'center',
+    color: theme.colors.subtext,
+  },
+  listFooter: {
+    height: 112,
+    width: '100%',
+  },
+  dotsRow: {
+    marginBottom: 80,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  dot: {
+    marginHorizontal: 4,
+    height: 8,
+    width: 8,
+    borderRadius: 9999,
+  },
+  dotActive: {
+    backgroundColor: theme.colors.highlight,
+  },
+  dotInactive: {
+    backgroundColor: theme.colors.secondary,
+  },
+  actionsWrap: {
+    marginBottom: theme.spacing.global,
+    width: '100%',
+    flexDirection: 'column',
+    paddingHorizontal: 24,
+  },
+  actionsInner: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    columnGap: 8,
+    rowGap: 8,
+  },
+  providerRow: {
+    width: '100%',
+    flexDirection: 'row',
+    columnGap: 8,
+  },
+  providerButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: theme.colors.text,
+    paddingVertical: 16,
+  },
+  providerButtonText: {
+    marginLeft: 8,
+    fontSize: 14,
+  },
+  emailButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.text,
+    paddingVertical: 16,
+  },
+}));

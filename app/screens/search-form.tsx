@@ -2,11 +2,12 @@ import { Link, router } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Image, Pressable, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { CardScroller } from '@/components/CardScroller';
 import { Chip } from '@/components/Chip';
-import Icon, { IconName } from '@/components/Icon';
+import Icon from '@/components/Icon';
 import ThemedScroller from '@/components/ThemeScroller';
 import ThemedText from '@/components/ThemedText';
 
@@ -122,8 +123,8 @@ const SearchScreen = () => {
   return (
     <>
       <View
-        style={{ paddingTop: insets.top }}
-        className="bg-light-primary p-global dark:bg-dark-primary">
+        style={[styles.header, { paddingTop: insets.top }]}
+      >
         <View
           style={{
             elevation: 10,
@@ -132,17 +133,18 @@ const SearchScreen = () => {
             shadowRadius: 6.84,
             shadowOffset: { width: 0, height: 4 },
           }}
-          className="relative rounded-full bg-light-primary dark:bg-white/20">
+          >
+          <View style={styles.searchBar}>
           <Icon
             name="ArrowLeft"
             onPress={() => router.back()}
-            className="absolute left-1.5 top-1.5 z-50"
+            style={styles.backIcon}
             size={20}
           />
 
           <TextInput
             ref={inputRef}
-            className="rounded-lg py-3 pl-10 pr-3 text-black dark:text-white"
+            style={styles.input}
             placeholder="Search AI models..."
             placeholderTextColor={colors.placeholder}
             onChangeText={setSearchQuery}
@@ -157,13 +159,14 @@ const SearchScreen = () => {
                 setSearchQuery('');
                 inputRef.current?.focus();
               }}
-              className="absolute right-3 top-3 z-50 opacity-50">
+              style={styles.clearButton}>
               <Icon name="X" size={20} />
             </Pressable>
           )}
+          </View>
         </View>
 
-        <CardScroller className="mt-2" space={5}>
+        <CardScroller style={styles.chipScroller} space={5}>
           <Chip
             label="Top Picks"
             isSelected={category === 'top-picks'}
@@ -192,21 +195,21 @@ const SearchScreen = () => {
         </CardScroller>
       </View>
 
-      <ThemedScroller className="flex-1 px-0" keyboardShouldPersistTaps="handled">
-        <View className="mb-4 p-global">
+      <ThemedScroller keyboardShouldPersistTaps="handled">
+        <View style={styles.resultsWrap}>
           {results.length > 0 ? (
             results.map((item) => (
               <Link key={item.id} href="/screens/provider" asChild>
-                <Pressable className="mb-2 flex-row items-center justify-start  py-2">
-                  <View className="mr-5 h-14 w-14 items-center justify-center rounded-2xl bg-light-secondary dark:bg-dark-secondary">
-                    <Image source={item.image} className="h-8 w-8" />
+                <Pressable style={styles.resultRow}>
+                  <View style={styles.resultIconWrap}>
+                    <Image source={item.image} style={styles.resultIcon} />
                   </View>
-                  <View className="flex-1">
-                    <ThemedText className="text-base font-bold">{item.name}</ThemedText>
-                    <ThemedText className="mb-1 line-clamp-1 w-full overflow-hidden whitespace-nowrap text-sm">
+                  <View style={styles.flex1}>
+                    <ThemedText style={styles.resultName}>{item.name}</ThemedText>
+                    <ThemedText style={styles.resultDescription} numberOfLines={1}>
                       {item.description}
                     </ThemedText>
-                    <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
+                    <ThemedText style={styles.resultCreator}>
                       by {item.creator}
                     </ThemedText>
                   </View>
@@ -214,11 +217,11 @@ const SearchScreen = () => {
               </Link>
             ))
           ) : (
-            <View className="items-center justify-center p-10">
-              <ThemedText className="mb-2 text-center text-lg font-bold">
+            <View style={styles.emptyState}>
+              <ThemedText style={styles.emptyTitle}>
                 No results found
               </ThemedText>
-              <ThemedText className="text-center text-light-subtext dark:text-dark-subtext">
+              <ThemedText style={styles.emptySubtitle}>
                 Try different keywords or categories
               </ThemedText>
             </View>
@@ -230,3 +233,92 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
+
+const styles = StyleSheet.create((theme) => ({
+  header: {
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.global,
+  },
+  searchBar: {
+    position: 'relative',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.primary,
+  },
+  backIcon: {
+    position: 'absolute',
+    left: 6,
+    top: 6,
+    zIndex: 50,
+  },
+  input: {
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingLeft: 40,
+    paddingRight: 12,
+    color: theme.colors.text,
+  },
+  clearButton: {
+    position: 'absolute',
+    right: 12,
+    top: 12,
+    zIndex: 50,
+    opacity: 0.5,
+  },
+  chipScroller: {
+    marginTop: 8,
+  },
+  resultsWrap: {
+    marginBottom: 16,
+    padding: theme.spacing.global,
+  },
+  resultRow: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingVertical: 8,
+  },
+  resultIconWrap: {
+    marginRight: 20,
+    height: 56,
+    width: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    backgroundColor: theme.colors.secondary,
+  },
+  resultIcon: {
+    height: 32,
+    width: 32,
+  },
+  flex1: {
+    flex: 1,
+  },
+  resultName: {
+    fontSize: 16,
+    fontFamily: theme.fonts.bold,
+  },
+  resultDescription: {
+    marginBottom: 4,
+    fontSize: 14,
+  },
+  resultCreator: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  emptyState: {
+    padding: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyTitle: {
+    marginBottom: 8,
+    textAlign: 'center',
+    fontSize: 18,
+    fontFamily: theme.fonts.bold,
+  },
+  emptySubtitle: {
+    textAlign: 'center',
+    color: theme.colors.subtext,
+  },
+}));

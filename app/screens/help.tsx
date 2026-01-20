@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from '@/components/AnimatedView';
 import { Button } from '@/components/Button';
@@ -76,7 +77,7 @@ const contactInfo = [
 
 export default function HelpScreen() {
   return (
-    <View className="flex-1 bg-light-primary dark:bg-dark-primary">
+    <View style={styles.root}>
       <Header title="Help & Support" showBackButton />
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -85,13 +86,13 @@ export default function HelpScreen() {
           <Section
             title="Frequently Asked Questions"
             titleSize="xl"
-            className="px-global pb-2 pt-6"
+            style={styles.sectionHeader}
           />
 
-          <View className="px-global">
+          <View style={styles.sectionBody}>
             {faqData.map((faq) => (
-              <Expandable key={faq.id} title={faq.question} className="py-1">
-                <ThemedText className="leading-6 text-light-text dark:text-dark-text">
+              <Expandable key={faq.id} title={faq.question} style={styles.expandable}>
+                <ThemedText style={styles.faqAnswer}>
                   {faq.answer}
                 </ThemedText>
               </Expandable>
@@ -102,45 +103,104 @@ export default function HelpScreen() {
           <Section
             title="Contact Us"
             titleSize="xl"
-            className="mt-14 px-global pb-2"
+            style={styles.sectionHeaderSpaced}
             subtitle="We're here to help with any questions or concerns"
           />
 
-          <View className="px-global pb-8">
+          <View style={styles.contactSection}>
             {contactInfo.map((contact) => (
               <TouchableOpacity
                 key={contact.id}
                 onPress={contact.action}
                 disabled={!contact.action}
-                className="flex-row items-center border-b border-light-secondary py-4 dark:border-dark-secondary">
-                <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-light-secondary dark:bg-dark-secondary">
+                style={styles.contactRow}>
+                <View style={styles.contactIconWrap}>
                   <Icon name={contact.icon} size={20} />
                 </View>
                 <View>
-                  <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
+                  <ThemedText style={styles.contactType}>
                     {contact.type}
                   </ThemedText>
-                  <ThemedText className="font-medium">{contact.value}</ThemedText>
+                  <ThemedText style={styles.contactValue}>{contact.value}</ThemedText>
                 </View>
                 {contact.action && (
-                  <Icon
-                    name="ChevronRight"
-                    size={20}
-                    className="ml-auto text-light-subtext dark:text-dark-subtext"
-                  />
+                  <Icon name="ChevronRight" size={20} color={undefined} style={styles.chevron} />
                 )}
               </TouchableOpacity>
             ))}
 
-            <Button
-              title="Email Us"
-              iconStart="Mail"
-              className="mt-8"
-              onPress={() => Linking.openURL('mailto:support@luna-ai.com')}
-            />
+            <View style={styles.emailButtonSpacer}>
+              <Button
+                title="Email Us"
+                iconStart="Mail"
+                onPress={() => Linking.openURL('mailto:support@luna-ai.com')}
+              />
+            </View>
           </View>
         </AnimatedView>
       </ScrollView>
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  sectionHeader: {
+    paddingHorizontal: theme.spacing.global,
+    paddingTop: 24,
+    paddingBottom: 8,
+  },
+  sectionHeaderSpaced: {
+    paddingHorizontal: theme.spacing.global,
+    paddingTop: 24,
+    paddingBottom: 8,
+    marginTop: 56,
+  },
+  sectionBody: {
+    paddingHorizontal: theme.spacing.global,
+  },
+  expandable: {
+    paddingVertical: 4,
+  },
+  faqAnswer: {
+    lineHeight: 24,
+    color: theme.colors.text,
+  },
+  contactSection: {
+    paddingHorizontal: theme.spacing.global,
+    paddingBottom: 32,
+  },
+  contactRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.secondary,
+    paddingVertical: 16,
+  },
+  contactIconWrap: {
+    marginRight: 16,
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  contactType: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  contactValue: {
+    fontWeight: '500',
+  },
+  chevron: {
+    marginLeft: 'auto',
+    opacity: 0.6,
+  },
+  emailButtonSpacer: {
+    marginTop: 32,
+  },
+}));

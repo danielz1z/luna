@@ -1,21 +1,13 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/Button';
-import { Chip } from '@/components/Chip';
-import Expandable from '@/components/Expandable';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import ThemedScroller from '@/components/ThemeScroller';
-import ThemeToggle from '@/components/ThemeToggle';
-import ThemedText from '@/components/ThemedText';
-import Toggle from '@/components/Toggle';
-import Checkbox from '@/components/forms/Checkbox';
-import FormTabs, { FormTab } from '@/components/forms/FormTabs';
 import Input from '@/components/forms/Input';
-import Select from '@/components/forms/Select';
-import Divider from '@/components/layout/Divider';
 import Section from '@/components/layout/Section';
 
 export default function EditProfileScreen() {
@@ -24,7 +16,7 @@ export default function EditProfileScreen() {
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -42,42 +34,42 @@ export default function EditProfileScreen() {
         showBackButton
         rightComponents={[<Button title="Save changes" />]}
       />
-      <ThemedScroller className="px-8">
-        <View className="mb-8 mt-8 flex-col items-center">
-          <TouchableOpacity onPress={pickImage} className="relative" activeOpacity={0.9}>
+      <ThemedScroller>
+        <View style={styles.photoSection}>
+          <TouchableOpacity onPress={pickImage} style={styles.photoPressable} activeOpacity={0.9}>
             {profileImage ? (
               <Image
                 source={{ uri: profileImage }}
-                className="h-28 w-28 rounded-full border border-light-primary dark:border-dark-primary"
+                style={styles.photo}
               />
             ) : (
-              <View className="h-24 w-24 items-center justify-center rounded-full bg-light-secondary dark:bg-dark-secondary">
-                <Icon name="Plus" size={25} className="text-light-subtext dark:text-dark-subtext" />
+              <View style={styles.photoPlaceholder}>
+                <Icon name="Plus" size={25} />
               </View>
             )}
           </TouchableOpacity>
-          <View className="mt-4">
+          <View style={styles.photoActions}>
             <Button
               variant="ghost"
               title={profileImage ? 'Change photo' : 'Upload photo'}
-              className="bg-light-secondary text-sm dark:bg-dark-secondary"
               onPress={pickImage}
             />
 
             {profileImage && (
-              <Button
-                className="mt-2"
-                title="Remove photo"
-                variant="ghost"
-                onPress={() => setProfileImage(null)}
-              />
+              <View style={styles.removePhotoSpacer}>
+                <Button
+                  title="Remove photo"
+                  variant="ghost"
+                  onPress={() => setProfileImage(null)}
+                />
+              </View>
             )}
           </View>
         </View>
-        <View className="rounded-2xl bg-light-secondary p-global dark:bg-dark-secondary/50">
+        <View style={styles.card}>
           <Section
             titleSize="xl"
-            className="pb-8 pt-0"
+            style={styles.cardHeader}
             title="Personal information"
             subtitle="Manage your personal information"
           />
@@ -109,3 +101,45 @@ export default function EditProfileScreen() {
     </>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  photoSection: {
+    marginTop: 32,
+    marginBottom: 32,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  photoPressable: {
+    position: 'relative',
+  },
+  photo: {
+    height: 112,
+    width: 112,
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  photoPlaceholder: {
+    height: 96,
+    width: 96,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+  },
+  photoActions: {
+    marginTop: 16,
+  },
+  removePhotoSpacer: {
+    marginTop: 8,
+  },
+  card: {
+    borderRadius: 16,
+    backgroundColor: theme.colors.secondary,
+    padding: theme.spacing.global,
+  },
+  cardHeader: {
+    paddingBottom: 32,
+    paddingTop: 0,
+  },
+}));

@@ -1,15 +1,14 @@
-import { Stack, Link, router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Pressable, StyleSheet, Platform } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
 import { Button } from '@/components/Button';
 import ThemedText from '@/components/ThemedText';
 import Input from '@/components/forms/Input';
 
 export default function LoginScreen() {
-  const colors = useThemeColors();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -56,20 +55,14 @@ export default function LoginScreen() {
     }
   };
 
-  const handleSocialLogin = (_provider: string) => {
-    // Implement social login logic here
-  };
-
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={{ paddingTop: insets.top }}
-      className="flex-1 bg-light-primary p-6 pt-20 dark:bg-dark-primary">
-      <View className="mt-8">
-        <ThemedText className="mb-14 font-outfit-bold text-4xl">Luna.</ThemedText>
-        <ThemedText className="mb-1 text-3xl font-bold">Welcome back</ThemedText>
-        <ThemedText className="mb-14 text-light-subtext dark:text-dark-subtext">
+    <View style={[styles.root, { paddingTop: insets.top + 80 }]}>
+      <View style={styles.content}>
+        <ThemedText style={styles.brand}>Luna.</ThemedText>
+        <ThemedText style={styles.title}>Welcome back</ThemedText>
+        <ThemedText style={styles.subtitle}>
           Sign in to your account
         </ThemedText>
 
@@ -100,27 +93,21 @@ export default function LoginScreen() {
           autoCapitalize="none"
         />
 
-        <Link
-          className="mb-4 text-sm text-black underline dark:text-white"
-          href="/screens/forgot-password">
+        <Link style={styles.forgotLink} href="/screens/forgot-password">
           Forgot Password?
         </Link>
 
-        <Button
-          title="Login"
-          onPress={handleLogin}
-          loading={isLoading}
-          size="large"
-          className="mb-6"
-        />
+        <View style={styles.buttonSpacer}>
+          <Button title="Login" onPress={handleLogin} loading={isLoading} size="large" />
+        </View>
 
-        <View className="flex-row justify-center">
-          <ThemedText className="text-light-subtext dark:text-dark-subtext">
+        <View style={styles.footerRow}>
+          <ThemedText style={styles.footerText}>
             Don't have an account?{' '}
           </ThemedText>
           <Link href="/screens/signup" asChild>
             <Pressable>
-              <ThemedText className="underline">Sign up</ThemedText>
+              <ThemedText style={styles.underline}>Sign up</ThemedText>
             </Pressable>
           </Link>
         </View>
@@ -129,11 +116,47 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  googleIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#4285F4',
-    borderRadius: 2,
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
-});
+  content: {
+    marginTop: 32,
+  },
+  brand: {
+    marginBottom: 56,
+    fontFamily: theme.fonts.bold,
+    fontSize: 36,
+  },
+  title: {
+    marginBottom: 4,
+    fontSize: 30,
+    fontFamily: theme.fonts.bold,
+  },
+  subtitle: {
+    marginBottom: 56,
+    color: theme.colors.subtext,
+  },
+  forgotLink: {
+    marginBottom: 16,
+    fontSize: 14,
+    color: theme.colors.text,
+    textDecorationLine: 'underline',
+  },
+  buttonSpacer: {
+    marginBottom: 24,
+  },
+  footerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  footerText: {
+    color: theme.colors.subtext,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  },
+}));

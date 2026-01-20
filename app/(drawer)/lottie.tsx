@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable, Image, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { BotSwitch } from '@/components/BotSwitch';
 import { ChatInput } from '@/components/ChatInput';
@@ -27,13 +28,13 @@ const HomeScreen = () => {
 
   const leftComponent = [
     <DrawerButton key="drawer-button" />,
-    <ThemedText key="app-title" className="ml-4 font-outfit-bold text-2xl">
-      Luna<Text className="text-highlight">.</Text>
+    <ThemedText key="app-title" style={styles.appTitle}>
+      Luna<Text style={styles.appTitleDot}>.</Text>
     </ThemedText>,
   ];
 
   return (
-    <View className="relative flex-1 bg-light-primary dark:bg-dark-primary">
+    <View style={styles.root}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -45,13 +46,13 @@ const HomeScreen = () => {
           {messages.length === 0 && !isLoading && <Sphere />}
 
           {(messages.length > 0 || isLoading) && (
-            <ThemeScroller className="flex-1 px-4 pt-20">
+            <ThemeScroller contentContainerStyle={styles.scrollerContent}>
               {isLoading && (
-                <View className="my-2 max-w-[80%] rounded-2xl bg-light-secondary p-4 dark:bg-dark-secondary">
-                  <View className="flex-row items-center">
-                    <View className="mx-1 h-2 w-2 rounded-full bg-highlight" />
-                    <View className="mx-1 h-2 w-2 rounded-full bg-highlight" />
-                    <View className="mx-1 h-2 w-2 rounded-full bg-highlight" />
+                <View style={styles.loadingBubble}>
+                  <View style={styles.loadingDotsRow}>
+                    <View style={styles.loadingDot} />
+                    <View style={styles.loadingDot} />
+                    <View style={styles.loadingDot} />
                   </View>
                 </View>
               )}
@@ -68,3 +69,41 @@ const HomeScreen = () => {
 // Helper function to get simulated responses
 
 export default HomeScreen;
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    position: 'relative',
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  appTitle: {
+    marginLeft: 16,
+    fontFamily: 'Outfit_700Bold',
+    fontSize: 24,
+  },
+  appTitleDot: {
+    color: theme.colors.highlight,
+  },
+  scrollerContent: {
+    paddingTop: 80,
+    paddingHorizontal: 16,
+  },
+  loadingBubble: {
+    marginVertical: 8,
+    maxWidth: '80%',
+    borderRadius: 16,
+    backgroundColor: theme.colors.secondary,
+    padding: 16,
+  },
+  loadingDotsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loadingDot: {
+    marginHorizontal: 4,
+    height: 8,
+    width: 8,
+    borderRadius: 9999,
+    backgroundColor: theme.colors.highlight,
+  },
+}));

@@ -2,6 +2,7 @@ import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Pressable, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/Button';
 import ThemedText from '@/components/ThemedText';
@@ -45,12 +46,10 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <View
-      style={{ paddingTop: insets.top }}
-      className="flex-1 bg-light-primary p-6 dark:bg-dark-primary">
-      <View className="mt-8">
-        <ThemedText className="mb-1 mt-10 text-3xl font-bold">Reset Password</ThemedText>
-        <ThemedText className="mb-14 text-light-subtext dark:text-dark-subtext">
+    <View style={[styles.root, { paddingTop: insets.top }]}>
+      <View style={styles.content}>
+        <ThemedText style={styles.title}>Reset Password</ThemedText>
+        <ThemedText style={styles.subtitle}>
           Enter your email address and we'll send you a link to reset your password
         </ThemedText>
 
@@ -68,21 +67,17 @@ export default function ForgotPasswordScreen() {
           autoComplete="email"
         />
 
-        <Button
-          title="Send Reset Link"
-          onPress={handleResetPassword}
-          loading={isLoading}
-          size="large"
-          className="mb-6 mt-4"
-        />
+        <View style={styles.buttonSpacer}>
+          <Button title="Send Reset Link" onPress={handleResetPassword} loading={isLoading} size="large" />
+        </View>
 
-        <View className="mt-8 flex-row justify-center">
-          <ThemedText className="text-light-subtext dark:text-dark-subtext">
+        <View style={styles.footerRow}>
+          <ThemedText style={styles.footerText}>
             Remember your password?{' '}
           </ThemedText>
           <Link href="/screens/login" asChild>
             <Pressable>
-              <ThemedText className="underline">Log in</ThemedText>
+              <ThemedText style={styles.underline}>Log in</ThemedText>
             </Pressable>
           </Link>
         </View>
@@ -90,3 +85,40 @@ export default function ForgotPasswordScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 24,
+    paddingBottom: 24,
+  },
+  content: {
+    marginTop: 32,
+  },
+  title: {
+    marginTop: 40,
+    marginBottom: 4,
+    fontSize: 30,
+    fontFamily: theme.fonts.bold,
+  },
+  subtitle: {
+    marginBottom: 56,
+    color: theme.colors.subtext,
+  },
+  buttonSpacer: {
+    marginTop: 16,
+    marginBottom: 24,
+  },
+  footerRow: {
+    marginTop: 32,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  footerText: {
+    color: theme.colors.subtext,
+  },
+  underline: {
+    textDecorationLine: 'underline',
+  },
+}));

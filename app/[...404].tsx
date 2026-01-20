@@ -1,29 +1,60 @@
 import { Stack } from 'expo-router';
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/Button';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import ThemedText from '@/components/ThemedText';
-const windowWidth = Dimensions.get('window').width;
+
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen />
       <Header title=" " showBackButton />
-      <View className="flex-1 items-center justify-center bg-light-primary p-global dark:bg-dark-primary">
-        <View className=" mb-8">
+      <View style={styles.root}>
+        <View style={styles.iconSpacer}>
           <Icon name="AlertCircle" strokeWidth={1} size={70} />
         </View>
-        <ThemedText className="mb-2 text-2xl font-bold">Page Not Found</ThemedText>
-        <ThemedText className="mb-8 w-2/3 text-center text-base text-light-subtext dark:text-dark-subtext">
+        <ThemedText style={styles.title}>Page Not Found</ThemedText>
+        <ThemedText style={styles.description}>
           The page you're looking for doesn't exist or has been moved.
         </ThemedText>
-        <View className="flex-row items-center justify-center">
-          <Button title="Back to Home" href="/" size="medium" className="px-6" />
+        <View style={styles.actions}>
+          <Button title="Back to Home" href="/" size="medium" />
         </View>
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.global,
+  },
+  iconSpacer: {
+    marginBottom: 32,
+  },
+  title: {
+    marginBottom: 8,
+    fontSize: 24,
+    fontFamily: theme.fonts.bold,
+  },
+  description: {
+    marginBottom: 32,
+    width: '66.666%',
+    textAlign: 'center',
+    fontSize: 16,
+    color: theme.colors.subtext,
+  },
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}));
