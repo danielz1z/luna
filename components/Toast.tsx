@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, StyleSheet } from 'react-native';
+import { View, Text, Animated } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { useTheme } from '@/app/contexts/ThemeContext';
+import { palette } from '@/app/unistyles';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
 
@@ -21,6 +24,7 @@ const Toast: React.FC<ToastProps> = ({
   isVisible,
 }) => {
   const colors = useThemeColors();
+  const { isDark } = useTheme();
   const translateY = useRef(new Animated.Value(-100)).current;
 
   const getBackgroundColor = () => {
@@ -62,7 +66,6 @@ const Toast: React.FC<ToastProps> = ({
 
   return (
     <Animated.View
-      className="p-6"
       style={[
         styles.container,
         {
@@ -70,24 +73,23 @@ const Toast: React.FC<ToastProps> = ({
           shadowColor: colors.text,
         },
       ]}>
-      <View className="flex-row items-center justify-center rounded-xl bg-dark-primary py-6 dark:bg-light-primary">
-        <View
-          className="mr-2 h-2 w-2 rounded-full"
-          style={{ backgroundColor: getBackgroundColor() }}
-        />
-        <Text className="text-white dark:text-dark-primary">{message}</Text>
+      <View style={styles.body}>
+        <View style={[styles.dot, { backgroundColor: getBackgroundColor() }]} />
+        <Text style={[styles.message, isDark ? styles.messageDark : styles.messageLight]}>
+          {message}
+        </Text>
       </View>
     </Animated.View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   container: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    padding: 16,
+    padding: 24,
     zIndex: 99999999,
     shadowOffset: {
       width: 0,
@@ -97,11 +99,31 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  text: {
-    color: '#FFFFFF',
+  body: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    backgroundColor: theme.colors.text,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+  },
+  dot: {
+    marginRight: 8,
+    height: 8,
+    width: 8,
+    borderRadius: 9999,
+  },
+  message: {
     textAlign: 'center',
     fontSize: 16,
   },
-});
+  messageLight: {
+    color: palette.white,
+  },
+  messageDark: {
+    color: theme.colors.primary,
+  },
+}));
 
 export default Toast;

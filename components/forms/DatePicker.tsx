@@ -1,7 +1,16 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Platform, Animated, Pressable } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Platform,
+  Animated,
+  Pressable,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import Modal from 'react-native-modal';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { InputVariant } from './Input';
 
@@ -10,6 +19,7 @@ import { Button } from '@/components/Button';
 import Icon from '@/components/Icon';
 import ThemedText from '@/components/ThemedText';
 import { formatToYYYYMMDD } from '@/utils/date';
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface DatePickerProps {
   value?: Date;
@@ -21,6 +31,7 @@ interface DatePickerProps {
   error?: string;
   containerClassName?: string;
   variant?: InputVariant;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -33,6 +44,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   error,
   containerClassName = '',
   variant = 'animated',
+  style,
 }) => {
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [tempDate, setTempDate] = useState<Date>(value || new Date());
@@ -120,15 +132,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           isVisible={isDatePickerVisible}
           onBackdropPress={hideDatePicker}
           style={{ margin: 0, justifyContent: 'flex-end' }}>
-          <View className="w-full items-center justify-center rounded-t-xl bg-light-primary dark:bg-dark-primary">
-            <View className="w-full flex-row items-center justify-between border-b border-light-secondary p-4 dark:border-dark-secondary">
+          <View style={styles.sheetContainer}>
+            <View style={styles.sheetHeader}>
               <Button
                 title="Cancel"
                 variant="ghost"
                 onPress={hideDatePicker}
                 textClassName="text-base font-normal"
               />
-              <ThemedText className="text-lg font-medium">{label || 'Select Date'}</ThemedText>
+              <ThemedText style={styles.sheetTitle}>{label || 'Select Date'}</ThemedText>
               <Button
                 title="Done"
                 variant="ghost"
@@ -168,23 +180,26 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   // Classic non-animated variant
   if (variant === 'classic') {
     return (
-      <View className={`mb-global ${containerClassName}`}>
-        {label && <ThemedText className="mb-1 font-medium">{label}</ThemedText>}
-        <View className="relative">
+      <View style={[styles.container, style]}>
+        {label && <ThemedText style={styles.classicLabel}>{label}</ThemedText>}
+        <View style={styles.relative}>
           <TouchableOpacity
             onPress={showDatePicker}
-            className={`h-14 rounded-lg border bg-transparent px-3 py-4 pr-10 text-black dark:text-white
-              ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-              ${error ? 'border-red-500' : ''}`}>
-            <ThemedText className={value ? 'text-base' : 'text-base text-gray-500'}>
+            style={[
+              styles.fieldBase,
+              styles.fieldClassic,
+              isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+              error && styles.fieldError,
+            ]}>
+            <ThemedText style={[styles.valueText, !value && styles.placeholderText]}>
               {value ? formatToYYYYMMDD(value) : placeholder}
             </ThemedText>
           </TouchableOpacity>
-          <Pressable className="absolute right-3 top-[18px] z-10">
+          <Pressable style={styles.iconRight}>
             <Icon name="Calendar" size={20} color={colors.text} />
           </Pressable>
         </View>
-        {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+        {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
         {renderDatePicker()}
       </View>
     );
@@ -193,31 +208,33 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   // Underlined variant
   if (variant === 'underlined') {
     return (
-      <View className={`mb-global ${containerClassName}`}>
-        <View className="relative">
+      <View style={[styles.container, style]}>
+        <View style={styles.relative}>
           <Pressable
-            className="z-40 bg-light-primary px-0 dark:bg-dark-primary"
+            style={styles.labelPressableUnderlined}
             onPress={showDatePicker}>
             <Animated.Text
-              style={[underlinedLabelStyle]}
-              className="absolute z-50 bg-light-primary text-black dark:bg-dark-primary dark:text-white">
+              style={[underlinedLabelStyle, styles.animatedLabelText, styles.animatedLabelTextUnderlined]}>
               {label}
             </Animated.Text>
           </Pressable>
           <TouchableOpacity
             onPress={showDatePicker}
-            className={`h-14 border-b-2 border-l-0 border-r-0 border-t-0 bg-transparent px-0 py-4 pr-10 text-black dark:text-white
-              ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-              ${error ? 'border-red-500' : ''}`}>
-            <ThemedText className={value ? 'text-base' : 'text-base text-gray-500'}>
+            style={[
+              styles.fieldBase,
+              styles.fieldUnderlined,
+              isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+              error && styles.fieldError,
+            ]}>
+            <ThemedText style={[styles.valueText, !value && styles.placeholderText]}>
               {value ? formatToYYYYMMDD(value) : ''}
             </ThemedText>
           </TouchableOpacity>
-          <Pressable className="absolute right-0 top-[18px] z-10">
+          <Pressable style={[styles.iconRight, styles.iconRightUnderlined]}>
             <Icon name="Calendar" size={20} color={colors.text} />
           </Pressable>
         </View>
-        {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+        {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
         {renderDatePicker()}
       </View>
     );
@@ -225,32 +242,138 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   // Default animated variant
   return (
-    <View className={`mb-global ${containerClassName}`}>
-      <View className="relative">
+    <View style={[styles.container, style]}>
+      <View style={styles.relative}>
         <Pressable
-          className="z-40 bg-light-primary px-1 dark:bg-dark-primary"
+          style={styles.labelPressable}
           onPress={showDatePicker}>
           <Animated.Text
-            style={[labelStyle]}
-            className="absolute z-50 bg-light-primary px-1 text-black dark:bg-dark-primary dark:text-white">
+            style={[labelStyle, styles.animatedLabelText]}>
             {label}
           </Animated.Text>
         </Pressable>
         <TouchableOpacity
           onPress={showDatePicker}
-          className={`h-14 rounded-lg border bg-transparent px-3 py-4 pr-10 text-black dark:text-white
-            ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-            ${error ? 'border-red-500' : ''}`}>
-          <ThemedText className={value ? 'text-base' : 'text-base text-gray-500'}>
+          style={[
+            styles.fieldBase,
+            styles.fieldClassic,
+            isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+            error && styles.fieldError,
+          ]}>
+          <ThemedText style={[styles.valueText, !value && styles.placeholderText]}>
             {value ? formatToYYYYMMDD(value) : ''}
           </ThemedText>
         </TouchableOpacity>
-        <Pressable className="absolute right-3 top-[18px] z-10">
+        <Pressable style={styles.iconRight}>
           <Icon name="Calendar" size={20} color={colors.text} />
         </Pressable>
       </View>
-      {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+      {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
       {renderDatePicker()}
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: theme.spacing.global,
+  },
+  relative: {
+    position: 'relative',
+  },
+  classicLabel: {
+    marginBottom: 4,
+    fontWeight: '500',
+  },
+  fieldBase: {
+    height: 56,
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  fieldClassic: {
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    paddingRight: 40,
+  },
+  fieldUnderlined: {
+    borderBottomWidth: 2,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 16,
+    paddingRight: 40,
+  },
+  fieldFocused: {
+    borderColor: theme.colors.text,
+  },
+  fieldUnfocused: {
+    borderColor: withOpacity(theme.colors.text, 0.6),
+  },
+  fieldError: {
+    borderColor: palette.red500,
+  },
+  valueText: {
+    fontSize: 16,
+  },
+  placeholderText: {
+    color: theme.colors.subtext,
+  },
+  iconRight: {
+    position: 'absolute',
+    right: 12,
+    top: 18,
+    zIndex: 10,
+  },
+  iconRightUnderlined: {
+    right: 0,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: palette.red500,
+  },
+  labelPressable: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+  },
+  labelPressableUnderlined: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 0,
+  },
+  animatedLabelText: {
+    position: 'absolute',
+    zIndex: 50,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+    color: theme.colors.text,
+  },
+  animatedLabelTextUnderlined: {
+    paddingHorizontal: 0,
+  },
+  sheetContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    backgroundColor: theme.colors.bg,
+  },
+  sheetHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.secondary,
+    padding: 16,
+  },
+  sheetTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+}));

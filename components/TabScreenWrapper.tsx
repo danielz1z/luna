@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native';
 import React from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -11,7 +12,7 @@ interface TabScreenWrapperProps {
   animation?: AnimationType;
   duration?: number;
   delay?: number;
-  className?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function TabScreenWrapper({
@@ -19,7 +20,7 @@ export default function TabScreenWrapper({
   animation = 'fadeIn',
   duration = 300,
   delay = 0,
-  className,
+  style,
 }: TabScreenWrapperProps) {
   const isFocused = useIsFocused();
   const [key, setKey] = React.useState(0);
@@ -33,12 +34,11 @@ export default function TabScreenWrapper({
   return (
     <View style={styles.container}>
       <AnimatedView
-        style={{ flex: 1 }}
+        style={[styles.content, style]}
         key={key}
         animation={animation}
         duration={duration}
-        delay={delay}
-        className={className}>
+        delay={delay}>
         {children}
       </AnimatedView>
     </View>
@@ -49,5 +49,8 @@ const styles = StyleSheet.create((theme) => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.primary,
+  },
+  content: {
+    flex: 1,
   },
 }));

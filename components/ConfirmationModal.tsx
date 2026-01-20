@@ -2,10 +2,12 @@ import * as NavigationBar from 'expo-navigation-bar';
 import React from 'react';
 import { View, Text, Pressable, Platform } from 'react-native';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
+import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { useTheme } from '@/app/contexts/ThemeContext';
 import ThemedText from '@/components/ThemedText';
+import { palette } from '@/app/unistyles';
 
 interface ConfirmationModalProps {
   isVisible: boolean;
@@ -64,22 +66,22 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
       }}>
-      <View className="p-8 pb-14">
-        <ThemedText className="mb-2 text-xl font-bold">{title}</ThemedText>
-        <ThemedText className="mb-6 text-light-subtext dark:text-dark-subtext">
+      <View style={styles.content}>
+        <ThemedText style={styles.title}>{title}</ThemedText>
+        <ThemedText style={styles.message}>
           {message}
         </ThemedText>
 
-        <View className="flex-row justify-between space-x-3">
+        <View style={styles.buttonsRow}>
           <Pressable
             onPress={handleCancel}
-            className="flex-1 items-center rounded-lg bg-light-secondary px-4 py-3 dark:bg-dark-secondary">
+            style={styles.cancelButton}>
             <ThemedText>{cancelText}</ThemedText>
           </Pressable>
           <Pressable
             onPress={handleConfirm}
-            className="flex-1 items-center rounded-lg bg-red-500 px-4 py-3">
-            <Text className="text-white">{confirmText}</Text>
+            style={styles.confirmButton}>
+            <Text style={styles.confirmText}>{confirmText}</Text>
           </Pressable>
         </View>
       </View>
@@ -88,3 +90,43 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 };
 
 export default ConfirmationModal;
+
+const styles = StyleSheet.create((theme) => ({
+  content: {
+    padding: 32,
+    paddingBottom: 56,
+  },
+  title: {
+    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  message: {
+    marginBottom: 24,
+    color: theme.colors.subtext,
+  },
+  buttonsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    columnGap: 12,
+  },
+  cancelButton: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: theme.colors.secondary,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  confirmButton: {
+    flex: 1,
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: palette.red500,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  confirmText: {
+    color: palette.white,
+  },
+}));

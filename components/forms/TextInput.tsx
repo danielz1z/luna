@@ -1,11 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput as RNTextInput, Animated, Pressable, TextInputProps } from 'react-native';
+import {
+  View,
+  TextInput as RNTextInput,
+  Animated,
+  Pressable,
+  TextInputProps,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon from '../Icon';
 import type { IconName } from '../Icon';
 import ThemedText from '../ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface CustomTextInputProps extends TextInputProps {
   label: string;
@@ -15,6 +26,8 @@ interface CustomTextInputProps extends TextInputProps {
   isPassword?: boolean;
   className?: string;
   containerClassName?: string;
+  style?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
 }
 
 const TextInput: React.FC<CustomTextInputProps> = ({
@@ -27,6 +40,8 @@ const TextInput: React.FC<CustomTextInputProps> = ({
   containerClassName = '',
   value,
   onChangeText,
+  style,
+  inputStyle,
   ...props
 }) => {
   const colors = useThemeColors();
@@ -69,7 +84,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
   const renderRightIcon = () => {
     if (isPassword) {
       return (
-        <Pressable onPress={togglePasswordVisibility} className="absolute right-3 top-[18px] z-10">
+        <Pressable onPress={togglePasswordVisibility} style={styles.rightIcon}>
           <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={colors.text} />
         </Pressable>
       );
@@ -77,7 +92,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
 
     if (rightIcon) {
       return (
-        <Pressable onPress={onRightIconPress} className="absolute right-3 top-[18px] z-10">
+        <Pressable onPress={onRightIconPress} style={styles.rightIcon}>
           <Icon name={rightIcon} size={20} color={colors.text} />
         </Pressable>
       );
@@ -87,25 +102,26 @@ const TextInput: React.FC<CustomTextInputProps> = ({
   };
 
   return (
-    <View className={`mb-global ${containerClassName}`}>
-      <View className="relative">
+    <View style={[styles.container, style]}>
+      <View style={styles.relative}>
         <Pressable
-          className="z-40 bg-light-primary px-1 dark:bg-dark-primary"
+          style={styles.labelPressable}
           onPress={() => inputRef.current?.focus()}>
           <Animated.Text
-            style={[labelStyle]}
-            className="absolute z-50 bg-light-primary px-1 text-black dark:bg-dark-primary dark:text-white">
+            style={[labelStyle, styles.animatedLabelText]}>
             {label}
           </Animated.Text>
         </Pressable>
 
         <RNTextInput
           ref={inputRef}
-          className={`h-14 rounded-lg border px-3 py-3 ${isPassword || rightIcon ? 'pr-10' : ''} 
-            bg-transparent text-black dark:text-white
-            ${isFocused ? 'border-black dark:border-white' : 'border-black/40 dark:border-white/40'}
-            ${error ? 'border-red-500' : ''}
-            ${className}`}
+          style={[
+            styles.input,
+            (isPassword || rightIcon) && styles.inputWithRightIcon,
+            isFocused ? styles.inputFocused : styles.inputUnfocused,
+            error && styles.inputError,
+            inputStyle,
+          ]}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           value={value}
@@ -118,9 +134,62 @@ const TextInput: React.FC<CustomTextInputProps> = ({
         {renderRightIcon()}
       </View>
 
-      {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+      {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
     </View>
   );
 };
 
 export default TextInput;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: theme.spacing.global,
+  },
+  relative: {
+    position: 'relative',
+  },
+  labelPressable: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+  },
+  animatedLabelText: {
+    position: 'absolute',
+    zIndex: 50,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+    color: theme.colors.text,
+  },
+  input: {
+    height: 56,
+    borderRadius: 8,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    backgroundColor: 'transparent',
+    color: theme.colors.text,
+  },
+  inputWithRightIcon: {
+    paddingRight: 40,
+  },
+  inputFocused: {
+    borderColor: theme.colors.text,
+  },
+  inputUnfocused: {
+    borderColor: withOpacity(theme.colors.text, 0.4),
+  },
+  inputError: {
+    borderColor: palette.red500,
+  },
+  rightIcon: {
+    position: 'absolute',
+    right: 12,
+    top: 18,
+    zIndex: 10,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: palette.red500,
+  },
+}));

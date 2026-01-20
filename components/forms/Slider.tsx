@@ -8,6 +8,7 @@ import Animated, {
   useDerivedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '../ThemedText';
 
@@ -31,22 +32,22 @@ interface SliderProps {
 const sizeStyles = {
   s: {
     containerHeight: 20,
-    labelText: 'text-xs',
-    valueText: 'text-xs',
+    labelFontSize: 12,
+    valueFontSize: 12,
     trackHeight: 4,
     thumbSize: 16,
   },
   m: {
     containerHeight: 30,
-    labelText: 'text-sm',
-    valueText: 'text-sm',
+    labelFontSize: 14,
+    valueFontSize: 14,
     trackHeight: 6,
     thumbSize: 20,
   },
   l: {
     containerHeight: 40,
-    labelText: 'text-base',
-    valueText: 'text-base',
+    labelFontSize: 16,
+    valueFontSize: 16,
     trackHeight: 8,
     thumbSize: 24,
   },
@@ -221,22 +222,21 @@ const Slider = ({
   const composedGesture = Gesture.Race(tapGesture, panGesture);
 
   return (
-    <View className={`w-full ${className}`} style={style}>
+    <View style={[styles.container, style]}>
       {label && (
-        <View className="mb-2 flex-row justify-between">
-          <ThemedText className={currentSize.labelText}>{label}</ThemedText>
-          <Animated.Text className={`text-light-text dark:text-dark-text ${currentSize.valueText}`}>
+        <View style={styles.labelRow}>
+          <ThemedText style={[styles.labelText, { fontSize: currentSize.labelFontSize }]}>
+            {label}
+          </ThemedText>
+          <Animated.Text style={[styles.valueText, { fontSize: currentSize.valueFontSize, color: colors.text }]}>
             {formatValue.value}
           </Animated.Text>
         </View>
       )}
 
-      <View
-        style={{ height: currentSize.containerHeight }}
-        className="justify-center"
-        onLayout={onLayout}>
+      <View style={[styles.trackContainer, { height: currentSize.containerHeight }]} onLayout={onLayout}>
         <GestureDetector gesture={composedGesture}>
-          <Animated.View className="h-full w-full justify-center">
+          <Animated.View style={styles.trackInner}>
             {/* Background Track */}
             <View
               style={{
@@ -290,3 +290,28 @@ const Slider = ({
 };
 
 export default Slider;
+
+const styles = StyleSheet.create(() => ({
+  container: {
+    width: '100%',
+  },
+  labelRow: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  labelText: {
+    fontWeight: '400',
+  },
+  valueText: {
+    fontWeight: '400',
+  },
+  trackContainer: {
+    justifyContent: 'center',
+  },
+  trackInner: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+  },
+}));

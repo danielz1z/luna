@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Pressable } from 'react-native';
+import { View, Pressable, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon from '../Icon';
 import ThemedText from '../ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette } from '@/app/unistyles';
 
 interface CheckboxProps {
   label: string;
@@ -12,6 +14,7 @@ interface CheckboxProps {
   onChange?: (checked: boolean) => void;
   error?: string;
   className?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -20,6 +23,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   onChange,
   error,
   className = '',
+  style,
 }) => {
   const colors = useThemeColors();
 
@@ -38,26 +42,72 @@ const Checkbox: React.FC<CheckboxProps> = ({
   };
 
   return (
-    <View className={`mb-global ${className}`}>
-      <Pressable onPress={handlePress} className="flex-row items-center">
+    <View style={[styles.container, style]}>
+      <Pressable onPress={handlePress} style={styles.row}>
         <View
-          className={`
-          flex h-6 w-6 items-center justify-center rounded border
-          ${isChecked ? 'bg-primary border-highlight' : 'border-black/40 dark:border-white/40'}
-          ${error ? 'border-red-500' : ''}
-        `}>
+          style={[
+            styles.box,
+            isChecked ? styles.boxChecked : styles.boxUnchecked,
+            error && styles.boxError,
+          ]}>
           {isChecked && (
-            <View className="h-full w-full items-center justify-center rounded border-[2px] border-light-primary bg-highlight dark:border-dark-primary">
+            <View style={styles.checkContainer}>
               <Icon name="Check" size={14} color="#fff" />
             </View>
           )}
         </View>
-        <ThemedText className="ml-2">{label}</ThemedText>
+        <ThemedText style={styles.label}>{label}</ThemedText>
       </Pressable>
 
-      {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+      {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
     </View>
   );
 };
 
 export default Checkbox;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: theme.spacing.global,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  box: {
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    borderWidth: 1,
+  },
+  boxChecked: {
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.highlight,
+  },
+  boxUnchecked: {
+    borderColor: theme.colors.placeholder,
+  },
+  boxError: {
+    borderColor: palette.red500,
+  },
+  checkContainer: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    backgroundColor: theme.colors.highlight,
+  },
+  label: {
+    marginLeft: 8,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: palette.red500,
+  },
+}));

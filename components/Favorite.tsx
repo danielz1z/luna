@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import React, { useState, useRef } from 'react';
 import { Pressable, View, Text } from 'react-native';
 import { ActionSheetRef } from 'react-native-actions-sheet';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ActionSheetThemed from './ActionSheetThemed';
 import { Button } from './Button';
@@ -13,7 +14,6 @@ import { useThemeColors } from '@/app/contexts/ThemeColors';
 interface FavoriteProps {
   initialState?: boolean;
   size?: number;
-  className?: string;
   productName?: string;
   isWhite?: boolean;
   onToggle?: (isFavorite: boolean) => void;
@@ -22,7 +22,6 @@ interface FavoriteProps {
 const Favorite: React.FC<FavoriteProps> = ({
   initialState = false,
   size = 24,
-  className = '',
   productName = 'Product',
   onToggle,
   isWhite = false,
@@ -49,7 +48,7 @@ const Favorite: React.FC<FavoriteProps> = ({
 
   return (
     <>
-      <Pressable onPress={handleToggle} className={className}>
+      <Pressable onPress={handleToggle}>
         {isWhite ? (
           <Icon
             name="Bookmark"
@@ -70,28 +69,31 @@ const Favorite: React.FC<FavoriteProps> = ({
       </Pressable>
 
       <ActionSheetThemed ref={actionSheetRef} gestureEnabled>
-        <View className="p-4 pb-6">
-          <ThemedText className="mb-1 mt-4 text-left text-lg font-bold">
+        <View style={styles.sheetContent}>
+          <ThemedText style={styles.title}>
             {isFavorite ? 'Added to Bookmarks' : 'Removed from Bookmarks'}
           </ThemedText>
 
-          <ThemedText className="mb-6 text-left">
+          <ThemedText style={styles.message}>
             {isFavorite
               ? `${productName} has been added to your bookmarks.`
               : `${productName} has been removed from your bookmarks.`}
           </ThemedText>
 
-          <View className="w-full flex-row justify-center">
+          <View style={styles.actionsRow}>
             {isFavorite && (
-              <Button title="View Bookmarks" className="flex-1" onPress={handleViewFavorites} />
+              <View style={styles.flexButton}>
+                <Button title="View Bookmarks" onPress={handleViewFavorites} />
+              </View>
             )}
 
-            <Button
-              title="Continue Browsing"
-              variant="outline"
-              className={isFavorite ? 'ml-3 px-6' : 'px-6'}
-              onPress={() => actionSheetRef.current?.hide()}
-            />
+            <View style={[styles.flexButton, isFavorite && styles.continueButtonSpacing]}>
+              <Button
+                title="Continue Browsing"
+                variant="outline"
+                onPress={() => actionSheetRef.current?.hide()}
+              />
+            </View>
           </View>
         </View>
       </ActionSheetThemed>
@@ -100,3 +102,33 @@ const Favorite: React.FC<FavoriteProps> = ({
 };
 
 export default Favorite;
+
+const styles = StyleSheet.create(() => ({
+  sheetContent: {
+    padding: 16,
+    paddingBottom: 24,
+  },
+  title: {
+    marginTop: 16,
+    marginBottom: 4,
+    textAlign: 'left',
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  message: {
+    marginBottom: 24,
+    textAlign: 'left',
+  },
+  actionsRow: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    columnGap: 12,
+  },
+  flexButton: {
+    flex: 1,
+  },
+  continueButtonSpacing: {
+    marginLeft: 12,
+  },
+}));

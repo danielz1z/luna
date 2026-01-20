@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Pressable, Text, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '../ThemedText';
 
@@ -52,29 +53,75 @@ export default function Counter({
   };
 
   return (
-    <View className={`w-full ${className}`} style={style}>
-      <View className="w-full flex-row items-center justify-between">
-        <ThemedText className="flex-1 text-base">{label}</ThemedText>
-        <View className="min-w-[140px] flex-row items-center justify-between overflow-hidden rounded-full bg-light-secondary p-1  dark:bg-dark-secondary">
+    <View style={[styles.container, style]}>
+      <View style={styles.row}>
+        <ThemedText style={styles.label}>{label}</ThemedText>
+        <View style={styles.counter}>
           <Pressable
             onPress={decrement}
-            className="h-8 w-8 items-center justify-center rounded-full bg-light-primary dark:bg-dark-primary">
-            <ThemedText className="text-lg">-</ThemedText>
+            style={styles.button}>
+            <ThemedText style={styles.buttonText}>-</ThemedText>
           </Pressable>
 
-          <View className="items-center justify-center px-4">
-            <ThemedText className="text-base font-medium">
+          <View style={styles.valueWrapper}>
+            <ThemedText style={styles.valueText}>
               {value === undefined ? 'Any' : value}
             </ThemedText>
           </View>
 
           <Pressable
             onPress={increment}
-            className="h-8 w-8 items-center justify-center rounded-full bg-light-primary dark:bg-dark-primary">
-            <ThemedText className="text-lg">+</ThemedText>
+            style={styles.button}>
+            <ThemedText style={styles.buttonText}>+</ThemedText>
           </Pressable>
         </View>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    width: '100%',
+  },
+  row: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  label: {
+    flex: 1,
+    fontSize: 16,
+  },
+  counter: {
+    minWidth: 140,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.secondary,
+    padding: 4,
+  },
+  button: {
+    height: 32,
+    width: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.primary,
+  },
+  buttonText: {
+    fontSize: 18,
+  },
+  valueWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  valueText: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+}));

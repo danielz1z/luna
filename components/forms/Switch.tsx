@@ -8,11 +8,13 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from '../Icon';
 import ThemedText from '../ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette } from '@/app/unistyles';
 
 interface SwitchProps {
   value?: boolean;
@@ -70,39 +72,36 @@ const Switch: React.FC<SwitchProps> = ({
       activeOpacity={0.7}
       onPress={toggleSwitch}
       disabled={disabled}
-      className={`flex-row items-center py-1 ${disabled ? 'opacity-100' : ''} ${className}`}
-      style={style}>
+      style={[styles.container, disabled && styles.disabled, style]}>
       {icon && (
-        <View className="mr-3">
+        <View style={styles.iconWrapper}>
           <Icon name={icon} size={20} color={colors.text} />
         </View>
       )}
 
-      <View className="flex-1">
-        {label && <ThemedText className="text-base font-medium">{label}</ThemedText>}
+      <View style={styles.textContent}>
+        {label && <ThemedText style={styles.label}>{label}</ThemedText>}
         {description && (
-          <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
-            {description}
-          </ThemedText>
+          <ThemedText style={styles.description}>{description}</ThemedText>
         )}
       </View>
 
-      <View className="h-6 w-10 rounded-full">
-        <View
-          className={`absolute h-full w-full rounded-full ${switchValue ? 'bg-highlight' : 'bg-light-secondary dark:bg-white/40'}`}
-        />
+      <View style={styles.trackContainer}>
+        <View style={[styles.track, switchValue ? styles.trackOn : styles.trackOff]} />
         <Animated.View
-          style={{
-            transform: [
-              {
-                translateX: slideAnim.interpolate({
-                  inputRange: [0, 1.2],
-                  outputRange: [1, 21],
-                }),
-              },
-            ],
-          }}
-          className="my-0.5 h-5 w-5 rounded-full bg-white shadow-sm dark:bg-white"
+          style={[
+            styles.knob,
+            {
+              transform: [
+                {
+                  translateX: slideAnim.interpolate({
+                    inputRange: [0, 1.2],
+                    outputRange: [1, 21],
+                  }),
+                },
+              ],
+            },
+          ]}
         />
       </View>
     </TouchableOpacity>
@@ -110,3 +109,57 @@ const Switch: React.FC<SwitchProps> = ({
 };
 
 export default Switch;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
+  disabled: {
+    opacity: 1,
+  },
+  iconWrapper: {
+    marginRight: 12,
+  },
+  textContent: {
+    flex: 1,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  description: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  trackContainer: {
+    height: 24,
+    width: 40,
+    borderRadius: 9999,
+  },
+  track: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    borderRadius: 9999,
+  },
+  trackOn: {
+    backgroundColor: theme.colors.highlight,
+  },
+  trackOff: {
+    backgroundColor: theme.colors.switch,
+  },
+  knob: {
+    marginVertical: 2,
+    height: 20,
+    width: 20,
+    borderRadius: 9999,
+    backgroundColor: palette.white,
+    shadowColor: '#000000',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 2,
+  },
+}));

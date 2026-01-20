@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { View, TouchableWithoutFeedback, ViewStyle, Dimensions } from 'react-native';
+import { Dimensions, TouchableWithoutFeedback, View, ViewStyle } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
   Extrapolate,
   runOnJS,
 } from 'react-native-reanimated';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
@@ -21,9 +22,6 @@ type AnimatedFabProps = {
   iconSize?: number;
   backgroundColor?: string;
   iconColor?: string;
-  className?: string;
-  contentClassName?: string;
-  iconClassName?: string;
   style?: ViewStyle;
   onOpen?: () => void;
   onClose?: () => void;
@@ -36,9 +34,6 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
   iconSize = 24,
   backgroundColor,
   iconColor,
-  className,
-  contentClassName,
-  iconClassName,
   onOpen,
   onClose,
   style,
@@ -108,21 +103,7 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
     }
   }, [isOpen, animation, onOpen, onClose]);
 
-  // Position classes based on the position prop
-  const getPositionClasses = (): string => {
-    switch (position) {
-      case 'bottomRight':
-        return 'bottom-4 right-4';
-      case 'bottomLeft':
-        return 'bottom-4 left-4';
-      case 'topRight':
-        return 'top-4 right-4';
-      case 'topLeft':
-        return 'top-4 left-4';
-      default:
-        return 'bottom-4 right-4';
-    }
-  };
+  const positionStyle = positionStyles[position];
 
   // Animated styles for the container
   const containerStyle = useAnimatedStyle(() => {
@@ -192,38 +173,35 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
     <>
       {/* Hidden content measure view */}
       <View
-        className="pointer-events-none absolute left-[-9999px] opacity-0"
-        style={{ width: windowWidth - 30 }}
+        pointerEvents="none"
+        style={[styles.measureContainer, { width: windowWidth - 30 }]}
         ref={contentMeasureRef}>
-        <View className="pb-10">{children}</View>
+        <View style={styles.measureContent}>{children}</View>
       </View>
 
       <TouchableWithoutFeedback>
         <Animated.View
-          className={`absolute z-10 items-center justify-center bg-black shadow-md shadow-black/30 dark:bg-white
-            ${getPositionClasses()}
-            ${className}`}
           style={[
+            styles.fabContainer,
+            positionStyle,
             containerStyle,
-            //{ backgroundColor: bgColor }
+            // { backgroundColor: bgColor },
           ]}>
           <TouchableWithoutFeedback onPress={toggleOpen}>
             <Animated.View
-              className={`absolute z-20 items-center justify-center ${iconClassName}`}
-              style={[iconAnimatedStyle, style]}>
+              style={[styles.iconContainer, iconAnimatedStyle, style]}>
               <Icon name={icon} size={iconSize} color={iconColor || 'white'} />
             </Animated.View>
           </TouchableWithoutFeedback>
 
           {/**THIS IS CONTENT OF THE FAB */}
           <Animated.View
-            className={`absolute z-10 h-full w-full items-start justify-start p-6 pb-0 ${contentClassName}`}
-            style={[contentAnimatedStyle, style]}>
+            style={[styles.contentContainer, contentAnimatedStyle, style]}>
             <Icon
               name="X"
               size={24}
               color="white"
-              className="absolute right-2 top-2 z-50"
+              style={styles.closeIcon}
               onPress={toggleOpen}
             />
             {children}
@@ -235,3 +213,55 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
 };
 
 export default AnimatedFab;
+
+const positionStyles = {
+  bottomRight: { bottom: 16, right: 16 },
+  bottomLeft: { bottom: 16, left: 16 },
+  topRight: { top: 16, right: 16 },
+  topLeft: { top: 16, left: 16 },
+} as const;
+
+const styles = StyleSheet.create((theme) => ({
+  measureContainer: {
+    position: 'absolute',
+    left: -9999,
+    opacity: 0,
+  },
+  measureContent: {
+    paddingBottom: 40,
+  },
+  fabContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.text,
+    shadowColor: '#000000',
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  iconContainer: {
+    position: 'absolute',
+    zIndex: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  contentContainer: {
+    position: 'absolute',
+    zIndex: 10,
+    height: '100%',
+    width: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    padding: 24,
+    paddingBottom: 0,
+  },
+  closeIcon: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    zIndex: 50,
+  },
+}));

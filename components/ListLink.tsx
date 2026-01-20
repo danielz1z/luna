@@ -1,6 +1,7 @@
 import { Link } from 'expo-router';
 import React from 'react';
 import { View, Pressable, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
@@ -36,24 +37,20 @@ const ListLink: React.FC<ListLinkProps> = ({
 }) => {
   // Component for the actual content
   const Content = () => (
-    <View
-      className={`flex-row items-center py-5 ${className} ${disabled ? 'opacity-50' : ''}`}
-      style={style}>
+    <View style={[styles.row, disabled && styles.disabled, style]}>
       {icon && (
-        <View className="mr-4">
+        <View style={styles.iconWrapper}>
           <Icon name={icon} size={iconSize} />
         </View>
       )}
-      <View className="flex-1">
-        <ThemedText className="text-base font-medium">{title}</ThemedText>
+      <View style={styles.textContent}>
+        <ThemedText style={styles.title}>{title}</ThemedText>
         {description && (
-          <ThemedText className="text-xs text-light-subtext dark:text-dark-subtext">
-            {description}
-          </ThemedText>
+          <ThemedText style={styles.description}>{description}</ThemedText>
         )}
       </View>
       {showChevron && (
-        <View className="opacity-20">
+        <View style={styles.chevron}>
           <Icon name={rightIcon} size={20} />
         </View>
       )}
@@ -64,8 +61,7 @@ const ListLink: React.FC<ListLinkProps> = ({
   if (href && !disabled) {
     return (
       <Link href={href} asChild>
-        <Pressable
-          className={` ${hasBorder ? 'border-b border-light-primary dark:border-dark-primary' : ''}`}>
+        <Pressable style={hasBorder && styles.border}>
           <Content />
         </Pressable>
       </Link>
@@ -75,10 +71,42 @@ const ListLink: React.FC<ListLinkProps> = ({
   return (
     <Pressable
       onPress={disabled ? undefined : onPress}
-      className={` ${hasBorder ? ' border-b border-light-primary dark:border-dark-primary' : ''}`}>
+      style={hasBorder && styles.border}>
       <Content />
     </Pressable>
   );
 };
 
 export default ListLink;
+
+const styles = StyleSheet.create((theme) => ({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  iconWrapper: {
+    marginRight: 16,
+  },
+  textContent: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  description: {
+    fontSize: 12,
+    color: theme.colors.subtext,
+  },
+  chevron: {
+    opacity: 0.2,
+  },
+  border: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.primary,
+  },
+}));

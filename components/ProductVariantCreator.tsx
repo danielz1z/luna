@@ -11,6 +11,7 @@ import {
   TextInput,
   SafeAreaView,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from './Button';
 import Icon, { IconName } from './Icon';
@@ -18,6 +19,7 @@ import ThemedText from './ThemedText';
 import Input from './forms/Input';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface ProductVariantCreatorProps {
   hasStock?: boolean;
@@ -36,6 +38,7 @@ interface Variant extends Record<string, string | null> {
 
 const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock }) => {
   const colors = useThemeColors();
+  const isDark = colors.isDark;
   const [options, setOptions] = useState<Option[]>([]);
   const [variants, setVariants] = useState<Variant[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -115,25 +118,27 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
 
   return (
     <>
-      <View
-        className={`mb-2  mt-2 overflow-hidden rounded-xl border-neutral-400 ${options.length > 0 ? 'border' : ''}`}>
+      <View style={[styles.optionsContainer, options.length > 0 && styles.optionsContainerBorder]}>
         {options.map((option, index) => (
           <Pressable
             onPress={() => editOption(index)}
             key={index}
-            className="-mb-px border-b border-neutral-300 p-4">
-            <View className="flex-row items-center justify-between">
-              <ThemedText className="font-semibold">{option.name}</ThemedText>
-              <View className="rounded-lg">
+            style={styles.optionRow}>
+            <View style={styles.optionRowHeader}>
+              <ThemedText style={styles.optionTitle}>{option.name}</ThemedText>
+              <View style={styles.optionEditIconWrapper}>
                 <Icon name="Edit" size={20} />
               </View>
             </View>
-            <View className="mt-1 flex-row flex-wrap gap-1">
+            <View style={styles.optionValuesRow}>
               {option.values.map((value, i) => (
-                <View key={i} className="rounded-lg bg-gray-200 px-3 py-1 text-sm dark:bg-gray-700">
-                  <ThemedText key={i} className="text-sm">
-                    {value}
-                  </ThemedText>
+                <View
+                  key={i}
+                  style={[
+                    styles.valueTag,
+                    isDark ? styles.valueTagDark : styles.valueTagLight,
+                  ]}>
+                  <ThemedText style={styles.valueTagText}>{value}</ThemedText>
                 </View>
               ))}
             </View>
@@ -143,28 +148,36 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
       {options.length < 3 ? (
         <Pressable
           onPress={addOption} // Calls addValue to add a new empty input
-          className=" relative z-50 flex-row items-center justify-center rounded-lg border border-neutral-400 px-4 py-3">
+          style={styles.addOptionButton}>
           <Icon name="Plus" size={20} />
-          <Text className="ml-2 dark:text-white">Add option </Text>
+          <Text style={[styles.addOptionText, { color: colors.text }]}>Add option </Text>
         </Pressable>
       ) : (
-        <View className=" relative z-50 flex-row items-center justify-center rounded-lg bg-neutral-100 px-4 py-3">
-          <Text className="text-neutral-400 dark:text-white">You've reached 3 options limit </Text>
+        <View style={[styles.addOptionButton, styles.addOptionButtonDisabled]}>
+          <Text
+            style={[
+              styles.addOptionText,
+              styles.addOptionTextDisabled,
+              { color: isDark ? colors.text : palette.neutral400 },
+            ]}>
+            You've reached 3 options limit
+          </Text>
         </View>
       )}
 
       {variants.length > 0 && (
-        <View className="mt-4">
-          <Text className="mb-2 mt-0 text-xl font-medium dark:text-white">Variants</Text>
+        <View style={styles.variantsSection}>
+          <Text style={[styles.variantsTitle, { color: colors.text }]}>Variants</Text>
           {variants.map((variant, index) => (
-            <View key={index} className="mb-2 rounded-lg border border-neutral-400 p-2">
-              <View className="flex-row items-center justify-start">
-                <Text className="ml-2">{Object.values(variant).slice(0, -3).join(' / ')}</Text>
-                <View className="ml-auto flex-row">
-                  <View className="w-[80px]">
+            <View key={index} style={styles.variantCard}>
+              <View style={styles.variantRow}>
+                <Text style={[styles.variantLabel, { color: colors.text }]}>
+                  {Object.values(variant).slice(0, -3).join(' / ')}
+                </Text>
+                <View style={styles.variantInputsRow}>
+                  <View style={styles.priceInputWrapper}>
                     <Input
                       label="Price"
-                      //className="h-[55px]"
                       containerClassName="mb-0"
                       //placeholder="Price"
                       keyboardType="numeric"
@@ -180,7 +193,6 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                     <Input
                       label="Stock"
                       containerClassName="mb-0 w-20 ml-2"
-                      className="h-[55px]"
                       //placeholder="Stock"
                       keyboardType="numeric"
                       //value={variant.stock}
@@ -199,16 +211,16 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
       )}
 
       <Modal visible={modalVisible} transparent animationType="slide">
-        <SafeAreaView className="flex-1 bg-light-primary dark:bg-dark-primary">
-          <View className="w-full flex-1 bg-light-primary dark:bg-dark-primary">
-            <View className="w-full flex-row justify-between px-4">
+        <SafeAreaView style={[styles.modalSafeArea, { backgroundColor: colors.bg }]}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalHeader}>
               <Pressable
                 onPress={() => setModalVisible(false)}
-                className="h-12 w-12 items-start justify-center rounded-full">
+                style={styles.modalCloseButton}>
                 <Icon name="X" size={25} />
               </Pressable>
 
-              <View className="flex-row">
+              <View style={styles.modalHeaderRight}>
                 <Pressable
                   onPress={() => {
                     Alert.alert('Delete Option', 'Are you sure you want to delete this option?', [
@@ -216,38 +228,37 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                       { text: 'Delete', style: 'destructive', onPress: () => deleteOption() },
                     ]);
                   }}
-                  className="h-12 w-12  items-center justify-center rounded-full">
+                  style={styles.modalDeleteButton}>
                   <Icon name="Trash" size={18} />
                 </Pressable>
                 <Button
                   onPress={handleSaveOption}
                   title="Save"
                   size="medium"
-                  className="ml-2 items-center justify-center  bg-black px-6 dark:bg-white"
                 />
               </View>
             </View>
-            <View className="mt-8 flex-1">
-              <View className="w-full  px-4">
-                <ThemedText className=" text-xl font-medium">Option name</ThemedText>
-                <ThemedText className="mb-4 w-full text-sm">Sizes, colors, duration</ThemedText>
+            <View style={styles.modalBody}>
+              <View style={styles.modalContent}>
+                <ThemedText style={styles.modalSectionTitle}>Option name</ThemedText>
+                <ThemedText style={styles.modalSectionDescription}>Sizes, colors, duration</ThemedText>
                 <Input
                   label="Name"
                   value={currentOption.name}
                   onChangeText={(text) => setCurrentOption({ ...currentOption, name: text })}
                 />
-                <ThemedText className="mt-8 text-xl font-medium">Values</ThemedText>
-                <ThemedText className="w-full text-sm text-light-subtext dark:text-dark-subtext">
+                <ThemedText style={styles.modalSectionTitleValues}>Values</ThemedText>
+                <ThemedText style={styles.modalValuesHint}>
                   Black, large, hours, etc
                 </ThemedText>
                 <FlatList
-                  className="relative mt-4 rounded-lg border border-neutral-500"
+                  style={styles.valuesList}
                   data={currentOption.values}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item, index }) => (
-                    <View className="flex-row items-center border-b border-neutral-500">
+                    <View style={styles.valuesRow}>
                       <TextInput
-                        className="flex-1 px-4 py-3 dark:text-white dark:placeholder:text-white"
+                        style={[styles.valueInput, { color: colors.text }]}
                         placeholder="Enter value"
                         placeholderTextColor={colors.placeholder}
                         value={item}
@@ -268,7 +279,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                         }}
                         onSubmitEditing={Keyboard.dismiss}
                       />
-                      <Pressable onPress={() => removeValue(index)} className="px-3">
+                      <Pressable onPress={() => removeValue(index)} style={styles.removeValueButton}>
                         <Icon name="Trash" size={20} />
                       </Pressable>
                     </View>
@@ -276,9 +287,9 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                   ListFooterComponent={
                     <Pressable
                       onPress={addValue}
-                      className="flex-row items-center justify-center rounded-lg px-4 py-3">
+                      style={styles.addValueButton}>
                       <Icon name="Plus" size={20} />
-                      <ThemedText className="ml-2">Add value</ThemedText>
+                      <ThemedText style={styles.addValueText}>Add value</ThemedText>
                     </Pressable>
                   }
                 />
@@ -292,3 +303,196 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
 };
 
 export default ProductVariantCreator;
+
+const styles = StyleSheet.create((theme) => ({
+  optionsContainer: {
+    marginTop: 8,
+    marginBottom: 8,
+    overflow: 'hidden',
+    borderRadius: 12,
+    borderColor: palette.neutral400,
+  },
+  optionsContainerBorder: {
+    borderWidth: 1,
+  },
+  optionRow: {
+    marginBottom: -1,
+    borderBottomWidth: 1,
+    borderBottomColor: palette.neutral300,
+    padding: 16,
+  },
+  optionRowHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  optionTitle: {
+    fontWeight: '600',
+  },
+  optionEditIconWrapper: {
+    borderRadius: 8,
+  },
+  optionValuesRow: {
+    marginTop: 4,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 4,
+  },
+  valueTag: {
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  valueTagLight: {
+    backgroundColor: palette.gray200,
+  },
+  valueTagDark: {
+    backgroundColor: palette.gray700,
+  },
+  valueTagText: {
+    fontSize: 14,
+  },
+  addOptionButton: {
+    position: 'relative',
+    zIndex: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: palette.neutral400,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  addOptionButtonDisabled: {
+    backgroundColor: palette.neutral200,
+    borderWidth: 0,
+  },
+  addOptionText: {
+    marginLeft: 8,
+  },
+  addOptionTextDisabled: {
+    marginLeft: 0,
+  },
+  variantsSection: {
+    marginTop: 16,
+  },
+  variantsTitle: {
+    marginBottom: 8,
+    marginTop: 0,
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  variantCard: {
+    marginBottom: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: palette.neutral400,
+    padding: 8,
+  },
+  variantRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  variantLabel: {
+    marginLeft: 8,
+  },
+  variantInputsRow: {
+    marginLeft: 'auto',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  priceInputWrapper: {
+    width: 80,
+  },
+  modalSafeArea: {
+    flex: 1,
+  },
+  modalContainer: {
+    width: '100%',
+    flex: 1,
+  },
+  modalHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  modalCloseButton: {
+    height: 48,
+    width: 48,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderRadius: 9999,
+  },
+  modalHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  modalDeleteButton: {
+    height: 48,
+    width: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+  },
+  modalBody: {
+    marginTop: 32,
+    flex: 1,
+  },
+  modalContent: {
+    width: '100%',
+    paddingHorizontal: 16,
+  },
+  modalSectionTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  modalSectionDescription: {
+    marginBottom: 16,
+    width: '100%',
+    fontSize: 14,
+  },
+  modalSectionTitleValues: {
+    marginTop: 32,
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  modalValuesHint: {
+    width: '100%',
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  valuesList: {
+    marginTop: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: palette.neutral500,
+  },
+  valuesRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: palette.neutral500,
+  },
+  valueInput: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  removeValueButton: {
+    paddingHorizontal: 12,
+  },
+  addValueButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  addValueText: {
+    marginLeft: 8,
+  },
+}));

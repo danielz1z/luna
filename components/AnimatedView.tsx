@@ -11,6 +11,7 @@ import {
   Dimensions,
   InteractionManager,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 export type AnimationType =
   | 'fadeIn'
@@ -36,7 +37,6 @@ interface AnimatedViewProps {
   delay?: number;
   easing?: EasingFunction;
   style?: StyleProp<ViewStyle>;
-  className?: string;
   playOnlyOnce?: boolean;
   triggerOnVisible?: boolean; // Only animate when component becomes visible in viewport
   visibilityThreshold?: number; // Pixels needed to be visible to trigger (default: 50)
@@ -72,11 +72,6 @@ const propsAreEqual = (prevProps: AnimatedViewProps, nextProps: AnimatedViewProp
     return false;
   }
 
-  // Check className changes
-  if (prevProps.className !== nextProps.className) {
-    return false;
-  }
-
   // No changes detected, avoid re-render
   return true;
 };
@@ -88,7 +83,6 @@ function AnimatedViewComponent({
   delay = 0,
   easing = Easing.bezier(0.4, 0, 0.2, 1),
   style,
-  className,
   playOnlyOnce = false,
   triggerOnVisible = false,
   visibilityThreshold = 30, // Default to 50px visibility required
@@ -476,11 +470,10 @@ function AnimatedViewComponent({
   return (
     <View
       ref={viewRef}
-      className={className}
-      style={[style, initialHiddenStyle]}
+      style={[styles.container, style, initialHiddenStyle]}
       onLayout={handleLayout}
       collapsable={false}>
-      <Animated.View style={[getAnimationStyle(), style]} className={className}>
+      <Animated.View style={[styles.animated, getAnimationStyle(), style]}>
         {children}
       </Animated.View>
     </View>
@@ -489,3 +482,8 @@ function AnimatedViewComponent({
 
 // Export a memoized version of the component
 export default memo(AnimatedViewComponent, propsAreEqual);
+
+const styles = StyleSheet.create(() => ({
+  container: {},
+  animated: {},
+}));

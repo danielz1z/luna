@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
@@ -32,23 +33,28 @@ const ShowRating: React.FC<ShowRatingProps> = ({
   const getSize = () => {
     switch (size) {
       case 'sm':
-        return { icon: 12, text: 'text-xs' };
+        return { icon: 12, textSize: 12, fontWeight: '500' as const };
       case 'md':
-        return { icon: 16, text: 'text-sm' };
+        return { icon: 16, textSize: 14, fontWeight: '500' as const };
       case 'lg':
-        return { icon: 20, text: 'text-lg font-bold' };
+        return { icon: 20, textSize: 18, fontWeight: '700' as const };
       default:
-        return { icon: 16, text: 'text-sm' };
+        return { icon: 16, textSize: 14, fontWeight: '500' as const };
     }
   };
 
   if (displayMode === 'number') {
+    const currentSize = getSize();
+
     return (
-      <View className={`flex-row  items-center gap-x-1 ${className}`} style={style}>
-        <Ionicons name="star" size={getSize().icon} color={starColor} />
+      <View style={[styles.numberRow, style]}>
+        <Ionicons name="star" size={currentSize.icon} color={starColor} />
         <ThemedText
-          className={`font-medium ${getSize().text}`}
-          style={color ? { color: starColor } : undefined}>
+          style={[
+            styles.numberText,
+            { fontSize: currentSize.textSize, fontWeight: currentSize.fontWeight },
+            color ? { color: starColor } : null,
+          ]}>
           {rating.toFixed(1)}
         </ThemedText>
       </View>
@@ -56,7 +62,7 @@ const ShowRating: React.FC<ShowRatingProps> = ({
   }
 
   return (
-    <View className={`flex-row gap-0.5 ${className}`}>
+    <View style={styles.starsRow}>
       {[...Array(maxRating)].map((_, index) => (
         <Ionicons
           key={index}
@@ -70,3 +76,18 @@ const ShowRating: React.FC<ShowRatingProps> = ({
 };
 
 export default ShowRating;
+
+const styles = StyleSheet.create(() => ({
+  numberRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 4,
+  },
+  numberText: {
+    fontWeight: '500',
+  },
+  starsRow: {
+    flexDirection: 'row',
+    columnGap: 2,
+  },
+}));

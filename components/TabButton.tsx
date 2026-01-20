@@ -2,12 +2,14 @@ import { useThemeColors } from 'app/contexts/ThemeColors';
 import { TabTriggerSlotProps } from 'expo-router/ui';
 import { ComponentProps, forwardRef, useEffect, useState, ReactNode } from 'react';
 import { Text, Pressable, View, Animated } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from './AnimatedView';
 import Avatar from './Avatar';
 import ThemedText from './ThemedText';
 
 import Icon, { IconName } from '@/components/Icon';
+import { palette } from '@/app/unistyles';
 
 export type TabButtonProps = TabTriggerSlotProps & {
   icon?: IconName;
@@ -68,8 +70,8 @@ export const TabButton = forwardRef<View, TabButtonProps>(
 
       if (icon) {
         return (
-          <View className="relative">
-            <View className={`relative w-full ${isFocused ? 'opacity-100' : 'opacity-40'}`}>
+          <View style={styles.contentWrapper}>
+            <View style={[styles.iconWrapper, !isFocused && styles.iconWrapperUnfocused]}>
               {/*isFocused && (
                 <AnimatedView animation='scaleIn' duration={200} className='absolute border-4 rounded-full border-light-primary dark:border-dark-primary -top-1 -left-1/3  w-full h-8  bg-highlight/20' ></AnimatedView>
               )}*/}
@@ -81,7 +83,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
               />
             </View>
             {hasBadge && (
-              <View className="absolute -right-1.5 -top-1 h-3 w-3 rounded-full border border-light-primary bg-red-500 dark:border-dark-primary" />
+              <View style={[styles.badge, { borderColor: colors.bg }]} />
             )}
           </View>
         );
@@ -89,7 +91,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
       if (avatar) {
         return (
           <View
-            className={`rounded-full border-2 ${isFocused ? 'border-highlight' : 'border-transparent'}`}>
+            style={[styles.avatarBorder, { borderColor: isFocused ? colors.highlight : 'transparent' }]}>
             <Avatar src={avatar} size="xxs" />
           </View>
         );
@@ -99,34 +101,77 @@ export const TabButton = forwardRef<View, TabButtonProps>(
 
     return (
       <Pressable
-        className={`w-1/5 overflow-hidden ${isFocused ? '' : ''}`}
+        style={styles.root}
         ref={ref}
         {...props}
         onPress={onPress}>
-        <View className="relative w-full flex-col items-center justify-center pb-0 pt-4">
-          {/*<Animated.View className="absolute w-full h-[2px] bg-black dark:bg-white left-0 top-0"
-            style={{
-              opacity: lineScale,
-              transform: [{ scaleX: lineScale }],
-            }}
-          />*/}
-
+        <View style={styles.inner}>
           {renderContent()}
 
           {labelAnimated ? (
             <Animated.View
-              className="relative"
-              style={{
-                opacity: labelOpacity,
-                transform: [{ translateY: labelMarginBottom }],
-              }}>
-              <ThemedText className="mt-px text-[9px] text-highlight">{children}</ThemedText>
+              style={[
+                styles.labelWrapper,
+                {
+                  opacity: labelOpacity,
+                  transform: [{ translateY: labelMarginBottom }],
+                },
+              ]}>
+              <ThemedText style={[styles.labelText, { color: colors.highlight }]}>{children}</ThemedText>
             </Animated.View>
           ) : (
-            <ThemedText className="mt-px text-[9px]">{children}</ThemedText>
+            <ThemedText style={styles.labelText}>{children}</ThemedText>
           )}
         </View>
       </Pressable>
     );
   }
 );
+
+const styles = StyleSheet.create(() => ({
+  root: {
+    width: '20%',
+    overflow: 'hidden',
+  },
+  inner: {
+    position: 'relative',
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 16,
+    paddingBottom: 0,
+  },
+  contentWrapper: {
+    position: 'relative',
+  },
+  iconWrapper: {
+    position: 'relative',
+    width: '100%',
+    opacity: 1,
+  },
+  iconWrapperUnfocused: {
+    opacity: 0.4,
+  },
+  badge: {
+    position: 'absolute',
+    right: -6,
+    top: -4,
+    height: 12,
+    width: 12,
+    borderRadius: 9999,
+    borderWidth: 1,
+    backgroundColor: palette.red500,
+  },
+  avatarBorder: {
+    borderRadius: 9999,
+    borderWidth: 2,
+  },
+  labelWrapper: {
+    position: 'relative',
+  },
+  labelText: {
+    marginTop: 1,
+    fontSize: 9,
+  },
+}));

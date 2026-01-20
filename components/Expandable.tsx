@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View, Pressable, Animated, Platform, UIManager, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
@@ -28,7 +29,6 @@ const Expandable: React.FC<ExpandableProps> = ({
   defaultExpanded = false,
   expanded,
   onPress,
-  className,
   style,
 }) => {
   const [isExpanded, setIsExpanded] = useState(expanded ?? defaultExpanded);
@@ -55,21 +55,17 @@ const Expandable: React.FC<ExpandableProps> = ({
   };
 
   return (
-    <View
-      className={`border-b border-light-secondary dark:border-dark-secondary ${className}`}
-      style={style}>
-      <Pressable onPress={toggleExpand} className="flex-row items-center py-5">
+    <View style={[styles.container, style]}>
+      <Pressable onPress={toggleExpand} style={styles.header}>
         {icon && (
-          <View className="mr-3">
+          <View style={styles.iconWrapper}>
             <Icon name={icon} size={24} />
           </View>
         )}
-        <View className="flex-1">
-          <ThemedText className="text-base font-medium">{title}</ThemedText>
+        <View style={styles.textContent}>
+          <ThemedText style={styles.title}>{title}</ThemedText>
           {description && (
-            <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
-              {description}
-            </ThemedText>
+            <ThemedText style={styles.description}>{description}</ThemedText>
           )}
         </View>
         <Animated.View
@@ -95,10 +91,40 @@ const Expandable: React.FC<ExpandableProps> = ({
           opacity: heightAnim,
           overflow: 'hidden',
         }}>
-        <View className="px-4 pb-4 pt-4">{children}</View>
+        <View style={styles.content}>{children}</View>
       </Animated.View>
     </View>
   );
 };
 
 export default Expandable;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.secondary,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  iconWrapper: {
+    marginRight: 12,
+  },
+  textContent: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  description: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  content: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+}));

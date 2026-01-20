@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Pressable, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '../ThemedText';
 
-import { cn } from '@/lib/utils';
+import { palette } from '@/app/unistyles';
 
 interface FormTabProps {
   title: string;
@@ -15,9 +16,9 @@ export function FormTab({ title, isActive, onPress }: FormTabProps) {
   return (
     <Pressable
       onPress={onPress}
-      className={`flex-1 rounded-xl px-4 py-2.5 ${isActive ? 'bg-light-primary shadow-lg dark:bg-light-primary' : 'bg-transparent'}`}>
+      style={[styles.tab, isActive ? styles.tabActive : styles.tabInactive]}>
       <ThemedText
-        className={`text-center text-sm font-medium ${isActive ? 'text-black dark:text-black' : 'text-black dark:text-white'}`}>
+        style={[styles.tabText, isActive ? styles.tabTextActive : styles.tabTextInactive]}>
         {title}
       </ThemedText>
     </Pressable>
@@ -43,9 +44,7 @@ export default function FormTabs({
   const [activeTab, setActiveTab] = useState(defaultActiveTab || children[0].props.title);
 
   return (
-    <View
-      className={`flex-row overflow-hidden rounded-xl bg-light-secondary p-1 dark:bg-dark-secondary ${className}`}
-      style={style}>
+    <View style={[styles.container, style]}>
       {React.Children.map(children, (child) => {
         return React.cloneElement(child, {
           isActive: activeTab === child.props.title,
@@ -58,3 +57,41 @@ export default function FormTabs({
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderRadius: 12,
+    backgroundColor: theme.colors.secondary,
+    padding: 4,
+  },
+  tab: {
+    flex: 1,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  tabActive: {
+    backgroundColor: theme.colors.primary,
+    shadowColor: '#000000',
+    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  tabInactive: {
+    backgroundColor: 'transparent',
+  },
+  tabText: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  tabTextActive: {
+    color: palette.black,
+  },
+  tabTextInactive: {
+    color: theme.colors.text,
+  },
+}));

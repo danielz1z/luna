@@ -10,6 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { InputVariant } from './Input';
 
@@ -17,6 +18,7 @@ import useThemeColors from '@/app/contexts/ThemeColors';
 import { useTheme } from '@/app/contexts/ThemeContext';
 import Icon from '@/components/Icon';
 import ThemedText from '@/components/ThemedText';
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface SelectOption {
   label: string;
@@ -159,12 +161,15 @@ const Select: React.FC<SelectProps> = ({
         restDisplacementThreshold: 0.01,
         restSpeedThreshold: 0.01,
       }}>
-      <View className="p-4">
+      <View style={styles.sheetContent}>
         {options.map((option) => (
           <Pressable
             key={option.value}
             onPress={() => handleSelect(option)}
-            className={`mb-2 rounded-lg px-4 py-3 ${selectedOption?.value === option.value ? 'bg-light-secondary dark:bg-dark-secondary' : ''}`}>
+            style={[
+              styles.sheetOption,
+              selectedOption?.value === option.value && styles.sheetOptionSelected,
+            ]}>
             <ThemedText>{option.label}</ThemedText>
           </Pressable>
         ))}
@@ -175,22 +180,24 @@ const Select: React.FC<SelectProps> = ({
   // Classic variant
   if (variant === 'classic') {
     return (
-      <View className={`mb-4 ${className || ''}`} style={style}>
-        {label && <ThemedText className="mb-1 font-medium">{label}</ThemedText>}
-        <View className="relative">
+      <View style={[styles.container, style]}>
+        {label && <ThemedText style={styles.classicLabel}>{label}</ThemedText>}
+        <View style={styles.relative}>
           <TouchableOpacity
             onPress={handlePress}
-            className={`h-14 w-full flex-row items-center justify-between rounded-lg border bg-transparent px-4 py-3 
-                            ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-                            ${error ? 'border-red-500' : ''}`}>
+            style={[
+              styles.field,
+              isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+              error && styles.fieldError,
+            ]}>
             <ThemedText
-              className={selectedOption ? '' : 'text-light-subtext dark:text-dark-subtext'}>
+              style={[styles.valueText, !selectedOption && styles.placeholderText]}>
               {selectedOption ? selectedOption.label : placeholder}
             </ThemedText>
             <Icon name="ChevronDown" size={20} />
           </TouchableOpacity>
         </View>
-        {error && <Text className="mt-1 text-sm text-red-500">{error}</Text>}
+        {error && <Text style={styles.errorText}>{error}</Text>}
         {renderActionSheet()}
       </View>
     );
@@ -199,30 +206,31 @@ const Select: React.FC<SelectProps> = ({
   // Underlined variant
   if (variant === 'underlined') {
     return (
-      <View className={`mb-4 ${className || ''}`} style={style}>
-        <View className="relative">
+      <View style={[styles.container, style]}>
+        <View style={styles.relative}>
           <Pressable
-            className="z-40 bg-light-primary px-0 dark:bg-dark-primary"
+            style={styles.labelPressableUnderlined}
             onPress={handlePress}>
             <Animated.Text
-              style={[underlinedLabelStyle]}
-              className="absolute z-50 bg-light-primary text-black dark:bg-dark-primary dark:text-white">
+              style={[underlinedLabelStyle, styles.animatedLabelText, styles.animatedLabelTextUnderlined]}>
               {label}
             </Animated.Text>
           </Pressable>
           <TouchableOpacity
             onPress={handlePress}
-            className={`h-14 w-full flex-row items-center justify-between border-b-2 border-l-0 border-r-0 border-t-0 bg-transparent px-0 py-3 
-                            ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-                            ${error ? 'border-red-500' : ''}`}>
+            style={[
+              styles.fieldUnderlined,
+              isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+              error && styles.fieldError,
+            ]}>
             <ThemedText
-              className={selectedOption ? '' : 'text-light-subtext dark:text-dark-subtext'}>
+              style={[styles.valueText, !selectedOption && styles.placeholderText]}>
               {selectedOption ? selectedOption.label : ''}
             </ThemedText>
             <Icon name="ChevronDown" size={20} />
           </TouchableOpacity>
         </View>
-        {error && <Text className="mt-1 text-sm text-red-500">{error}</Text>}
+        {error && <Text style={styles.errorText}>{error}</Text>}
         {renderActionSheet()}
       </View>
     );
@@ -230,32 +238,124 @@ const Select: React.FC<SelectProps> = ({
 
   // Default animated variant
   return (
-    <View className={`mb-4 ${className || ''}`} style={style}>
-      <View className="relative">
+    <View style={[styles.container, style]}>
+      <View style={styles.relative}>
         <Pressable
-          className="z-40 bg-light-primary px-1 dark:bg-dark-primary"
+          style={styles.labelPressable}
           onPress={handlePress}>
           <Animated.Text
-            style={[labelStyle]}
-            className="absolute z-50 bg-light-primary px-1 text-black dark:bg-dark-primary dark:text-white">
+            style={[labelStyle, styles.animatedLabelText]}>
             {label}
           </Animated.Text>
         </Pressable>
         <TouchableOpacity
           onPress={handlePress}
-          className={`h-14 w-full flex-row items-center justify-between rounded-lg border bg-transparent px-4 py-3 
-                        ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-                        ${error ? 'border-red-500' : ''}`}>
-          <ThemedText className={selectedOption ? '' : 'text-light-subtext dark:text-dark-subtext'}>
+          style={[
+            styles.field,
+            isFocused ? styles.fieldFocused : styles.fieldUnfocused,
+            error && styles.fieldError,
+          ]}>
+          <ThemedText style={[styles.valueText, !selectedOption && styles.placeholderText]}>
             {selectedOption ? selectedOption.label : placeholder}
           </ThemedText>
           <Icon name="ChevronDown" size={20} />
         </TouchableOpacity>
       </View>
-      {error && <Text className="mt-1 text-sm text-red-500">{error}</Text>}
+      {error && <Text style={styles.errorText}>{error}</Text>}
       {renderActionSheet()}
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: theme.spacing.md,
+  },
+  relative: {
+    position: 'relative',
+  },
+  classicLabel: {
+    marginBottom: 4,
+    fontWeight: '500',
+  },
+  field: {
+    height: 56,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 8,
+    borderWidth: 1,
+    backgroundColor: 'transparent',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  fieldUnderlined: {
+    height: 56,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 2,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    backgroundColor: 'transparent',
+    paddingHorizontal: 0,
+    paddingVertical: 12,
+  },
+  fieldFocused: {
+    borderColor: theme.colors.text,
+  },
+  fieldUnfocused: {
+    borderColor: withOpacity(theme.colors.text, 0.6),
+  },
+  fieldError: {
+    borderColor: palette.red500,
+  },
+  valueText: {
+    fontSize: 16,
+  },
+  placeholderText: {
+    color: theme.colors.subtext,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 14,
+    color: palette.red500,
+  },
+  sheetContent: {
+    padding: 16,
+  },
+  sheetOption: {
+    marginBottom: 8,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  sheetOptionSelected: {
+    backgroundColor: theme.colors.secondary,
+  },
+  labelPressable: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+  },
+  labelPressableUnderlined: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 0,
+  },
+  animatedLabelText: {
+    position: 'absolute',
+    zIndex: 50,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+    color: theme.colors.text,
+  },
+  animatedLabelTextUnderlined: {
+    paddingHorizontal: 0,
+  },
+}));
 
 export default Select;

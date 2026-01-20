@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import React, {
   ReactNode,
   useState,
@@ -11,17 +10,19 @@ import React, {
 import {
   View,
   Pressable,
-  ScrollView,
   Animated,
-  BackHandler,
-  NativeEventSubscription,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/Button';
 import Header from '@/components/Header';
 import Icon from '@/components/Icon';
 import ThemedText from '@/components/ThemedText';
 import BackHandlerManager from '@/utils/BackHandlerManager';
+import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 
 // Step component that will be used as children
 export interface StepProps {
@@ -57,6 +58,7 @@ interface MultiStepProps {
   showStepIndicator?: boolean;
   className?: string;
   onStepChange?: (nextStep: number) => boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function MultiStep({
@@ -67,7 +69,9 @@ export default function MultiStep({
   showStepIndicator = true,
   className = '',
   onStepChange,
+  style,
 }: MultiStepProps) {
+  const colors = useThemeColors();
   // Filter and validate children to only include Step components
   const validChildren = Children.toArray(children).filter(isStepComponent);
 
@@ -224,7 +228,7 @@ export default function MultiStep({
   };
 
   return (
-    <View className={`flex-1 bg-light-primary dark:bg-dark-primary ${className}`}>
+    <View style={[styles.container, style]}>
       {showHeader && (
         <Header
           rightComponents={[
@@ -232,9 +236,9 @@ export default function MultiStep({
               <Pressable
                 key="close"
                 onPress={onClose}
-                className="rounded-full p-2 active:bg-light-secondary dark:active:bg-dark-secondary"
+                style={({ pressed }) => [styles.closeButton, pressed && styles.closeButtonPressed]}
                 hitSlop={8}>
-                <Icon name="X" size={24} className="text-light-text dark:text-dark-text" />
+                <Icon name="X" size={24} color={colors.text} />
               </Pressable>
             ) : undefined,
           ]}
@@ -247,7 +251,7 @@ export default function MultiStep({
                 name="ArrowLeft"
                 key="back"
                 size={24}
-                className="text-light-text dark:text-dark-text"
+                color={colors.text}
                 onPress={handleBack}
               />
             ),
@@ -256,20 +260,22 @@ export default function MultiStep({
       )}
 
       {showStepIndicator && (
-        <View className="w-full flex-row items-center justify-center overflow-hidden rounded-full px-4 py-2">
-          <View className="w-full flex-row overflow-hidden rounded-full">
+        <View style={styles.stepIndicatorWrapper}>
+          <View style={styles.stepIndicatorInner}>
             {steps.map((step, index) => (
               <React.Fragment key={step.key}>
-                <View className="mx-px flex flex-1 items-center">
-                  <View className="h-1 w-full bg-light-secondary dark:bg-dark-secondary">
+                <View style={styles.stepIndicatorItem}>
+                  <View style={styles.stepIndicatorTrack}>
                     <Animated.View
-                      className="absolute left-0 top-0 h-1 bg-black dark:bg-white"
-                      style={{
-                        width: progressAnims[index].interpolate({
-                          inputRange: [0, 1],
-                          outputRange: ['0%', '100%'],
-                        }),
-                      }}
+                      style={[
+                        styles.stepIndicatorProgress,
+                        {
+                          width: progressAnims[index].interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0%', '100%'],
+                          }),
+                        },
+                      ]}
                     />
                   </View>
                 </View>
@@ -279,27 +285,91 @@ export default function MultiStep({
         </View>
       )}
 
-      <View className="flex-1">
+      <View style={styles.contentWrapper}>
         <Animated.View
-          className="flex-1"
-          style={{
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          }}>
+          style={[
+            styles.animatedStep,
+            {
+              opacity: fadeAnim,
+              transform: [{ translateY: slideAnim }],
+            },
+          ]}>
           {currentStep.component}
         </Animated.View>
       </View>
-      <View className="flex-row items-center justify-center px-4">
-        <Button
-          key="next"
-          title={isLastStep ? 'Complete' : 'Next'}
-          onPress={handleNext}
-          size="large"
-          className="w-full bg-highlight"
-          rounded="full"
-          textClassName="text-white"
-        />
+      <View style={styles.footer}>
+        <View style={styles.footerButtonWrapper}>
+          <Button
+            key="next"
+            title={isLastStep ? 'Complete' : 'Next'}
+            onPress={handleNext}
+            size="large"
+            rounded="full"
+          />
+        </View>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+  closeButton: {
+    borderRadius: 9999,
+    padding: 8,
+  },
+  closeButtonPressed: {
+    backgroundColor: theme.colors.secondary,
+  },
+  stepIndicatorWrapper: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderRadius: 9999,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  stepIndicatorInner: {
+    width: '100%',
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderRadius: 9999,
+  },
+  stepIndicatorItem: {
+    marginHorizontal: 1,
+    flex: 1,
+    alignItems: 'center',
+  },
+  stepIndicatorTrack: {
+    height: 4,
+    width: '100%',
+    backgroundColor: theme.colors.secondary,
+  },
+  stepIndicatorProgress: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    height: 4,
+    backgroundColor: theme.colors.text,
+  },
+  contentWrapper: {
+    flex: 1,
+  },
+  animatedStep: {
+    flex: 1,
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  footerButtonWrapper: {
+    width: '100%',
+  },
+}));

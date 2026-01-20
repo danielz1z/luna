@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
@@ -13,11 +14,24 @@ export default function PageLoader({ text }: PageLoaderProps) {
   const colors = useThemeColors();
 
   return (
-    <View className="flex-1 items-center justify-center bg-light-primary dark:bg-dark-primary">
+    <View style={styles.container}>
       <ActivityIndicator size="large" color={colors.highlight} />
       {text && (
-        <ThemedText className="mt-4 text-light-subtext dark:text-dark-subtext">{text}</ThemedText>
+        <ThemedText style={styles.text}>{text}</ThemedText>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+  },
+  text: {
+    marginTop: 16,
+    color: theme.colors.subtext,
+  },
+}));

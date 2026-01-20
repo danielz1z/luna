@@ -1,18 +1,18 @@
 import { Link } from 'expo-router';
 import React, { useRef, useEffect } from 'react';
-import { View, TouchableOpacity, Animated, StyleSheet, ViewStyle } from 'react-native';
+import { View, TouchableOpacity, Animated, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette } from '@/app/unistyles';
 
 interface FloatingButtonProps {
   icon: IconName;
   label?: string;
   onPress?: () => void;
   href?: string;
-  className?: string;
   bottom?: number;
   right?: number;
   visible?: boolean;
@@ -25,14 +25,12 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
   label,
   onPress,
   href,
-  className = '',
   bottom = 20,
   right = 20,
   visible = true,
   isAnimated = false,
   style,
 }) => {
-  const colors = useThemeColors();
   const translateY = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(1)).current;
 
@@ -66,16 +64,14 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
   const buttonContent = (
     <TouchableOpacity
       onPress={onPress}
-      className="flex-row items-center rounded-full bg-highlight px-4 py-3 shadow-lg"
       style={[styles.button, style]}>
       <Icon name={icon} size={20} color="white" />
-      <ThemedText className="ml-2 text-white">{label}</ThemedText>
+      {label ? <ThemedText style={styles.label}>{label}</ThemedText> : null}
     </TouchableOpacity>
   );
 
   return (
     <Animated.View
-      className={className}
       style={[
         styles.container,
         containerStyle,
@@ -95,12 +91,18 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   container: {
     position: 'absolute',
     zIndex: 1000,
   },
   button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.highlight,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     elevation: 5,
     shadowColor: '#000',
     shadowOffset: {
@@ -110,6 +112,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
-});
+  label: {
+    marginLeft: 8,
+    color: palette.white,
+  },
+}));
 
 export default FloatingButton;

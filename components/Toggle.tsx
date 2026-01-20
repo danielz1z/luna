@@ -1,5 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { View, Pressable, Animated } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
+
+import { palette } from '@/app/unistyles';
 
 interface ToggleProps {
   value?: boolean;
@@ -36,25 +39,60 @@ const Toggle: React.FC<ToggleProps> = ({ value, onChange, disabled = false, clas
   return (
     <Pressable
       onPress={toggleSwitch}
-      className={`h-7 w-12 rounded-full ${disabled ? 'opacity-50' : ''} ${className}`}>
-      <View
-        className={`absolute h-full w-full rounded-full ${isOn ? 'bg-highlight' : 'bg-light-secondary dark:bg-dark-secondary'}`}
-      />
+      style={[styles.container, disabled && styles.disabled]}>
+      <View style={[styles.track, isOn ? styles.trackOn : styles.trackOff]} />
       <Animated.View
-        style={{
-          transform: [
-            {
-              translateX: slideAnim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [2, 21],
-              }),
-            },
-          ],
-        }}
-        className="my-0.5 h-6 w-6 rounded-full bg-white shadow-sm"
+        style={[
+          styles.knob,
+          {
+            transform: [
+              {
+                translateX: slideAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [2, 21],
+                }),
+              },
+            ],
+          },
+        ]}
       />
     </Pressable>
   );
 };
 
 export default Toggle;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    height: 28,
+    width: 48,
+    borderRadius: 9999,
+  },
+  disabled: {
+    opacity: 0.5,
+  },
+  track: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    borderRadius: 9999,
+  },
+  trackOn: {
+    backgroundColor: theme.colors.highlight,
+  },
+  trackOff: {
+    backgroundColor: theme.colors.secondary,
+  },
+  knob: {
+    marginVertical: 2,
+    height: 24,
+    width: 24,
+    borderRadius: 9999,
+    backgroundColor: palette.white,
+    shadowColor: '#000000',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    elevation: 2,
+  },
+}));

@@ -1,10 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput as RNTextInput, Animated, Pressable, TextInputProps } from 'react-native';
+import {
+  View,
+  TextInput as RNTextInput,
+  Animated,
+  Pressable,
+  TextInputProps,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from '../Icon';
 import ThemedText from '../ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 
 export type InputVariant = 'animated' | 'classic' | 'underlined';
 
@@ -16,6 +27,8 @@ interface CustomTextInputProps extends TextInputProps {
   isPassword?: boolean;
   className?: string;
   containerClassName?: string;
+  style?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
   isMultiline?: boolean;
   variant?: InputVariant;
   inRow?: boolean;
@@ -31,6 +44,8 @@ const Input: React.FC<CustomTextInputProps> = ({
   containerClassName = '',
   value,
   onChangeText,
+  style,
+  inputStyle,
   isMultiline = false,
   variant = 'animated',
   inRow = false,
@@ -94,7 +109,7 @@ const Input: React.FC<CustomTextInputProps> = ({
       return (
         <Pressable
           onPress={togglePasswordVisibility}
-          className={`absolute right-3 ${variant === 'classic' ? 'top-[32px]' : 'top-[18px]'} z-10`}>
+          style={[styles.rightIcon, variant === 'classic' ? styles.rightIconPasswordClassic : styles.rightIconPassword]}>
           <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={colors.text} />
         </Pressable>
       );
@@ -104,7 +119,7 @@ const Input: React.FC<CustomTextInputProps> = ({
       return (
         <Pressable
           onPress={onRightIconPress}
-          className={`absolute right-3 ${variant === 'classic' ? 'top-[18px]' : 'top-[18px]'} z-10`}>
+          style={styles.rightIcon}>
           <Icon name={rightIcon} size={20} color={colors.text} />
         </Pressable>
       );
@@ -116,16 +131,20 @@ const Input: React.FC<CustomTextInputProps> = ({
   // Classic non-animated input
   if (variant === 'classic') {
     return (
-      <View className={`relative mb-global ${containerClassName}`} style={{ position: 'relative' }}>
-        {label && <ThemedText className="mb-2 font-medium">{label}</ThemedText>}
-        <View className="relative">
+      <View style={[styles.container, style]}>
+        {label && <ThemedText style={styles.classicLabel}>{label}</ThemedText>}
+        <View style={styles.relative}>
           <RNTextInput
             ref={inputRef}
-            className={`rounded-lg border  px-3 ${isMultiline ? 'h-36 pt-4' : 'h-14'} ${isPassword || rightIcon ? 'pr-10' : ''} 
-              bg-transparent text-black dark:text-white
-              ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-              ${error ? 'border-red-500' : ''}
-              ${className}`}
+            style={[
+              styles.inputBase,
+              styles.inputClassic,
+              isMultiline ? styles.inputMultiline : styles.inputSingle,
+              (isPassword || rightIcon) && styles.inputWithRightIcon,
+              isFocused ? styles.inputFocused : styles.inputUnfocused,
+              error && styles.inputError,
+              inputStyle,
+            ]}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             value={localValue}
@@ -139,7 +158,7 @@ const Input: React.FC<CustomTextInputProps> = ({
           />
           {renderRightIcon()}
         </View>
-        {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+        {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
       </View>
     );
   }
@@ -147,10 +166,10 @@ const Input: React.FC<CustomTextInputProps> = ({
   // Underlined input with only bottom border
   if (variant === 'underlined') {
     return (
-      <View className={`relative mb-6 ${containerClassName}`} style={{ position: 'relative' }}>
-        <View className="relative">
+      <View style={[styles.containerUnderlined, style]}>
+        <View style={styles.relative}>
           <Pressable
-            className="z-40 bg-light-primary px-0 dark:bg-dark-primary"
+            style={styles.underlinedLabelPressable}
             onPress={() => inputRef.current?.focus()}>
             <Animated.Text
               style={[
@@ -173,19 +192,23 @@ const Input: React.FC<CustomTextInputProps> = ({
                   zIndex: 50,
                   //backgroundColor: colors.bg,
                 },
-              ]}
-              className="text-black dark:text-white">
+                styles.underlinedAnimatedLabel,
+              ]}>
               {label}
             </Animated.Text>
           </Pressable>
 
           <RNTextInput
             ref={inputRef}
-            className={`border-b-2 px-0 py-3 ${isMultiline ? 'h-36 pt-4' : 'h-14'} ${isPassword || rightIcon ? 'pr-10' : ''} 
-              border-l-0 border-r-0 border-t-0 bg-transparent text-black dark:text-white
-              ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-              ${error ? 'border-red-500' : ''}
-              ${className}`}
+            style={[
+              styles.inputBase,
+              styles.inputUnderlined,
+              isMultiline ? styles.inputMultiline : styles.inputSingle,
+              (isPassword || rightIcon) && styles.inputWithRightIcon,
+              isFocused ? styles.inputFocused : styles.inputUnfocused,
+              error && styles.inputError,
+              inputStyle,
+            ]}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             value={localValue}
@@ -201,32 +224,34 @@ const Input: React.FC<CustomTextInputProps> = ({
           {renderRightIcon()}
         </View>
 
-        {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+        {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
       </View>
     );
   }
 
   // Default animated input (original)
   return (
-    <View className={`relative mb-global ${containerClassName}`}>
+    <View style={[styles.container, style]}>
       <Pressable
-        className="z-40 bg-light-primary px-1 dark:bg-dark-primary"
-        style={{ position: 'absolute', left: 4, top: 0 }}
+        style={[styles.animatedLabelPressable, styles.animatedLabelPressablePosition]}
         onPress={() => inputRef.current?.focus()}>
         <Animated.Text
-          style={[labelStyle]}
-          className="bg-light-primary text-black dark:bg-dark-primary dark:text-white">
+          style={[labelStyle, styles.animatedLabelText]}>
           {label}
         </Animated.Text>
       </Pressable>
 
       <RNTextInput
         ref={inputRef}
-        className={`rounded-lg border px-3 py-3 ${isMultiline ? 'h-36 pt-4' : 'h-14'} ${isPassword || rightIcon ? 'pr-10' : ''} 
-            bg-transparent text-black dark:text-white
-            ${isFocused ? 'border-black dark:border-white' : 'border-black/60 dark:border-white/60'}
-            ${error ? 'border-red-500' : ''}
-            ${className}`}
+        style={[
+          styles.inputBase,
+          styles.inputClassic,
+          isMultiline ? styles.inputMultiline : styles.inputSingle,
+          (isPassword || rightIcon) && styles.inputWithRightIcon,
+          isFocused ? styles.inputFocused : styles.inputUnfocused,
+          error && styles.inputError,
+          inputStyle,
+        ]}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         value={localValue}
@@ -241,9 +266,104 @@ const Input: React.FC<CustomTextInputProps> = ({
 
       {renderRightIcon()}
 
-      {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+      {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
     </View>
   );
 };
 
 export default Input;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    position: 'relative',
+    marginBottom: theme.spacing.global,
+  },
+  containerUnderlined: {
+    position: 'relative',
+    marginBottom: 24,
+  },
+  relative: {
+    position: 'relative',
+  },
+  classicLabel: {
+    marginBottom: 8,
+    fontWeight: '500',
+  },
+  animatedLabelPressable: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
+  },
+  animatedLabelText: {
+    backgroundColor: theme.colors.bg,
+    color: theme.colors.text,
+  },
+  underlinedLabelPressable: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 0,
+  },
+  underlinedAnimatedLabel: {
+    color: theme.colors.text,
+  },
+  animatedLabelPressablePosition: {
+    position: 'absolute',
+    left: 4,
+    top: 0,
+  },
+  inputBase: {
+    backgroundColor: 'transparent',
+    color: theme.colors.text,
+  },
+  inputClassic: {
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+  },
+  inputUnderlined: {
+    borderBottomWidth: 2,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 12,
+  },
+  inputSingle: {
+    height: 56,
+  },
+  inputMultiline: {
+    height: 144,
+    paddingTop: 16,
+    textAlignVertical: 'top',
+  },
+  inputWithRightIcon: {
+    paddingRight: 40,
+  },
+  inputFocused: {
+    borderColor: theme.colors.text,
+  },
+  inputUnfocused: {
+    borderColor: withOpacity(theme.colors.text, 0.6),
+  },
+  inputError: {
+    borderColor: palette.red500,
+  },
+  rightIcon: {
+    position: 'absolute',
+    right: 12,
+    top: 18,
+    zIndex: 10,
+  },
+  rightIconPasswordClassic: {
+    top: 32,
+  },
+  rightIconPassword: {
+    top: 18,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: palette.red500,
+  },
+}));

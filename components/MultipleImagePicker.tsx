@@ -1,9 +1,12 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { View, Image, Pressable, Dimensions, Text, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { CardScroller } from './CardScroller';
 import Icon from './Icon';
+
+import { palette } from '@/app/unistyles';
 
 interface MultipleImagePickerProps {
   onImageSelect?: (uri: string) => void;
@@ -54,19 +57,19 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
 
   return (
     <>
-      <Text className="text-sm dark:text-white">Images</Text>
+      <Text style={styles.label}>Images</Text>
       <CardScroller>
         {mainImage ? (
-          <View className="relative">
+          <View style={styles.tileWrapper}>
             <Pressable
               onPress={() => pickImage(true)}
-              className="relative flex h-28 w-28 flex-col items-center justify-center overflow-hidden rounded-xl border border-black dark:border-white"
+              style={styles.tile}
               android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
-              <Image className="h-full w-full" source={{ uri: mainImage }} />
+              <Image style={styles.tileImage} source={{ uri: mainImage }} />
             </Pressable>
             <Pressable
               onPress={() => handleDelete()}
-              className="absolute right-2 top-2 h-7 w-7 items-center justify-center rounded-lg bg-white">
+              style={styles.deleteButton}>
               <Icon name="Trash2" size={18} />
             </Pressable>
           </View>
@@ -74,10 +77,10 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
           hasMainImage && (
             <Pressable
               onPress={() => pickImage(true)}
-              className="relative flex h-28 w-28 flex-col items-center justify-center rounded-xl border border-black p-4 dark:border-white"
+              style={[styles.tile, styles.tileEmpty]}
               android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
               <Icon name="Camera" size={24} />
-              <Text className="absolute bottom-4 w-full text-center text-xs text-black dark:text-white">
+              <Text style={styles.mainPhotoText}>
                 Main photo
               </Text>
             </Pressable>
@@ -86,25 +89,25 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
         {[...Array(4)].map((_, index) => {
           const image = additionalImages[index];
           return (
-            <View key={index} className="relative">
+            <View key={index} style={styles.tileWrapper}>
               {image ? (
                 <>
                   <Pressable
                     onPress={() => pickImage(false)}
-                    className="relative flex h-28 w-28 flex-col items-center justify-center overflow-hidden rounded-xl border border-black dark:border-white"
+                    style={styles.tile}
                     android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
-                    <Image className="h-full w-full" source={{ uri: image }} />
+                    <Image style={styles.tileImage} source={{ uri: image }} />
                   </Pressable>
                   <Pressable
                     onPress={() => handleDelete(index)}
-                    className="absolute right-2 top-2 h-7 w-7 items-center justify-center rounded-lg bg-white">
+                    style={styles.deleteButton}>
                     <Icon name="Trash2" size={18} />
                   </Pressable>
                 </>
               ) : (
                 <Pressable
                   onPress={() => pickImage(false)}
-                  className="flex h-28 w-28 flex-col items-center justify-center rounded-xl border border-black p-4 opacity-40 dark:border-white"
+                  style={[styles.tile, styles.tileEmpty, styles.tilePlaceholder]}
                   android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
                   <Icon name="Plus" size={24} />
                 </Pressable>
@@ -116,3 +119,52 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
     </>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  label: {
+    fontSize: 14,
+    color: theme.colors.text,
+  },
+  tileWrapper: {
+    position: 'relative',
+  },
+  tile: {
+    height: 112,
+    width: 112,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.text,
+    overflow: 'hidden',
+  },
+  tileEmpty: {
+    padding: 16,
+  },
+  tilePlaceholder: {
+    opacity: 0.4,
+  },
+  tileImage: {
+    height: '100%',
+    width: '100%',
+  },
+  deleteButton: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    height: 28,
+    width: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    backgroundColor: palette.white,
+  },
+  mainPhotoText: {
+    position: 'absolute',
+    bottom: 16,
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 12,
+    color: theme.colors.text,
+  },
+}));

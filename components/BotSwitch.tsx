@@ -1,10 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { ActionSheetRef } from 'react-native-actions-sheet';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ActionSheetThemed from './ActionSheetThemed';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
+
+import { palette, withOpacity } from '@/app/unistyles';
 
 export const BotSwitch = () => {
   const [selectedModel, setSelectedModel] = useState('GPT-4o');
@@ -36,18 +39,18 @@ export const BotSwitch = () => {
   return (
     <>
       <Pressable
-        className="flex-row rounded-full border border-neutral-300 bg-white py-1 pl-3 pr-2 dark:border-transparent dark:bg-dark-secondary"
+        style={styles.trigger}
         onPress={openModelSelector}>
-        <ThemedText className="mr-1">{selectedModel}</ThemedText>
-        <Icon name="ChevronDown" size={16} className="opacity-50" />
+        <ThemedText style={styles.triggerText}>{selectedModel}</ThemedText>
+        <Icon name="ChevronDown" size={16} style={styles.chevronIcon} />
       </Pressable>
 
       {/* ActionSheet for model selection */}
       <ActionSheetThemed ref={actionSheetRef}>
-        <View className="p-4">
-          <View className="mb-4">
-            <ThemedText className="mb-2 text-xl font-semibold">Select AI Model</ThemedText>
-            <ThemedText className="text-light-subtext dark:text-dark-subtext">
+        <View style={styles.sheetContent}>
+          <View style={styles.sheetHeader}>
+            <ThemedText style={styles.title}>Select AI Model</ThemedText>
+            <ThemedText style={styles.subtitle}>
               Choose the AI model to chat with
             </ThemedText>
           </View>
@@ -56,19 +59,79 @@ export const BotSwitch = () => {
             <Pressable
               key={option.value}
               onPress={() => handleModelSelect(option.value)}
-              className={`mb-2 flex-row items-center justify-between rounded-lg p-3 ${selectedModel === option.value ? 'bg-light-primary/10 dark:bg-dark-primary' : ''}`}>
-              <ThemedText className="text-base">{option.label}</ThemedText>
+              style={[styles.optionRow, selectedModel === option.value && styles.optionRowSelected]}>
+              <ThemedText style={styles.optionLabel}>{option.label}</ThemedText>
               {selectedModel === option.value && <Icon name="Check" size={20} />}
             </Pressable>
           ))}
 
           <Pressable
             onPress={() => actionSheetRef.current?.hide()}
-            className="mt-4 items-center rounded-lg bg-light-primary py-3 dark:bg-dark-primary">
-            <ThemedText className="font-semibold">Cancel</ThemedText>
+            style={styles.cancelButton}>
+            <ThemedText style={styles.cancelText}>Cancel</ThemedText>
           </Pressable>
         </View>
       </ActionSheetThemed>
     </>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  trigger: {
+    flexDirection: 'row',
+    borderRadius: 9999,
+    borderWidth: 1,
+    borderColor: theme.colors.primary === '#171717' ? 'transparent' : palette.neutral300,
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: 4,
+    paddingLeft: 12,
+    paddingRight: 8,
+  },
+  triggerText: {
+    marginRight: 4,
+  },
+  chevronIcon: {
+    opacity: 0.5,
+  },
+  sheetContent: {
+    padding: 16,
+  },
+  sheetHeader: {
+    marginBottom: 16,
+  },
+  title: {
+    marginBottom: 8,
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  subtitle: {
+    color: theme.colors.subtext,
+  },
+  optionRow: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 8,
+    padding: 12,
+  },
+  optionRowSelected: {
+    backgroundColor:
+      theme.colors.primary === '#171717'
+        ? theme.colors.primary
+        : withOpacity(theme.colors.primary, 0.1),
+  },
+  optionLabel: {
+    fontSize: 16,
+  },
+  cancelButton: {
+    marginTop: 16,
+    alignItems: 'center',
+    borderRadius: 8,
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 12,
+  },
+  cancelText: {
+    fontWeight: '600',
+  },
+}));

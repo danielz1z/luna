@@ -1,6 +1,7 @@
 import LottieView from 'lottie-react-native';
 import { useState } from 'react';
 import { Pressable, TouchableOpacity, View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from './AnimatedView';
 
@@ -12,15 +13,14 @@ export const Sphere = () => {
     setIsSpeaking((prev) => !prev);
   };
   return (
-    <View className="flex-1 items-center justify-center">
+    <View style={styles.container}>
       <AnimatedView animation="scaleIn" duration={200} shouldResetAnimation>
         <TouchableOpacity
           //activeOpacity={0.5}
-          className="relative h-[250px] w-[250px] items-center justify-center"
+          style={styles.touchTarget}
           onPress={toggleSpeaking}>
           <View
-            style={shadowPresets.large}
-            className="relative z-[9999] h-[140px] w-[140px] items-center justify-center rounded-full bg-light-secondary dark:bg-dark-primary">
+            style={[shadowPresets.large, styles.sphere]}>
             <LottieView
               autoPlay
               style={{
@@ -54,3 +54,28 @@ export const Sphere = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  touchTarget: {
+    position: 'relative',
+    height: 250,
+    width: 250,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sphere: {
+    position: 'relative',
+    zIndex: 9999,
+    height: 140,
+    width: 140,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: theme.colors.invert,
+  },
+}));

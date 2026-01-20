@@ -5,12 +5,15 @@ import {
   Image,
   Dimensions,
   Pressable,
-  StyleSheet,
   LayoutChangeEvent,
   ImageSourcePropType,
+  ViewStyle,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '@/components/ThemedText';
+
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface ImageCarouselProps {
   images: string[] | ImageSourcePropType[];
@@ -22,8 +25,8 @@ interface ImageCarouselProps {
   autoPlay?: boolean;
   autoPlayInterval?: number;
   loop?: boolean;
-  className?: string;
   rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  style?: ViewStyle;
 }
 
 const ImageCarousel: React.FC<ImageCarouselProps> = ({
@@ -36,8 +39,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   autoPlay = false,
   autoPlayInterval = 3000,
   loop = true,
-  className = '',
   rounded = 'none',
+  style,
 }) => {
   const [containerWidth, setContainerWidth] = useState(propWidth || Dimensions.get('window').width);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -48,26 +51,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     setContainerWidth(width);
   };
 
-  const getRoundedClass = () => {
-    switch (rounded) {
-      case 'none':
-        return '';
-      case 'sm':
-        return 'rounded-sm';
-      case 'md':
-        return 'rounded-md';
-      case 'lg':
-        return 'rounded-lg';
-      case 'xl':
-        return 'rounded-xl';
-      case '2xl':
-        return 'rounded-2xl';
-      case 'full':
-        return 'rounded-full';
-      default:
-        return '';
-    }
-  };
+  const roundedValue = getRoundedValue(rounded);
 
   const handleImageChange = (contentOffsetX: number) => {
     const index = Math.round(contentOffsetX / containerWidth);
@@ -84,19 +68,17 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     if (!showPagination || images.length <= 1) return null;
 
     return (
-      <View className="absolute bottom-4 w-full flex-row justify-center">
+      <View style={styles.paginationContainer}>
         {paginationStyle === 'dots' ? (
           images.map((_, index) => (
             <View
               key={index}
-              className={`mx-1 h-2 w-2 rounded-full ${
-                index === activeIndex ? 'bg-white' : 'bg-white/40'
-              }`}
+              style={[styles.dot, index === activeIndex ? styles.dotActive : styles.dotInactive]}
             />
           ))
         ) : (
-          <View className="rounded-full bg-black/50 px-3 py-1">
-            <ThemedText className="text-white">
+          <View style={styles.paginationBadge}>
+            <ThemedText style={styles.paginationText}>
               {activeIndex + 1} / {images.length}
             </ThemedText>
           </View>
@@ -123,13 +105,14 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
   return (
     <View
-      className={`${getRoundedClass()} ${className}`}
       style={[
         styles.container,
+        { borderRadius: roundedValue },
         {
           height,
           overflow: 'hidden',
         },
+        style,
       ]}
       onLayout={handleLayout}>
       <FlatList
@@ -152,13 +135,62 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(() => ({
   container: {
     position: 'relative',
   },
   image: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: palette.gray200,
   },
-});
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 16,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  dot: {
+    marginHorizontal: 4,
+    height: 8,
+    width: 8,
+    borderRadius: 9999,
+  },
+  dotActive: {
+    backgroundColor: palette.white,
+  },
+  dotInactive: {
+    backgroundColor: withOpacity(palette.white, 0.4),
+  },
+  paginationBadge: {
+    borderRadius: 9999,
+    backgroundColor: withOpacity(palette.black, 0.5),
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  paginationText: {
+    color: palette.white,
+  },
+}));
+
+const getRoundedValue = (rounded: NonNullable<ImageCarouselProps['rounded']>) => {
+  switch (rounded) {
+    case 'none':
+      return 0;
+    case 'sm':
+      return 2;
+    case 'md':
+      return 6;
+    case 'lg':
+      return 8;
+    case 'xl':
+      return 12;
+    case '2xl':
+      return 16;
+    case 'full':
+      return 9999;
+    default:
+      return 0;
+  }
+};
 
 export default ImageCarousel;

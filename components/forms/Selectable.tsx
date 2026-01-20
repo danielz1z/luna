@@ -1,11 +1,13 @@
 import React, { ReactNode } from 'react';
 import { View, Pressable, StyleProp, ViewStyle } from 'react-native';
+import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
 
 import AnimatedView from '../AnimatedView';
 import Icon, { IconName } from '../Icon';
 import ThemedText from '../ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 
 interface SelectableProps {
   title: string;
@@ -35,22 +37,28 @@ const Selectable: React.FC<SelectableProps> = ({
   style,
 }) => {
   const colors = useThemeColors();
+  const isDark = UnistylesRuntime.themeName === 'dark';
 
   return (
-    <View className={`mb-2 ${containerClassName}`}>
+    <View style={styles.container}>
       <Pressable
         onPress={onPress}
-        style={style}
-        className={`
-          rounded-lg border border-transparent bg-light-secondary p-4 active:opacity-70 dark:bg-dark-secondary/50
-          ${selected ? ' bg-light-subtext/20 dark:bg-dark-secondary' : 'border-transparent'}
-          ${error ? 'border-red-500' : ''}
-          ${className}
-        `}>
-        <View className="flex-row items-center">
+        style={[
+          styles.card,
+          isDark && styles.cardDark,
+          selected && styles.cardSelected,
+          error && styles.cardError,
+          style,
+        ]}
+        android_ripple={{ color: withOpacity(palette.black, 0.06) }}>
+        <View style={styles.row}>
           {icon && (
             <View
-              className={`mr-4 h-12 w-12 items-center justify-center rounded-xl bg-white dark:bg-white/10 ${selected ? 'bg-highlight' : ''}`}>
+              style={[
+                styles.iconContainer,
+                isDark ? styles.iconContainerDark : styles.iconContainerLight,
+                selected && styles.iconContainerSelected,
+              ]}>
               <Icon
                 name={icon}
                 size={20}
@@ -60,20 +68,20 @@ const Selectable: React.FC<SelectableProps> = ({
             </View>
           )}
           {customIcon && (
-            <View className="mr-4 h-12 w-12 items-center justify-center rounded-xl bg-light-secondary dark:bg-dark-secondary">
+            <View style={styles.customIconContainer}>
               {customIcon}
             </View>
           )}
-          <View className="flex-1">
-            <ThemedText className="text-base font-semibold">{title}</ThemedText>
+          <View style={styles.content}>
+            <ThemedText style={styles.title}>{title}</ThemedText>
             {description && (
-              <ThemedText className="mt-0 text-sm text-light-subtext dark:text-dark-subtext">
+              <ThemedText style={styles.description}>
                 {description}
               </ThemedText>
             )}
           </View>
           {selected ? (
-            <AnimatedView className="ml-3" animation="bounceIn" duration={500}>
+            <AnimatedView style={styles.checkIcon} animation="bounceIn" duration={500}>
               <Icon name="CheckCircle2" size={24} color={colors.highlight} />
             </AnimatedView>
           ) : (
@@ -82,9 +90,81 @@ const Selectable: React.FC<SelectableProps> = ({
         </View>
       </Pressable>
 
-      {error && <ThemedText className="mt-1 text-xs text-red-500">{error}</ThemedText>}
+      {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
     </View>
   );
 };
 
 export default Selectable;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: 8,
+  },
+  card: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'transparent',
+    backgroundColor: theme.colors.secondary,
+    padding: 16,
+  },
+  cardDark: {
+    backgroundColor: withOpacity(theme.colors.secondary, 0.5),
+  },
+  cardSelected: {
+    backgroundColor: withOpacity(theme.colors.subtext, 0.2),
+  },
+  cardError: {
+    borderColor: palette.red500,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconContainer: {
+    marginRight: 16,
+    height: 48,
+    width: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+  },
+  iconContainerLight: {
+    backgroundColor: palette.white,
+  },
+  iconContainerDark: {
+    backgroundColor: withOpacity(palette.white, 0.1),
+  },
+  iconContainerSelected: {
+    backgroundColor: theme.colors.highlight,
+  },
+  customIconContainer: {
+    marginRight: 16,
+    height: 48,
+    width: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    backgroundColor: theme.colors.secondary,
+  },
+  content: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  description: {
+    marginTop: 0,
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  checkIcon: {
+    marginLeft: 12,
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: palette.red500,
+  },
+}));

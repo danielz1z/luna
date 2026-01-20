@@ -1,6 +1,7 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Link } from 'expo-router';
 import { View, Text, Image, TouchableOpacity, Dimensions, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import ImageCarousel from './ImageCarousel';
 import ThemedText from './ThemedText';
@@ -36,34 +37,30 @@ const SliderCard = ({
   const images = Array.isArray(image) ? image : [image];
 
   return (
-    <View
-      className={`mb-0 w-full bg-light-primary p-global dark:bg-dark-primary ${className}`}
-      {...props}>
-      <View className="relative w-full">
+    <View style={styles.container} {...props}>
+      <View style={styles.carouselWrapper}>
         <ImageCarousel
           images={images}
           height={300}
           //width={windowWidth - 32}
           rounded="xl"
-          className="rounded-2xl"
+          style={styles.carousel}
         />
       </View>
       <Link href={href} asChild>
         <TouchableOpacity>
-          <View className="mt-2 w-full flex-row items-center justify-between">
-            <ThemedText className="text-base font-semibold">{title}</ThemedText>
+          <View style={styles.headerRow}>
+            <ThemedText style={styles.title}>{title}</ThemedText>
             {rating && (
-              <View className="flex-row items-center">
+              <View style={styles.ratingRow}>
                 <MaterialIcons name="star" size={18} color={colors.text} />
-                <ThemedText className="ml-px text-base">{rating}</ThemedText>
+                <ThemedText style={styles.ratingText}>{rating}</ThemedText>
               </View>
             )}
           </View>
-          <Text className="text-sm text-light-subtext dark:text-dark-subtext">
-            {distance} miles away
-          </Text>
-          <ThemedText className="mt-2 text-base font-bold">
-            {price} <ThemedText className="font-normal">night</ThemedText>
+          <Text style={styles.distanceText}>{distance} miles away</Text>
+          <ThemedText style={styles.priceText}>
+            {price} <ThemedText style={styles.priceUnit}>night</ThemedText>
           </ThemedText>
         </TouchableOpacity>
       </Link>
@@ -72,3 +69,50 @@ const SliderCard = ({
 };
 
 export default SliderCard;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    marginBottom: 0,
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.global,
+  },
+  carouselWrapper: {
+    position: 'relative',
+    width: '100%',
+  },
+  carousel: {
+    borderRadius: 16,
+  },
+  headerRow: {
+    marginTop: 8,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ratingText: {
+    marginLeft: 1,
+    fontSize: 16,
+  },
+  distanceText: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  priceText: {
+    marginTop: 8,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  priceUnit: {
+    fontWeight: '400',
+  },
+}));

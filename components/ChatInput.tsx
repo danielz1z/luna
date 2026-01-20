@@ -2,6 +2,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect, useRef } from 'react';
 import { Pressable, Image, Platform, Keyboard, TouchableOpacity, View } from 'react-native';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native-unistyles';
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -16,6 +17,7 @@ import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
+import { palette, withOpacity } from '@/app/unistyles';
 import { shadowPresets } from '@/utils/useShadow';
 
 type ChatInputProps = {
@@ -173,16 +175,16 @@ export const ChatInput = (props: ChatInputProps) => {
   const { bottom } = useSafeAreaInsets();
 
   return (
-    <View style={{ paddingBottom: insets.bottom }} className="w-full px-global ">
+    <View style={[styles.root, { paddingBottom: insets.bottom }]}>
       {selectedImages.length > 0 && (
-        <View className="mb-0">
+        <View>
           <ScrollableImageList images={selectedImages} onRemove={removeImage} />
         </View>
       )}
 
       {/**add seected images here */}
       {(isAttachVisible || isAnimatingOut) && !shouldRemoveItems && (
-        <View className="mb-2 w-full flex-row">
+        <View style={styles.attachRow}>
           <AnimatedPickerItem
             icon="Image"
             label="Image"
@@ -197,42 +199,38 @@ export const ChatInput = (props: ChatInputProps) => {
         </View>
       )}
       <View
-        style={{ ...shadowPresets.card }}
-        className={` rounded-3xl  bg-light-secondary dark:bg-dark-secondary `}>
+        style={[shadowPresets.card, styles.composer]}>
         <TextInput
           placeholder="Ask me anything..."
           placeholderTextColor={colors.text}
-          className="px-6 py-5 text-black dark:text-white"
+          style={[styles.input, { height: 60 }]}
           value={inputText}
           onChangeText={setInputText}
-          style={{
-            height: 60,
-          }}
           onContentSizeChange={handleContentSizeChange}
         />
-        <View className="flex-row justify-between rounded-b-3xl bg-neutral-200/50 p-2 dark:bg-black/30">
-          <View className="flex-row gap-x-2">
+        <View style={styles.toolbar}>
+          <View style={styles.toolbarGroup}>
             <Pressable
               onPress={handleToggle}
-              className="h-10 w-10 items-center justify-center rounded-full">
+              style={styles.iconButton}>
               <Animated.View style={iconStyle}>
                 <Icon name="Plus" size={18} />
               </Animated.View>
             </Pressable>
-            <Pressable className="h-10 w-10 items-center justify-center rounded-full">
+            <Pressable style={styles.iconButton}>
               <Icon name="Globe" size={18} />
             </Pressable>
-            <Pressable className="h-10 w-10 items-center justify-center rounded-full">
+            <Pressable style={styles.iconButton}>
               <Icon name="Telescope" size={18} />
             </Pressable>
           </View>
-          <View className="flex-row gap-x-2">
-            <Pressable className="h-10 w-10 items-center justify-center rounded-full">
+          <View style={styles.toolbarGroup}>
+            <Pressable style={styles.iconButton}>
               <Icon name="Mic" size={18} />
             </Pressable>
             <Pressable
               onPress={handleSendMessage}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-dark-primary dark:bg-white">
+              style={[styles.iconButton, styles.sendButton]}>
               <Icon name="Send" size={17} color={colors.invert} />
             </Pressable>
           </View>
@@ -250,18 +248,18 @@ const ScrollableImageList = ({
   onRemove: (index: number) => void;
 }) => {
   return (
-    <CardScroller className="mb-1 pb-0" space={5}>
+    <CardScroller style={styles.imageScroller} space={5}>
       {images.map((uri, index) => (
         <AnimatedView
           key={`${uri}-${index}`}
           animation="scaleIn"
           duration={200}
           delay={200}
-          className="relative">
-          <Image source={{ uri }} className="h-20 w-20 rounded-xl" />
+          style={styles.imageItemContainer}>
+          <Image source={{ uri }} style={styles.image} />
           <Pressable
             onPress={() => onRemove(index)}
-            className="absolute right-1 top-1 h-6 w-6 items-center justify-center rounded-full bg-black/50">
+            style={styles.removeImageButton}>
             <Icon name="X" size={12} color="white" />
           </Pressable>
         </AnimatedView>
@@ -284,15 +282,97 @@ const AnimatedPickerItem = (props: {
       animation={animation}
       duration={350}
       delay={props.isExiting ? 0 : props.delay}
-      className="mr-1"
+      style={styles.pickerItemWrapper}
       shouldResetAnimation>
       <TouchableOpacity
-        style={{ ...shadowPresets.large }}
-        className="flex-row items-center justify-center rounded-2xl bg-light-secondary p-4 dark:bg-dark-secondary"
+        style={[shadowPresets.large, styles.pickerItem]}
         onPress={props.onPress}>
         <Icon name={props.icon} size={18} />
-        <ThemedText className="ml-2">{props.label}</ThemedText>
+        <ThemedText style={styles.pickerItemLabel}>{props.label}</ThemedText>
       </TouchableOpacity>
     </AnimatedView>
   );
 };
+
+const styles = StyleSheet.create((theme) => ({
+  root: {
+    width: '100%',
+    paddingHorizontal: theme.spacing.global,
+  },
+  attachRow: {
+    marginBottom: 8,
+    width: '100%',
+    flexDirection: 'row',
+  },
+  composer: {
+    borderRadius: 24,
+    backgroundColor: theme.colors.secondary,
+  },
+  input: {
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    color: theme.colors.text,
+  },
+  toolbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    backgroundColor:
+      theme.colors.primary === '#171717'
+        ? withOpacity(palette.black, 0.3)
+        : withOpacity(palette.neutral200, 0.5),
+    padding: 8,
+  },
+  toolbarGroup: {
+    flexDirection: 'row',
+    columnGap: 8,
+  },
+  iconButton: {
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+  },
+  sendButton: {
+    backgroundColor: theme.colors.text,
+  },
+  imageScroller: {
+    marginBottom: 4,
+    paddingBottom: 0,
+  },
+  imageItemContainer: {
+    position: 'relative',
+  },
+  image: {
+    height: 80,
+    width: 80,
+    borderRadius: 12,
+  },
+  removeImageButton: {
+    position: 'absolute',
+    right: 4,
+    top: 4,
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9999,
+    backgroundColor: withOpacity(palette.black, 0.5),
+  },
+  pickerItemWrapper: {
+    marginRight: 4,
+  },
+  pickerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    backgroundColor: theme.colors.secondary,
+    padding: 16,
+  },
+  pickerItemLabel: {
+    marginLeft: 8,
+  },
+}));

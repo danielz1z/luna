@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import Avatar from './Avatar';
 import Icon from './Icon';
@@ -40,32 +41,32 @@ const Review: React.FC<ReviewProps> = ({
           fill={i < rating ? colors.text : 'none'}
           color={i < rating ? colors.text : colors.text}
           strokeWidth={1.5}
-          className="mr-1"
+          style={styles.star}
         />
       );
     }
 
     return (
-      <View className="flex-row items-center">
+      <View style={styles.starsRow}>
         {stars}
-        <ThemedText className="ml-1 text-sm">{rating}.0</ThemedText>
+        <ThemedText style={styles.ratingText}>{rating}.0</ThemedText>
       </View>
     );
   };
 
   return (
-    <View className={` ${className}`} style={style}>
-      <View className="flex-row">
-        {(avatar || username) && <Avatar src={avatar} name={username} size="xs" className="mr-3" />}
-        <View className="flex-1">
-          {username && <ThemedText className="mb-1 font-bold">{username}</ThemedText>}
-          <View className="mb-2 flex-row items-center justify-between">
+    <View style={style}>
+      <View style={styles.row}>
+        {(avatar || username) && (
+          <Avatar src={avatar} name={username} size="xs" style={styles.avatar} />
+        )}
+        <View style={styles.content}>
+          {username && <ThemedText style={styles.username}>{username}</ThemedText>}
+          <View style={styles.headerRow}>
             {renderStars()}
-            <ThemedText className="text-sm text-light-subtext dark:text-dark-subtext">
-              {date}
-            </ThemedText>
+            <ThemedText style={styles.date}>{date}</ThemedText>
           </View>
-          <ThemedText className="text-sm">{description}</ThemedText>
+          <ThemedText style={styles.description}>{description}</ThemedText>
         </View>
       </View>
     </View>
@@ -73,3 +74,43 @@ const Review: React.FC<ReviewProps> = ({
 };
 
 export default Review;
+
+const styles = StyleSheet.create((theme) => ({
+  row: {
+    flexDirection: 'row',
+  },
+  avatar: {
+    marginRight: 12,
+  },
+  content: {
+    flex: 1,
+  },
+  username: {
+    marginBottom: 4,
+    fontWeight: '700',
+  },
+  headerRow: {
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  starsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  star: {
+    marginRight: 4,
+  },
+  ratingText: {
+    marginLeft: 4,
+    fontSize: 14,
+  },
+  date: {
+    fontSize: 14,
+    color: theme.colors.subtext,
+  },
+  description: {
+    fontSize: 14,
+  },
+}));

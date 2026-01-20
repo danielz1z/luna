@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Animated, Easing, StyleSheet, Dimensions } from 'react-native';
+import { View, Animated, Easing, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 
@@ -46,96 +47,83 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
   });
 
   const renderListItem = () => (
-    <View className="flex-row items-center py-4 ">
+    <View style={styles.listRow}>
       <Animated.View
-        className="h-16 w-16 rounded-lg"
-        style={[{ opacity, backgroundColor: colors.secondary }]}
+        style={[styles.avatar, { opacity, backgroundColor: colors.secondary }]}
       />
-      <View className="ml-3 flex-1">
+      <View style={styles.listTextContainer}>
         <Animated.View
-          className="mb-2 h-5 w-3/4 rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.listLine1, { opacity, backgroundColor: colors.secondary }]}
         />
         <Animated.View
-          className="h-4 w-1/2 rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.listLine2, { opacity, backgroundColor: colors.secondary }]}
         />
       </View>
     </View>
   );
 
   const renderGridItem = () => (
-    <View className="w-1/2 p-2">
+    <View style={styles.gridItem}>
       <Animated.View
-        className="mb-2 aspect-square rounded-lg"
-        style={[{ opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridSquare, { opacity, backgroundColor: colors.secondary }]}
       />
       <Animated.View
-        className="mb-1 h-4 w-3/4 rounded-md"
-        style={[{ opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridLine1, { opacity, backgroundColor: colors.secondary }]}
       />
       <Animated.View
-        className="h-4 w-1/2 rounded-md"
-        style={[{ opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridLine2, { opacity, backgroundColor: colors.secondary }]}
       />
     </View>
   );
 
   const renderArticle = () => (
-    <View className="flex-1">
+    <View style={styles.articleContainer}>
       <Animated.View
         style={[
-          { opacity, backgroundColor: colors.secondary, width: windowWidth, height: windowWidth },
+          styles.articleImage,
+          { opacity, backgroundColor: colors.secondary },
         ]}
       />
-      <View className="flex-1 p-4">
+      <View style={styles.articleContent}>
         <Animated.View
-          className="mb-4 h-8 w-3/4 rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleTitle, { opacity, backgroundColor: colors.secondary }]}
         />
         <Animated.View
-          className="mb-4 h-6 w-1/2 rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleSubtitle, { opacity, backgroundColor: colors.secondary }]}
         />
         <Animated.View
-          className="mb-2 h-4 w-full rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLine, { opacity, backgroundColor: colors.secondary }]}
         />
         <Animated.View
-          className="mb-2 h-4 w-full rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLine, { opacity, backgroundColor: colors.secondary }]}
         />
         <Animated.View
-          className="h-4 w-3/4 rounded-md"
-          style={[{ opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLineLast, { opacity, backgroundColor: colors.secondary }]}
         />
       </View>
     </View>
   );
 
   const renderChat = () => (
-    <View className="p-4">
-      <View className="mb-4 flex-row justify-start">
-        <View className="w-3/4">
+    <View style={styles.chatContainer}>
+      <View style={styles.chatRowLeft}>
+        <View style={styles.chatBubbleWrapperWide}>
           <Animated.View
-            className="h-12 rounded-2xl"
-            style={[{ opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleSmall, { opacity, backgroundColor: colors.secondary }]}
           />
         </View>
       </View>
-      <View className="mb-4 flex-row justify-end">
-        <View className="w-3/4">
+      <View style={styles.chatRowRight}>
+        <View style={styles.chatBubbleWrapperWide}>
           <Animated.View
-            className="h-16 rounded-2xl"
-            style={[{ opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleLarge, { opacity, backgroundColor: colors.secondary }]}
           />
         </View>
       </View>
-      <View className="flex-row justify-start">
-        <View className="w-2/4">
+      <View style={styles.chatRowLeft}>
+        <View style={styles.chatBubbleWrapperNarrow}>
           <Animated.View
-            className="h-12 rounded-2xl"
-            style={[{ opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleSmall, { opacity, backgroundColor: colors.secondary }]}
           />
         </View>
       </View>
@@ -150,7 +138,7 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
           .map((_, index) => <React.Fragment key={index}>{renderListItem()}</React.Fragment>);
       case 'grid':
         return (
-          <View className="flex-row flex-wrap">
+          <View style={styles.gridWrap}>
             {Array(count)
               .fill(null)
               .map((_, index) => (
@@ -168,10 +156,131 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
   };
 
   return (
-    <View className={`flex-1 bg-light-primary dark:bg-dark-primary ${className}`}>
+    <View style={styles.container}>
       {renderContent()}
     </View>
   );
 };
 
 export default SkeletonLoader;
+
+const styles = StyleSheet.create((theme) => ({
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+  },
+
+  listRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+  },
+  avatar: {
+    height: 64,
+    width: 64,
+    borderRadius: 8,
+  },
+  listTextContainer: {
+    marginLeft: 12,
+    flex: 1,
+  },
+  listLine1: {
+    marginBottom: 8,
+    height: 20,
+    width: '75%',
+    borderRadius: 6,
+  },
+  listLine2: {
+    height: 16,
+    width: '50%',
+    borderRadius: 6,
+  },
+
+  gridWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  gridItem: {
+    width: '50%',
+    padding: 8,
+  },
+  gridSquare: {
+    marginBottom: 8,
+    aspectRatio: 1,
+    borderRadius: 8,
+  },
+  gridLine1: {
+    marginBottom: 4,
+    height: 16,
+    width: '75%',
+    borderRadius: 6,
+  },
+  gridLine2: {
+    height: 16,
+    width: '50%',
+    borderRadius: 6,
+  },
+
+  articleContainer: {
+    flex: 1,
+  },
+  articleImage: {
+    width: windowWidth,
+    height: windowWidth,
+  },
+  articleContent: {
+    flex: 1,
+    padding: 16,
+  },
+  articleTitle: {
+    marginBottom: 16,
+    height: 32,
+    width: '75%',
+    borderRadius: 6,
+  },
+  articleSubtitle: {
+    marginBottom: 16,
+    height: 24,
+    width: '50%',
+    borderRadius: 6,
+  },
+  articleLine: {
+    marginBottom: 8,
+    height: 16,
+    width: '100%',
+    borderRadius: 6,
+  },
+  articleLineLast: {
+    height: 16,
+    width: '75%',
+    borderRadius: 6,
+  },
+
+  chatContainer: {
+    padding: 16,
+  },
+  chatRowLeft: {
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  chatRowRight: {
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  chatBubbleWrapperWide: {
+    width: '75%',
+  },
+  chatBubbleWrapperNarrow: {
+    width: '50%',
+  },
+  chatBubbleSmall: {
+    height: 48,
+    borderRadius: 16,
+  },
+  chatBubbleLarge: {
+    height: 64,
+    borderRadius: 16,
+  },
+}));
