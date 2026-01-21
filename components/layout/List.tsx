@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
-import { withOpacity } from '@/app/unistyles';
+import { withOpacity } from '@/lib/unistyles';
 
 interface ListProps {
   children: React.ReactNode;

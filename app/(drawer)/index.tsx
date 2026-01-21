@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { AiCircle } from '@/components/AiCircle';
-import { BotSwitch } from '@/components/BotSwitch';
-import { ChatInput } from '@/components/ChatInput';
-import DrawerButton from '@/components/DrawerButton';
-import Header, { HeaderIcon } from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemeScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
+import { AiCircle } from '@/components/ui/AiCircle';
+import { BotSwitch } from '@/components/ui/BotSwitch';
+import { ChatInput } from '@/components/ui/ChatInput';
+import DrawerButton from '@/components/ui/DrawerButton';
+import Header, { HeaderIcon } from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemeScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
 
 const HomeScreen = () => {
   const rightComponents = [<BotSwitch />];

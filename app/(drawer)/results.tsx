@@ -12,14 +12,14 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { BotSwitch } from '@/components/BotSwitch';
-import { ChatInput } from '@/components/ChatInput';
-import DrawerButton from '@/components/DrawerButton';
-import Header, { HeaderIcon } from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import { BotSwitch } from '@/components/ui/BotSwitch';
+import { ChatInput } from '@/components/ui/ChatInput';
+import DrawerButton from '@/components/ui/DrawerButton';
+import Header, { HeaderIcon } from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 import { Divider } from '@/components/layout/Divider';
-import { shadowPresets } from '@/utils/useShadow';
+
 
 const ResultsScreen = () => {
   const [liked, setLiked] = useState(false);
@@ -64,7 +64,7 @@ const ResultsScreen = () => {
             <View style={styles.flex1}>
               <View style={styles.sectionSpacer}>
                 <View
-                  style={[shadowPresets.small, styles.questionCard]}
+                  style={styles.questionCard}
                 >
                   <ThemedText style={styles.questionText}>
                     How does Luna compare to other templates?
@@ -107,7 +107,7 @@ const ResultsScreen = () => {
 
               <View>
                 <View
-                  style={[shadowPresets.small, styles.questionCard]}
+                  style={styles.questionCard}
                 >
                   <ThemedText style={styles.questionText}>
                     Why should I choose the Luna template for my startup?
@@ -193,6 +193,11 @@ const styles = StyleSheet.create((theme) => ({
     marginBottom: 64,
   },
   questionCard: {
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 2.5,
+    shadowOffset: { width: 0, height: 1 },
     marginBottom: 24,
     borderRadius: 12,
     backgroundColor: theme.colors.secondary,

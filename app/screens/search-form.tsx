@@ -5,11 +5,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { CardScroller } from '@/components/CardScroller';
-import { Chip } from '@/components/Chip';
-import Icon from '@/components/Icon';
-import ThemedScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
+import { CardScroller } from '@/components/ui/CardScroller';
+import { Chip } from '@/components/ui/Chip';
+import Icon from '@/components/ui/Icon';
+import ThemedScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
 
 type SearchCategory = 'top-picks' | 'featured' | 'trending' | 'productivity' | 'education';
 

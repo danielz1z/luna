@@ -15,11 +15,11 @@ import { StyleSheet } from 'react-native-unistyles';
 import { InputVariant } from './Input';
 
 import { useThemeColors } from '@/app/contexts/ThemeColors';
-import { Button } from '@/components/Button';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import { Button } from '@/components/ui/Button';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 import { formatToYYYYMMDD } from '@/utils/date';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface DatePickerProps {
   value?: Date;
@@ -214,7 +214,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             style={styles.labelPressableUnderlined}
             onPress={showDatePicker}>
             <Animated.Text
-              style={[underlinedLabelStyle, styles.animatedLabelText, styles.animatedLabelTextUnderlined]}>
+              style={[underlinedLabelStyle, styles.animatedLabelTextUnderlined]}>
               {label}
             </Animated.Text>
           </Pressable>
@@ -230,7 +230,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               {value ? formatToYYYYMMDD(value) : ''}
             </ThemedText>
           </TouchableOpacity>
-          <Pressable style={[styles.iconRight, styles.iconRightUnderlined]}>
+          <Pressable style={styles.iconRightUnderlined}>
             <Icon name="Calendar" size={20} color={colors.text} />
           </Pressable>
         </View>
@@ -328,6 +328,9 @@ const styles = StyleSheet.create((theme) => ({
     zIndex: 10,
   },
   iconRightUnderlined: {
+    position: "absolute",
+    top: 18,
+    zIndex: 10,
     right: 0,
   },
   errorText: {
@@ -353,6 +356,10 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.text,
   },
   animatedLabelTextUnderlined: {
+    position: "absolute",
+    zIndex: 50,
+    backgroundColor: theme.colors.bg,
+    color: theme.colors.text,
     paddingHorizontal: 0,
   },
   sheetContainer: {

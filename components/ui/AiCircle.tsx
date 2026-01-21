@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import AnimatedView from './AnimatedView';
 import Icon from './Icon';
 
-import { shadowPresets } from '@/utils/useShadow';
+
 
 export const AiCircle = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -18,12 +18,12 @@ export const AiCircle = () => {
     <View style={styles.container}>
       <AnimatedView animation="scaleIn" duration={200} shouldResetAnimation>
         <View style={styles.circleWrapper}>
-          <View style={[shadowPresets.large, styles.outerCircle]}>
+          <View style={styles.outerCircle}>
             <LinearGradient
               colors={['#D883E4', '#016BF0', '#3DE3E0', '#E57DDF']}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
-              style={[styles.gradientCircle, shadowPresets.large]}>
+              style={styles.gradientCircle}>
               <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={toggleSpeaking}
@@ -59,6 +59,11 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: 'center',
   },
   outerCircle: {
+    elevation: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 10.84,
+    shadowOffset: { width: 0, height: 10 },
     position: 'relative',
     zIndex: 9999,
     height: 140,
@@ -69,6 +74,11 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.secondary,
   },
   gradientCircle: {
+    elevation: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 10.84,
+    shadowOffset: { width: 0, height: 10 },
     height: 140,
     width: 140,
     alignItems: 'center',

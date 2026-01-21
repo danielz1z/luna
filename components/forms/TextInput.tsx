@@ -11,12 +11,12 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import Icon from '../Icon';
-import type { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import Icon from '../ui/Icon';
+import type { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface CustomTextInputProps extends TextInputProps {
   label: string;

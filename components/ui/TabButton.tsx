@@ -8,8 +8,8 @@ import AnimatedView from './AnimatedView';
 import Avatar from './Avatar';
 import ThemedText from './ThemedText';
 
-import Icon, { IconName } from '@/components/Icon';
-import { palette } from '@/app/unistyles';
+import Icon, { IconName } from '@/components/ui/Icon';
+import { palette } from '@/lib/unistyles';
 
 export type TabButtonProps = TabTriggerSlotProps & {
   icon?: IconName;
@@ -175,3 +175,5 @@ const styles = StyleSheet.create(() => ({
     fontSize: 9,
   },
 }));
+
+export default TabButton;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Pressable, Text, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import ThemedText from '../ThemedText';
+import ThemedText from '../ui/ThemedText';
 
 interface CounterProps {
   label: string;

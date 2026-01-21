@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import Icon, { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import Icon, { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 export type InputVariant = 'animated' | 'classic' | 'underlined';
 
@@ -233,7 +233,7 @@ const Input: React.FC<CustomTextInputProps> = ({
   return (
     <View style={[styles.container, style]}>
       <Pressable
-        style={[styles.animatedLabelPressable, styles.animatedLabelPressablePosition]}
+        style={styles.animatedLabelPressablePosition}
         onPress={() => inputRef.current?.focus()}>
         <Animated.Text
           style={[labelStyle, styles.animatedLabelText]}>
@@ -307,6 +307,9 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.text,
   },
   animatedLabelPressablePosition: {
+    zIndex: 40,
+    backgroundColor: theme.colors.bg,
+    paddingHorizontal: 4,
     position: 'absolute',
     left: 4,
     top: 0,

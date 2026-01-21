@@ -3,8 +3,8 @@ import React from 'react';
 import { View, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import Icon, { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import Icon, { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 type TitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 

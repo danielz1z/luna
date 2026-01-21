@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface FloatingButtonProps {
   icon: IconName;

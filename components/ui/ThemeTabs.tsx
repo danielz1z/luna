@@ -9,7 +9,7 @@ import {
   BackHandler,
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
-import { withOpacity } from '@/app/unistyles';
+import { withOpacity } from '@/lib/unistyles';
 
 import AnimatedView from './AnimatedView';
 import ThemedText from './ThemedText';

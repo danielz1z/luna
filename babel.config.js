@@ -1,4 +1,3 @@
-// babel.config.js
 module.exports = function (api) {
   api.cache(true);
   return {
@@ -9,8 +8,7 @@ module.exports = function (api) {
         'react-native-unistyles/plugin',
         {
           root: 'app',
-          autoProcessPaths: ['components'],
-          debug: true,
+          autoProcessPaths: ['components/ui', 'components/forms', 'components/layout'],
         },
       ],
     ],

@@ -6,11 +6,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '../contexts/ThemeColors';
-import { palette } from '../unistyles';
+import { palette } from '@/lib/unistyles';
 
-import Icon from '@/components/Icon';
-import ThemedScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
+import Icon from '@/components/ui/Icon';
+import ThemedScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
 
 const Subscription = () => {
   const insets = useSafeAreaInsets();

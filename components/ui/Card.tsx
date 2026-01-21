@@ -13,7 +13,7 @@ import {
   ImageSourcePropType,
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 import { Button } from './Button';
 import Favorite from './Favorite';
@@ -21,7 +21,7 @@ import Icon from './Icon';
 import ThemedText from './ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import useShadow, { shadowPresets } from '@/utils/useShadow';
+
 
 const { width: windowWidth } = Dimensions.get('window');
 interface CardProps {
@@ -146,7 +146,7 @@ const Card: React.FC<CardProps> = ({
         style={[
           styles.cardContainer,
           { borderRadius: roundedValue },
-          hasShadow && shadowPresets.card,
+          hasShadow && styles.cardShadow,
           style,
         ]}>
         <View style={styles.imageContainer}>
@@ -249,6 +249,13 @@ const Card: React.FC<CardProps> = ({
 };
 
 const styles = StyleSheet.create((theme) => ({
+  cardShadow: {
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
+  },
   badge: {
     position: 'absolute',
     right: 8,

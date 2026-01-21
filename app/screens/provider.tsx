@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Header from '@/components/Header';
-import ShowRating from '@/components/ShowRating';
-import ThemeFooter from '@/components/ThemeFooter';
-import ThemedScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
+import { Button } from '@/components/ui/Button';
+import Header from '@/components/ui/Header';
+import ShowRating from '@/components/ui/ShowRating';
+import ThemeFooter from '@/components/ui/ThemeFooter';
+import ThemedScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
 const ProviderScreen = () => {
   return (
     <>

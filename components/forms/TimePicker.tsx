@@ -15,10 +15,10 @@ import { StyleSheet } from 'react-native-unistyles';
 import { InputVariant } from './Input';
 
 import { useThemeColors } from '@/app/contexts/ThemeColors';
-import { Button } from '@/components/Button';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
-import { palette, withOpacity } from '@/app/unistyles';
+import { Button } from '@/components/ui/Button';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface TimePickerProps {
   value?: Date;
@@ -223,7 +223,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
             style={styles.labelPressableUnderlined}
             onPress={showTimePicker}>
             <Animated.Text
-              style={[underlinedLabelStyle, styles.animatedLabelText, styles.animatedLabelTextUnderlined]}>
+              style={[underlinedLabelStyle, styles.animatedLabelTextUnderlined]}>
               {label}
             </Animated.Text>
           </Pressable>
@@ -241,7 +241,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               {value ? formattedTime(value) : ''}
             </ThemedText>
           </TouchableOpacity>
-          <Pressable style={[styles.iconRight, styles.iconRightUnderlined]}>
+          <Pressable style={styles.iconRightUnderlined}>
             <Icon name="Clock" size={20} color={colors.text} />
           </Pressable>
         </View>
@@ -344,6 +344,9 @@ const styles = StyleSheet.create((theme) => ({
     zIndex: 10,
   },
   iconRightUnderlined: {
+    position: "absolute",
+    top: 18,
+    zIndex: 10,
     right: 0,
   },
   errorText: {
@@ -369,6 +372,10 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.text,
   },
   animatedLabelTextUnderlined: {
+    position: "absolute",
+    zIndex: 50,
+    backgroundColor: theme.colors.bg,
+    color: theme.colors.text,
     paddingHorizontal: 0,
   },
   sheetContainer: {

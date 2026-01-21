@@ -1,13 +1,13 @@
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import AnimatedView from '@/components/AnimatedView';
-import Avatar from '@/components/Avatar';
-import Header from '@/components/Header';
-import ListLink from '@/components/ListLink';
-import ThemedScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
-import { shadowPresets } from '@/utils/useShadow';
+import AnimatedView from '@/components/ui/AnimatedView';
+import Avatar from '@/components/ui/Avatar';
+import Header from '@/components/ui/Header';
+import ListLink from '@/components/ui/ListLink';
+import ThemedScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
+
 
 export default function ProfileScreen() {
   return (
@@ -31,7 +31,7 @@ export default function ProfileScreen() {
         </View>
 
         <View
-          style={[shadowPresets.medium, styles.card]}
+          style={styles.card}
         >
           <ListLink
             style={styles.listLink}
@@ -106,6 +106,11 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.subtext,
   },
   card: {
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 3 },
     borderRadius: 16,
     backgroundColor: theme.colors.secondary,
     marginHorizontal: theme.spacing.global,

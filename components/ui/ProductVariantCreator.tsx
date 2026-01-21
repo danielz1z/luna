@@ -9,17 +9,17 @@ import {
   Alert,
   Text,
   TextInput,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from './Button';
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
-import Input from './forms/Input';
+import Input from '../forms/Input';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface ProductVariantCreatorProps {
   hasStock?: boolean;
@@ -120,10 +120,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
     <>
       <View style={[styles.optionsContainer, options.length > 0 && styles.optionsContainerBorder]}>
         {options.map((option, index) => (
-          <Pressable
-            onPress={() => editOption(index)}
-            key={index}
-            style={styles.optionRow}>
+          <Pressable onPress={() => editOption(index)} key={index} style={styles.optionRow}>
             <View style={styles.optionRowHeader}>
               <ThemedText style={styles.optionTitle}>{option.name}</ThemedText>
               <View style={styles.optionEditIconWrapper}>
@@ -134,10 +131,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
               {option.values.map((value, i) => (
                 <View
                   key={i}
-                  style={[
-                    styles.valueTag,
-                    isDark ? styles.valueTagDark : styles.valueTagLight,
-                  ]}>
+                  style={[styles.valueTag, isDark ? styles.valueTagDark : styles.valueTagLight]}>
                   <ThemedText style={styles.valueTagText}>{value}</ThemedText>
                 </View>
               ))}
@@ -153,7 +147,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
           <Text style={[styles.addOptionText, { color: colors.text }]}>Add option </Text>
         </Pressable>
       ) : (
-        <View style={[styles.addOptionButton, styles.addOptionButtonDisabled]}>
+        <View style={styles.addOptionButtonDisabled}>
           <Text
             style={[
               styles.addOptionText,
@@ -182,7 +176,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                       //placeholder="Price"
                       keyboardType="numeric"
                       value={variant.price}
-                      onChangeText={(text) => {
+                      onChangeText={(text: string) => {
                         const updatedVariants = [...variants];
                         updatedVariants[index].price = text;
                         setVariants(updatedVariants);
@@ -214,9 +208,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
         <SafeAreaView style={[styles.modalSafeArea, { backgroundColor: colors.bg }]}>
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
-              <Pressable
-                onPress={() => setModalVisible(false)}
-                style={styles.modalCloseButton}>
+              <Pressable onPress={() => setModalVisible(false)} style={styles.modalCloseButton}>
                 <Icon name="X" size={25} />
               </Pressable>
 
@@ -231,26 +223,24 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                   style={styles.modalDeleteButton}>
                   <Icon name="Trash" size={18} />
                 </Pressable>
-                <Button
-                  onPress={handleSaveOption}
-                  title="Save"
-                  size="medium"
-                />
+                <Button onPress={handleSaveOption} title="Save" size="medium" />
               </View>
             </View>
             <View style={styles.modalBody}>
               <View style={styles.modalContent}>
                 <ThemedText style={styles.modalSectionTitle}>Option name</ThemedText>
-                <ThemedText style={styles.modalSectionDescription}>Sizes, colors, duration</ThemedText>
+                <ThemedText style={styles.modalSectionDescription}>
+                  Sizes, colors, duration
+                </ThemedText>
                 <Input
                   label="Name"
                   value={currentOption.name}
-                  onChangeText={(text) => setCurrentOption({ ...currentOption, name: text })}
+                  onChangeText={(text: string) =>
+                    setCurrentOption({ ...currentOption, name: text })
+                  }
                 />
                 <ThemedText style={styles.modalSectionTitleValues}>Values</ThemedText>
-                <ThemedText style={styles.modalValuesHint}>
-                  Black, large, hours, etc
-                </ThemedText>
+                <ThemedText style={styles.modalValuesHint}>Black, large, hours, etc</ThemedText>
                 <FlatList
                   style={styles.valuesList}
                   data={currentOption.values}
@@ -279,15 +269,15 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                         }}
                         onSubmitEditing={Keyboard.dismiss}
                       />
-                      <Pressable onPress={() => removeValue(index)} style={styles.removeValueButton}>
+                      <Pressable
+                        onPress={() => removeValue(index)}
+                        style={styles.removeValueButton}>
                         <Icon name="Trash" size={20} />
                       </Pressable>
                     </View>
                   )}
                   ListFooterComponent={
-                    <Pressable
-                      onPress={addValue}
-                      style={styles.addValueButton}>
+                    <Pressable onPress={addValue} style={styles.addValueButton}>
                       <Icon name="Plus" size={20} />
                       <ThemedText style={styles.addValueText}>Add value</ThemedText>
                     </Pressable>
@@ -365,6 +355,14 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: 12,
   },
   addOptionButtonDisabled: {
+    position: "relative",
+    zIndex: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     backgroundColor: palette.neutral200,
     borderWidth: 0,
   },

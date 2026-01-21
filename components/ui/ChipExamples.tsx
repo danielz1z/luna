@@ -6,7 +6,7 @@ import Avatar from './Avatar';
 import { Chip } from './Chip';
 import ThemedText from './ThemedText';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 export default function ChipExamples() {
   return (

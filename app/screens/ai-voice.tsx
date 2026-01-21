@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Header from '@/components/Header';
-import { VoiceSelectCard } from '@/components/VoiceSelectCard';
+import { Button } from '@/components/ui/Button';
+import Header from '@/components/ui/Header';
+import { VoiceSelectCard } from '@/components/ui/VoiceSelectCard';
 import Section from '@/components/layout/Section';
 
 export default function AiVoiceScreen() {

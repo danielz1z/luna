@@ -17,8 +17,8 @@ import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
-import { shadowPresets } from '@/utils/useShadow';
+import { palette, withOpacity } from '@/lib/unistyles';
+
 
 type ChatInputProps = {
   attachVisible?: boolean;
@@ -199,7 +199,7 @@ export const ChatInput = (props: ChatInputProps) => {
         </View>
       )}
       <View
-        style={[shadowPresets.card, styles.composer]}>
+        style={styles.composer}>
         <TextInput
           placeholder="Ask me anything..."
           placeholderTextColor={colors.text}
@@ -230,7 +230,7 @@ export const ChatInput = (props: ChatInputProps) => {
             </Pressable>
             <Pressable
               onPress={handleSendMessage}
-              style={[styles.iconButton, styles.sendButton]}>
+              style={styles.sendIconButton}>
               <Icon name="Send" size={17} color={colors.invert} />
             </Pressable>
           </View>
@@ -285,7 +285,7 @@ const AnimatedPickerItem = (props: {
       style={styles.pickerItemWrapper}
       shouldResetAnimation>
       <TouchableOpacity
-        style={[shadowPresets.large, styles.pickerItem]}
+        style={styles.pickerItem}
         onPress={props.onPress}>
         <Icon name={props.icon} size={18} />
         <ThemedText style={styles.pickerItemLabel}>{props.label}</ThemedText>
@@ -305,6 +305,11 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
   },
   composer: {
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
     borderRadius: 24,
     backgroundColor: theme.colors.secondary,
   },
@@ -334,6 +339,14 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 9999,
+  },
+  sendIconButton: {
+    height: 40,
+    width: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 9999,
+    backgroundColor: theme.colors.text,
   },
   sendButton: {
     backgroundColor: theme.colors.text,
@@ -365,6 +378,11 @@ const styles = StyleSheet.create((theme) => ({
     marginRight: 4,
   },
   pickerItem: {
+    elevation: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 10.84,
+    shadowOffset: { width: 0, height: 10 },
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

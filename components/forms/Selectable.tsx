@@ -2,12 +2,12 @@ import React, { ReactNode } from 'react';
 import { View, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
 
-import AnimatedView from '../AnimatedView';
-import Icon, { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import AnimatedView from '../ui/AnimatedView';
+import Icon, { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface SelectableProps {
   title: string;

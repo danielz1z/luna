@@ -8,9 +8,9 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '../contexts/ThemeColors';
 
-import Icon from '@/components/Icon';
-import ThemeToggle from '@/components/ThemeToggle';
-import ThemedText from '@/components/ThemedText';
+import Icon from '@/components/ui/Icon';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import ThemedText from '@/components/ui/ThemedText';
 const { width } = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
 

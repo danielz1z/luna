@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 type ScreenContentProps = {
   title: string;
@@ -36,3 +36,5 @@ const styles = StyleSheet.create(() => ({
     backgroundColor: palette.gray200,
   },
 }));
+
+export default ScreenContent;

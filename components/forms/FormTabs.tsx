@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Pressable, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import ThemedText from '../ThemedText';
+import ThemedText from '../ui/ThemedText';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface FormTabProps {
   title: string;

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Header from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemedScroller from '@/components/ThemeScroller';
+import { Button } from '@/components/ui/Button';
+import Header from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemedScroller from '@/components/ui/ThemeScroller';
 import Input from '@/components/forms/Input';
 import Section from '@/components/layout/Section';
 

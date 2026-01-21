@@ -2,11 +2,11 @@ import { Link } from 'expo-router';
 import React, { forwardRef } from 'react';
 import { View, Pressable, ViewStyle, PressableProps } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
-import { withOpacity } from '@/app/unistyles';
+import { withOpacity } from '@/lib/unistyles';
 
-import Avatar from '../Avatar';
-import Icon, { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import Avatar from '../ui/Avatar';
+import Icon, { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 interface IconConfig {
   name: IconName;

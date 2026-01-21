@@ -4,9 +4,9 @@ import { View, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { palette } from '@/app/unistyles';
-import { Button } from '@/components/Button';
-import ThemedText from '@/components/ThemedText';
+import { palette } from '@/lib/unistyles';
+import { Button } from '@/components/ui/Button';
+import ThemedText from '@/components/ui/ThemedText';
 import Input from '@/components/forms/Input';
 
 export default function SignupScreen() {

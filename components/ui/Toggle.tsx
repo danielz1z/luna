@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Pressable, Animated } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface ToggleProps {
   value?: boolean;

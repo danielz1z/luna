@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import AnimatedView from './AnimatedView';
 
-import { shadowPresets } from '@/utils/useShadow';
+
 
 export const Sphere = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -20,7 +20,7 @@ export const Sphere = () => {
           style={styles.touchTarget}
           onPress={toggleSpeaking}>
           <View
-            style={[shadowPresets.large, styles.sphere]}>
+            style={styles.sphere}>
             <LottieView
               autoPlay
               style={{
@@ -69,6 +69,11 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: 'center',
   },
   sphere: {
+    elevation: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 10.84,
+    shadowOffset: { width: 0, height: 10 },
     position: 'relative',
     zIndex: 9999,
     height: 140,
@@ -79,3 +84,5 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.invert,
   },
 }));
+
+export default Sphere;

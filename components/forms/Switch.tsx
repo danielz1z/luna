@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import Icon, { IconName } from '../Icon';
-import ThemedText from '../ThemedText';
+import Icon, { IconName } from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface SwitchProps {
   value?: boolean;

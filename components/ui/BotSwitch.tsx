@@ -7,7 +7,7 @@ import ActionSheetThemed from './ActionSheetThemed';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
 
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 export const BotSwitch = () => {
   const [selectedModel, setSelectedModel] = useState('GPT-4o');

@@ -3,10 +3,10 @@ import React from 'react';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Header from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import { Button } from '@/components/ui/Button';
+import Header from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 
 export default function NotFoundScreen() {
   return (

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { useTheme } from '@/app/contexts/ThemeContext';
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
 

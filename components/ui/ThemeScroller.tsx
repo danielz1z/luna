@@ -3,7 +3,6 @@ import {
   ScrollView,
   ScrollViewProps,
   View,
-  Animated,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native';
@@ -54,5 +53,3 @@ const styles = StyleSheet.create((theme) => ({
     width: '100%',
   },
 }));
-
-export const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);

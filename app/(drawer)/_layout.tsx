@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useThemeColors } from '../contexts/ThemeColors';
 
-import CustomDrawerContent from '@/components/CustomDrawerContent';
+import CustomDrawerContent from '@/components/ui/CustomDrawerContent';
 
 export default function DrawerLayout() {
   const colors = useThemeColors();

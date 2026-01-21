@@ -9,7 +9,7 @@ import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 type HeaderProps = {
   title?: string;

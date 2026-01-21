@@ -10,7 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { StyleSheet } from 'react-native-unistyles';
 
-import ThemedText from '../ThemedText';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 

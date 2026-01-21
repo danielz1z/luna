@@ -11,7 +11,7 @@ import {
   Dimensions,
   InteractionManager,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+
 
 export type AnimationType =
   | 'fadeIn'
@@ -470,10 +470,10 @@ function AnimatedViewComponent({
   return (
     <View
       ref={viewRef}
-      style={[styles.container, style, initialHiddenStyle]}
+      style={[style, initialHiddenStyle]}
       onLayout={handleLayout}
       collapsable={false}>
-      <Animated.View style={[styles.animated, getAnimationStyle(), style]}>
+      <Animated.View style={[getAnimationStyle(), style]}>
         {children}
       </Animated.View>
     </View>
@@ -483,7 +483,3 @@ function AnimatedViewComponent({
 // Export a memoized version of the component
 export default memo(AnimatedViewComponent, propsAreEqual);
 
-const styles = StyleSheet.create(() => ({
-  container: {},
-  animated: {},
-}));

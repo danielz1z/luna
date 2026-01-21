@@ -6,8 +6,8 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { useTheme } from '@/app/contexts/ThemeContext';
-import ThemedText from '@/components/ThemedText';
-import { palette } from '@/app/unistyles';
+import ThemedText from '@/components/ui/ThemedText';
+import { palette } from '@/lib/unistyles';
 
 interface ConfirmationModalProps {
   isVisible: boolean;

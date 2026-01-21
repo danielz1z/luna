@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Pressable, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import Icon from '../Icon';
-import ThemedText from '../ThemedText';
+import Icon from '../ui/Icon';
+import ThemedText from '../ui/ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface CheckboxProps {
   label: string;

@@ -16,13 +16,13 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Header from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import { Button } from '@/components/ui/Button';
+import Header from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 import BackHandlerManager from '@/utils/BackHandlerManager';
 import { useThemeColors } from '@/app/contexts/ThemeColors';
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 // Step component that will be used as children
 export interface StepProps {

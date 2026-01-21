@@ -2,9 +2,9 @@ import { Link } from 'expo-router';
 import { View, StyleProp, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { Button } from '@/components/Button';
-import Icon, { IconName } from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import { Button } from '@/components/ui/Button';
+import Icon, { IconName } from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 
 interface PlaceholderProps {
   title: string;
@@ -80,3 +80,5 @@ const styles = StyleSheet.create((theme) => ({
     marginTop: 16,
   },
 }));
+
+export default Placeholder;

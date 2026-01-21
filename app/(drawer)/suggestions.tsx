@@ -11,15 +11,15 @@ import {
 import { StyleSheet } from 'react-native-unistyles';
 import Rive from 'rive-react-native';
 
-import { BotSwitch } from '@/components/BotSwitch';
-import { CardScroller } from '@/components/CardScroller';
-import { ChatInput } from '@/components/ChatInput';
-import DrawerButton from '@/components/DrawerButton';
-import Header, { HeaderIcon } from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemeScroller from '@/components/ThemeScroller';
-import ThemedText from '@/components/ThemedText';
-import { shadowPresets } from '@/utils/useShadow';
+import { BotSwitch } from '@/components/ui/BotSwitch';
+import { CardScroller } from '@/components/ui/CardScroller';
+import { ChatInput } from '@/components/ui/ChatInput';
+import DrawerButton from '@/components/ui/DrawerButton';
+import Header, { HeaderIcon } from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemeScroller from '@/components/ui/ThemeScroller';
+import ThemedText from '@/components/ui/ThemedText';
+
 
 type MessageType = {
   id: string;
@@ -86,7 +86,7 @@ const SuggestionCard = (props: any) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      style={[shadowPresets.card, styles.suggestionCard]}>
+      style={styles.suggestionCard}>
       <Icon
         name={props.icon}
         size={20}
@@ -129,6 +129,11 @@ const styles = StyleSheet.create((theme) => ({
     paddingBottom: theme.spacing.sm,
   },
   suggestionCard: {
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
     width: 270,
     flexDirection: 'row',
     alignItems: 'center',

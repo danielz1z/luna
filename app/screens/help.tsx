@@ -2,12 +2,12 @@ import React from 'react';
 import { View, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import AnimatedView from '@/components/AnimatedView';
-import { Button } from '@/components/Button';
-import Expandable from '@/components/Expandable';
-import Header from '@/components/Header';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
+import AnimatedView from '@/components/ui/AnimatedView';
+import { Button } from '@/components/ui/Button';
+import Expandable from '@/components/ui/Expandable';
+import Header from '@/components/ui/Header';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
 import Section from '@/components/layout/Section';
 
 // FAQ data

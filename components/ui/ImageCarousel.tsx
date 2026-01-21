@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import ThemedText from '@/components/ThemedText';
+import ThemedText from '@/components/ui/ThemedText';
 
-import { palette, withOpacity } from '@/app/unistyles';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface ImageCarouselProps {
   images: string[] | ImageSourcePropType[];

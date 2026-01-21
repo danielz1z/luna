@@ -8,7 +8,7 @@ import { Button } from './Button';
 import Icon from './Icon';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import { shadowPresets } from '@/utils/useShadow';
+
 
 interface VoiceItemProps {
   name: string;
@@ -77,7 +77,7 @@ export const VoiceSelectCard = (props: VoiceItemProps) => {
         />
       </Animated.View>
       <Pressable
-        style={[styles.pressable, shadowPresets.card]}
+        style={styles.pressable}
         onPress={() => {
           toggleVisibility();
           toggleScale();
@@ -136,6 +136,11 @@ const styles = StyleSheet.create((theme) => ({
     width: '100%',
   },
   pressable: {
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3.84,
+    shadowOffset: { width: 0, height: 2 },
     position: 'relative',
     zIndex: 50,
     width: '100%',
@@ -167,3 +172,5 @@ const styles = StyleSheet.create((theme) => ({
     width: '100%',
   },
 }));
+
+export default VoiceSelectCard;

@@ -1,5 +1,5 @@
 import { Link, router } from 'expo-router';
-import { View, Text, Pressable, TouchableOpacity, TextInput, Touchable } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity, TextInput } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
 
@@ -9,8 +9,8 @@ import ThemedScroller from './ThemeScroller';
 import ThemedText from './ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
-import ThemeToggle from '@/components/ThemeToggle';
-import { palette, withOpacity } from '@/app/unistyles';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 const History = [
   { label: 'Home', href: '/' },

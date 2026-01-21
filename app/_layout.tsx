@@ -1,4 +1,4 @@
-import './unistyles';
+import '@/lib/unistyles';
 import { Stack } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';

@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { CardScroller } from './CardScroller';
 import Icon from './Icon';
 
-import { palette } from '@/app/unistyles';
+import { palette } from '@/lib/unistyles';
 
 interface MultipleImagePickerProps {
   onImageSelect?: (uri: string) => void;
@@ -77,7 +77,7 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
           hasMainImage && (
             <Pressable
               onPress={() => pickImage(true)}
-              style={[styles.tile, styles.tileEmpty]}
+              style={styles.tileEmpty}
               android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
               <Icon name="Camera" size={24} />
               <Text style={styles.mainPhotoText}>
@@ -107,7 +107,7 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
               ) : (
                 <Pressable
                   onPress={() => pickImage(false)}
-                  style={[styles.tile, styles.tileEmpty, styles.tilePlaceholder]}
+                  style={styles.tilePlaceholder}
                   android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
                   <Icon name="Plus" size={24} />
                 </Pressable>
@@ -139,9 +139,26 @@ const styles = StyleSheet.create((theme) => ({
     overflow: 'hidden',
   },
   tileEmpty: {
+    height: 112,
+    width: 112,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.text,
+    overflow: "hidden",
     padding: 16,
   },
   tilePlaceholder: {
+    height: 112,
+    width: 112,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.text,
+    overflow: "hidden",
+    padding: 16,
     opacity: 0.4,
   },
   tileImage: {
@@ -168,3 +185,5 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.text,
   },
 }));
+
+export default MultipleImagePicker;

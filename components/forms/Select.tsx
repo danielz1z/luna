@@ -16,9 +16,9 @@ import { InputVariant } from './Input';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { useTheme } from '@/app/contexts/ThemeContext';
-import Icon from '@/components/Icon';
-import ThemedText from '@/components/ThemedText';
-import { palette, withOpacity } from '@/app/unistyles';
+import Icon from '@/components/ui/Icon';
+import ThemedText from '@/components/ui/ThemedText';
+import { palette, withOpacity } from '@/lib/unistyles';
 
 interface SelectOption {
   label: string;
@@ -190,8 +190,7 @@ const Select: React.FC<SelectProps> = ({
               isFocused ? styles.fieldFocused : styles.fieldUnfocused,
               error && styles.fieldError,
             ]}>
-            <ThemedText
-              style={[styles.valueText, !selectedOption && styles.placeholderText]}>
+            <ThemedText style={[styles.valueText, !selectedOption && styles.placeholderText]}>
               {selectedOption ? selectedOption.label : placeholder}
             </ThemedText>
             <Icon name="ChevronDown" size={20} />
@@ -208,11 +207,13 @@ const Select: React.FC<SelectProps> = ({
     return (
       <View style={[styles.container, style]}>
         <View style={styles.relative}>
-          <Pressable
-            style={styles.labelPressableUnderlined}
-            onPress={handlePress}>
+          <Pressable style={styles.labelPressableUnderlined} onPress={handlePress}>
             <Animated.Text
-              style={[underlinedLabelStyle, styles.animatedLabelText, styles.animatedLabelTextUnderlined]}>
+              style={[
+                underlinedLabelStyle,
+                styles.animatedLabelText,
+                styles.animatedLabelTextUnderlined,
+              ]}>
               {label}
             </Animated.Text>
           </Pressable>
@@ -223,8 +224,7 @@ const Select: React.FC<SelectProps> = ({
               isFocused ? styles.fieldFocused : styles.fieldUnfocused,
               error && styles.fieldError,
             ]}>
-            <ThemedText
-              style={[styles.valueText, !selectedOption && styles.placeholderText]}>
+            <ThemedText style={[styles.valueText, !selectedOption && styles.placeholderText]}>
               {selectedOption ? selectedOption.label : ''}
             </ThemedText>
             <Icon name="ChevronDown" size={20} />
@@ -240,13 +240,8 @@ const Select: React.FC<SelectProps> = ({
   return (
     <View style={[styles.container, style]}>
       <View style={styles.relative}>
-        <Pressable
-          style={styles.labelPressable}
-          onPress={handlePress}>
-          <Animated.Text
-            style={[labelStyle, styles.animatedLabelText]}>
-            {label}
-          </Animated.Text>
+        <Pressable style={styles.labelPressable} onPress={handlePress}>
+          <Animated.Text style={[labelStyle, styles.animatedLabelText]}>{label}</Animated.Text>
         </Pressable>
         <TouchableOpacity
           onPress={handlePress}
