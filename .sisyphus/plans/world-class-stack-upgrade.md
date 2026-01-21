@@ -91,7 +91,7 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Phase 3: Migrate Image Components
 
-- [ ] 3. Replace React Native Image with expo-image
+- [x] 3. Replace React Native Image with expo-image
 
   **Files to update** (10 files):
   - `app/(drawer)/index.tsx`

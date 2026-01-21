@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Pressable,
-  Modal,
-  FlatList,
-  ScrollView,
-  Keyboard,
-  Alert,
-  Text,
-  TextInput,
-} from 'react-native';
+import { View, Pressable, Modal, ScrollView, Keyboard, Alert, Text, TextInput } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -241,7 +232,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                 />
                 <ThemedText style={styles.modalSectionTitleValues}>Values</ThemedText>
                 <ThemedText style={styles.modalValuesHint}>Black, large, hours, etc</ThemedText>
-                <FlatList
+                <FlashList
                   style={styles.valuesList}
                   data={currentOption.values}
                   keyExtractor={(item, index) => index.toString()}
@@ -355,11 +346,11 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: 12,
   },
   addOptionButtonDisabled: {
-    position: "relative",
+    position: 'relative',
     zIndex: 50,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 12,
