@@ -1,0 +1,593 @@
+Starting project at /Users/daniel/Documents/DEV/luna
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Dependency validation might be unreliable when using canary SDK versions
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Starting project at /Users/daniel/Documents/DEV/luna
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Dependency validation might be unreliable when using canary SDK versions
+› Opening exp://192.168.68.54:8081 on iPhone 16 Pro
+- Fetching Expo Go
+TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+TypeError: The "path" argument must be of type string. Received undefined
+    at Object.parse (node:path:1616:5)
+    at downloadExpoGoAsync (/Users/daniel/Documents/DEV/luna/node_modules/@expo/cli/src/utils/downloadExpoGoAsync.ts:98:25)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at ExpoGoInstaller.ensureAsync (/Users/daniel/Documents/DEV/luna/node_modules/@expo/cli/src/start/platforms/ExpoGoInstaller.ts:136:26)
+    at ApplePlatformManager.openProjectInExpoGoAsync (/Users/daniel/Documents/DEV/luna/node_modules/@expo/cli/src/start/platforms/PlatformManager.ts:118:5)
+    at async Promise.allSettled (index 1)
+    at openPlatformsAsync (/Users/daniel/Documents/DEV/luna/node_modules/@expo/cli/src/start/server/openPlatforms.ts:10:19)
+    at startAsync (/Users/daniel/Documents/DEV/luna/node_modules/@expo/cli/src/start/startAsync.ts:117:3)
+- Fetching Expo Go
+- Installing CocoaPods...
+✔ Installed CocoaPods
+› Planning build
+› Executing react-native Pods/hermes-engine » [CP-User] [Hermes] Replace Hermes for the right configuration, if needed
+› Executing react-native Pods/ReactNativeDependencies » [CP-User] [RNDeps] Replace React Native Dependencies for the right configuration, if needed
+› Executing react-native Pods/React-Core-prebuilt » [CP-User] [RNDeps] Replace React Native Core for the right configuration, if needed
+› Preparing Pods/React-Core-React-Core_privacy » ResourceBundle-React-Core_privacy-React-Core-Info.plist
+› Preparing Pods/React-cxxreact-React-cxxreact_privacy » ResourceBundle-React-cxxreact_privacy-React-cxxreact-Info.plist
+› Executing react-native Pods/React-RCTFBReactNativeSpec » [CP-User] [RN]Check FBReactNativeSpec
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » NitroModulesSpec-generated.mm
+› Compiling luna Pods/ReactCodegen » safeareacontext-generated.mm
+› Compiling luna Pods/ReactCodegen » rnworklets-generated.mm
+› Compiling luna Pods/ReactCodegen » rnsvg-generated.mm
+› Compiling luna Pods/ReactCodegen » rnscreens-generated.mm
+› Compiling luna Pods/ReactCodegen » rnreanimated-generated.mm
+› Compiling luna Pods/ReactCodegen » rngesturehandler_codegen-generated.mm
+› Compiling luna Pods/ReactCodegen » TurboUnistyles-generated.mm
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » States.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » ShadowNodes.cpp
+› Compiling luna Pods/ReactCodegen » RNDateTimePickerCGen-generated.mm
+› Compiling luna Pods/ReactCodegen » RCTUnstableModulesRequiringMainQueueSetupProvider.mm
+› Compiling luna Pods/ReactCodegen » RCTThirdPartyComponentsProvider.mm
+› Compiling luna Pods/ReactCodegen » RCTModulesConformingToProtocolsProvider.mm
+› Compiling luna Pods/ReactCodegen » RCTModuleProviders.mm
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » Props.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » EventEmitters.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Compiling luna Pods/ReactCodegen » ComponentDescriptors.cpp
+› Packaging luna Pods/ReactCodegen » libReactCodegen.a
+› Compiling react-native-worklets Pods/RNWorklets » WorkletsModule.mm
+› Packaging react-native-worklets Pods/RNWorklets » libRNWorklets.a
+› Preparing Pods/EXApplication-ExpoApplication_privacy » ResourceBundle-ExpoApplication_privacy-EXApplication-Info.plist
+› Preparing expo-constants Pods/EXConstants-EXConstants » ResourceBundle-EXConstants-EXConstants-Info.plist
+› Preparing Pods/EXConstants-ExpoConstants_privacy » ResourceBundle-ExpoConstants_privacy-EXConstants-Info.plist
+› Executing expo-constants Pods/EXConstants » [CP-User] Generate app.config for prebuilt Constants.manifest
+› Preparing expo-updates Pods/EXUpdates-EXUpdates » ResourceBundle-EXUpdates-EXUpdates-Info.plist
+› Preparing expo-updates Pods/ReachabilitySwift-ReachabilitySwift » ResourceBundle-ReachabilitySwift-ReachabilitySwift-Info.plist
+    Run script build phase '[CP-User] Generate updates resources for expo-updates' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'EXUpdates' from project 'Pods')
+› Executing expo-updates Pods/EXUpdates » [CP-User] Generate updates resources for expo-updates
+› Compiling expo-updates Pods/EXUpdates » bspatch.c
+› Packaging expo-updates Pods/EXUpdates » libEXUpdates.a
+› Compiling luna Pods/ReactAppDependencyProvider » RCTAppDependencyProvider.mm
+› Packaging luna Pods/ReactAppDependencyProvider » libReactAppDependencyProvider.a
+› Preparing Pods/ExpoFileSystem-ExpoFileSystem_privacy » ResourceBundle-ExpoFileSystem_privacy-ExpoFileSystem-Info.plist
+› Preparing expo-image Pods/SDWebImage-SDWebImage » ResourceBundle-SDWebImage-SDWebImage-Info.plist
+› Preparing Pods/ExpoNotifications-ExpoNotifications_privacy » ResourceBundle-ExpoNotifications_privacy-ExpoNotifications-Info.plist
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsHostEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsAccessoryShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsAccessoryEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsAccessoryContentComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsScreenEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsAccessoryComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConversions.mm
+› Compiling react-native-screens Pods/RNScreens » UIViewController+RNScreens.mm
+› Compiling react-native-screens Pods/RNScreens » RNScreens-dummy.m
+› Compiling react-native-screens Pods/RNScreens » RNSViewInteractionManager.mm
+› Compiling react-native-screens Pods/RNScreens » RNSTabsScreenViewController.mm
+› Compiling react-native-screens Pods/RNScreens » RNSTabBarControllerDelegate.mm
+› Compiling react-native-screens Pods/RNScreens » RNSTabBarController.mm
+› Compiling react-native-screens Pods/RNScreens » RNSTabBarAppearanceCoordinator.mm
+› Compiling react-native-screens Pods/RNScreens » RNSStackScreenComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSStackScreenComponentEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSStackHostComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewScreenShadowStateProxy.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewScreenShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewScreenComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewScreenComponentEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewHostComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSplitViewHostComponentEventEmitter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSearchBar.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenStackHeaderSubviewShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSScreenStackHeaderSubview.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenStackHeaderConfigShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSScreenStackHeaderConfig.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenStack.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSScreenNavigationContainer.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenFooter.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenContentWrapper.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreenContainer.mm
+› Compiling react-native-screens Pods/RNScreens » RNSScreen.mm
+› Compiling react-native-screens Pods/RNScreens » RNSSafeAreaViewState.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSSafeAreaViewShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSSafeAreaViewComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSModule.mm
+› Compiling react-native-screens Pods/RNScreens » RNSModalScreenShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSModalScreen.mm
+› Compiling react-native-screens Pods/RNScreens » RNSFullWindowOverlayShadowNode.cpp
+› Compiling react-native-screens Pods/RNScreens » RNSFullWindowOverlay.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConvert.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConversions-Stack.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConversions-SplitView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConversions-Fabric.mm
+› Compiling react-native-screens Pods/RNScreens » RNSConversions-BottomTabs.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsScreenComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsHostComponentView.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsHostComponentView+RNSImageLoader.mm
+› Compiling react-native-screens Pods/RNScreens » RNSBottomTabsAccessoryShadowStateProxy.mm
+› Packaging react-native-screens Pods/RNScreens » libRNScreens.a
+› Executing react-native-screens Pods/RNScreens » Copy generated compatibility header
+› Compiling expo-router Pods/ExpoRouter » ExpoRouter-dummy.m
+› Packaging expo-router Pods/ExpoRouter » libExpoRouter.a
+› Executing expo-router Pods/ExpoRouter » Copy generated compatibility header
+› Compiling expo-sharing Pods/ExpoSharing » ExpoSharing-dummy.m
+› Packaging expo-sharing Pods/ExpoSharing » libExpoSharing.a
+› Executing expo-sharing Pods/ExpoSharing » Copy generated compatibility header
+› Compiling expo-symbols Pods/ExpoSymbols » ExpoSymbols-dummy.m
+› Packaging expo-symbols Pods/ExpoSymbols » libExpoSymbols.a
+› Executing expo-symbols Pods/ExpoSymbols » Copy generated compatibility header
+› Preparing Pods/ExpoSystemUI-ExpoSystemUI_privacy » ResourceBundle-ExpoSystemUI_privacy-ExpoSystemUI-Info.plist
+› Compiling expo-system-ui Pods/ExpoSystemUI » ExpoSystemUI-dummy.m
+› Packaging expo-system-ui Pods/ExpoSystemUI » libExpoSystemUI.a
+› Executing expo-system-ui Pods/ExpoSystemUI » Copy generated compatibility header
+› Compiling react-native-nitro-modules Pods/NitroModules » NativeNitroModules+NewArch.mm
+› Compiling react-native-nitro-modules Pods/NitroModules » NativeNitroModules+OldArch.mm
+› Compiling react-native-nitro-modules Pods/NitroModules » NitroModules-dummy.m
+› Packaging react-native-nitro-modules Pods/NitroModules » libNitroModules.a
+› Executing react-native-nitro-modules Pods/NitroModules » Copy generated compatibility header
+› Preparing Pods/RiveRuntime-runtime_ios_privacy » ResourceBundle-runtime_ios_privacy-RiveRuntime-Info.plist
+› Executing rive-react-native Pods/RiveRuntime » [CP] Copy XCFrameworks
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » RNDateTimePicker-dummy.m
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » ShadowNodes.cpp
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » RNDateTimePickerComponentView.mm
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » RNDateTimePicker.m
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » RNDateTimePickerShadowView.m
+› Compiling @react-native-community/datetimepicker Pods/RNDateTimePicker » RNDateTimePickerManager.m
+› Packaging @react-native-community/datetimepicker Pods/RNDateTimePicker » libRNDateTimePicker.a
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNFlingHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNTapHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNRotationHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNRootViewGestureRecognizer.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNPinchHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNPanHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNManualHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNManualActivationRecognizer.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNLongPressHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNHoverHandler.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandlerRegistry.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandlerPointerTracker.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandlerModule.mm
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandlerEvents.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandlerButtonComponentView.mm
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGestureHandler-dummy.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGHVector.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNGHStylusData.m
+› Compiling react-native-gesture-handler Pods/RNGestureHandler » RNForceTouchHandler.m
+› Compiling react-native-unistyles Pods/Unistyles » UnistylesModuleOnLoad.mm
+› Compiling react-native-unistyles Pods/Unistyles » Unistyles-dummy.m
+› Packaging react-native-gesture-handler Pods/RNGestureHandler » libRNGestureHandler.a
+› Compiling react-native-reanimated Pods/RNReanimated » NativeProxy.mm
+› Packaging react-native-unistyles Pods/Unistyles » libUnistyles.a
+› Executing react-native-unistyles Pods/Unistyles » Copy generated compatibility header
+› Preparing Pods/lottie-ios-LottiePrivacyInfo » ResourceBundle-LottiePrivacyInfo-lottie-ios-Info.plist
+› Executing lottie-react-native Pods/lottie-ios » Copy generated compatibility header
+› Preparing Pods/lottie-react-native-Lottie_React_Native_Privacy » ResourceBundle-Lottie_React_Native_Privacy-lottie-react-native-Info.plist
+› Compiling lottie-react-native Pods/lottie-react-native » lottie-react-native-dummy.m
+› Compiling lottie-react-native Pods/lottie-react-native » RCTConvert+Lottie.m
+› Compiling lottie-react-native Pods/lottie-react-native » LottieAnimationViewComponentView.mm
+› Compiling lottie-react-native Pods/lottie-react-native » LRNAnimationViewManagerObjC.m
+› Compiling react-native-reanimated Pods/RNReanimated » SharedTransitions.cpp
+› Compiling react-native-reanimated Pods/RNReanimated » ReanimatedModule.mm
+› Compiling react-native-reanimated Pods/RNReanimated » ReanimatedSensorContainer.m
+› Compiling react-native-reanimated Pods/RNReanimated » ReanimatedSensor.m
+› Compiling react-native-reanimated Pods/RNReanimated » RNReanimated-dummy.m
+› Compiling react-native-reanimated Pods/RNReanimated » RCTUIView+Reanimated.m
+› Packaging lottie-react-native Pods/lottie-react-native » liblottie-react-native.a
+› Executing lottie-react-native Pods/lottie-react-native » Copy generated compatibility header
+› Executing react-native-maps Pods/react-native-maps » [CP-User] react-native-maps patches
+› Executing rive-react-native Pods/rive-react-native » Copy generated compatibility header
+› Packaging react-native-reanimated Pods/RNReanimated » libRNReanimated.a
+› Preparing Pods/RNSVG-RNSVGFilters » ResourceBundle-RNSVGFilters-RNSVG-Info.plist
+› Compiling react-native-svg Pods/RNSVG » RNSVG-dummy.m
+› Compiling react-native-svg Pods/RNSVG » RNSVGShadowNodes.cpp
+› Compiling react-native-svg Pods/RNSVG » RNSVGNode.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFilter.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGSvgView.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGConvert.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGUse.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGTextPath.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGText.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGTSpan.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGSymbol.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGSvgViewModule.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGRenderableModule.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGRect.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGRadialGradient.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGPattern.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGPath.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGMask.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGMarker.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGLinearGradient.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGLine.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGImageShadowNode.cpp
+› Compiling react-native-svg Pods/RNSVG » RNSVGImage.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGGroup.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGForeignObject.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFilterPrimitive.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeOffset.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeMerge.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeGaussianBlur.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeFlood.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeComposite.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeColorMatrix.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGFeBlend.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGEllipse.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGDefs.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGClipPath.mm
+› Compiling react-native-svg Pods/RNSVG » RNSVGCircle.mm
+› Packaging react-native-svg Pods/RNSVG » libRNSVG.a
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCallout.m
+› Compiling react-native-maps Pods/react-native-maps » react-native-maps-dummy.m
+› Compiling react-native-maps Pods/react-native-maps » PlaceHolderPolygonView.mm
+› Compiling react-native-maps Pods/react-native-maps » UIView+AirMap.m
+› Compiling react-native-maps Pods/react-native-maps » PlaceHolderGoogleMapView.mm
+› Compiling react-native-maps Pods/react-native-maps » SMCalloutView.m
+› Compiling react-native-maps Pods/react-native-maps » RCTComponentData+Maps.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCalloutSubviewManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRWeakTimerReference.m
+› Compiling react-native-maps Pods/react-native-maps » RCTConvert+AirMap.m
+› Compiling react-native-maps Pods/react-native-maps » AIRWeakMapReference.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapWMSTileManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapWMSTile.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapUrlTileManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapUrlTileCachedOverlay.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapUrlTile.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapPolylineRenderer.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapPolylineManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapPolyline.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapPolygonManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapPolygon.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapOverlayRenderer.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapOverlayManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapOverlay.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapMarkerManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapMarker.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapLocalTileOverlay.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapLocalTileManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapLocalTile.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCoordinate.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCircleManager.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCircle.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCalloutSubview.m
+› Compiling react-native-maps Pods/react-native-maps » AIRMapCalloutManager.m
+› Packaging react-native-maps Pods/react-native-maps » libreact-native-maps.a
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCOnInsetsChangeEvent.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewShadowNode.cpp
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaContext.mm
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewComponentView.mm
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaProviderComponentView.mm
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » react-native-safe-area-context-dummy.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewMode.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewManager.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewState.cpp
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewLocalData.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewEdges.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaViewEdgeMode.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaView.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaUtils.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaShadowView.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaProviderManager.m
+› Compiling react-native-safe-area-context Pods/react-native-safe-area-context » RNCSafeAreaProvider.m
+› Packaging react-native-safe-area-context Pods/react-native-safe-area-context » libreact-native-safe-area-context.a
+› Compiling @react-native-community/slider Pods/react-native-slider » RNCSlider.m
+› Compiling @react-native-community/slider Pods/react-native-slider » RNCSliderShadowNode.cpp
+› Compiling @react-native-community/slider Pods/react-native-slider » react-native-slider-dummy.m
+› Compiling @react-native-community/slider Pods/react-native-slider » RNCSliderComponentView.mm
+› Packaging @react-native-community/slider Pods/react-native-slider » libreact-native-slider.a
+› Compiling Pods/Pods-Luna » Pods-Luna-dummy.m
+› Packaging Pods/Pods-Luna » libPods-Luna.a
+› Executing Luna » [CP] Check Pods Manifest.lock
+› Executing Luna » [Expo] Configure project
+› Compiling Luna » Luna_vers.c
+› Linking   Luna » Luna.debug.dylib
+⚠️  ld: ignoring duplicate libraries: '-lc++'
+⚠️  ld: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0.zftkgL/Metal.xctoolchain/usr/lib/swift/iphonesimulator' not found
+› Linking   Luna » Luna
+⚠️  ld: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0.zftkgL/Metal.xctoolchain/usr/lib/swift/iphonesimulator' not found
+› Linking   Luna » __preview.dylib
+⚠️  ld: search path '/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v17.3.48.0.zftkgL/Metal.xctoolchain/usr/lib/swift/iphonesimulator' not found
+› Copying   ./PrivacyInfo.xcprivacy ➜ ios/Luna/PrivacyInfo.xcprivacy
+› Executing Luna » Bundle React Native code and images
+› Executing Luna » [CP] Copy Pods Resources
+› Executing Luna » [CP] Embed Pods Frameworks
+› Preparing Luna » Info.plist
+› Generating debug Luna » Luna.app.dSYM
+› Generating debug Luna » Luna.app.dSYM
+› Signing   Luna » Luna.debug.dylib
+› Signing   Luna » __preview.dylib
+› Signing   Luna » Luna.app
+    Run script build phase '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'hermes-engine' from project 'Pods')
+    Run script build phase '[CP-User] react-native-maps patches' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'react-native-maps' from project 'Pods')
+› Build Succeeded
+
+› 0 error(s), and 7 warning(s)
+
+Starting Metro Bundler
+Waiting on http://localhost:8081
+› Installing /Users/daniel/Library/Developer/Xcode/DerivedData/Luna-cdsldlocgwwoidcrdejkzfrhbwqa/Build/Products/Debug-iphonesimulator/Luna.app
+› Installing on iPhone 16 Pro
+› Opening on iPhone 16 Pro (com.blobsid.luna)
+› Opening com.blobsid.luna://expo-development-client/?url=http%3A%2F%2F192.168.68.54%3A8081 on iPhone 16 Pro
+› Opening the iOS simulator, this might take a moment.
+
+› Logs for your project will appear below.
+iOS ./index.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+[libapp_launch_measurement.dylib] Failed to send CA Event for app launch
+measurements for ca_event_type: 0 event_name:
+com.apple.app_launch_measurement.FirstFramePresentationMetric
+[libapp_launch_measurement.dylib] Failed to send CA Event for app launch
+measurements for ca_event_type: 1 event_name:
+com.apple.app_launch_measurement.ExtendedLaunchMetrics
+| app/(drawer)/index.tsx: styles.root: [Theme]
+| app/(drawer)/lottie.tsx: styles.root: [Theme]
+| app/(drawer)/suggestions.tsx: styles.root: [Theme]
+| app/(drawer)/index.tsx: styles.appTitleDot: [Theme]
+| app/(drawer)/suggestions.tsx: styles.appTitle: [Theme]
+| app/(drawer)/suggestions.tsx: styles.appTitleDot: [Theme]
+| app/(drawer)/suggestions.tsx: styles.cardScroller: [Theme]
+| app/(drawer)/suggestions.tsx: styles.suggestionCard: [Theme]
+| app/(drawer)/suggestions.tsx: styles.suggestionIcon: [Theme]
+| app/(drawer)/lottie.tsx: styles.appTitleDot: [Theme]
+| app/(drawer)/lottie.tsx: styles.loadingBubble: [Theme]
+| app/(drawer)/lottie.tsx: styles.loadingDot: [Theme]
+| app/(drawer)/results.tsx: styles.root: [Theme]
+| app/_layout.tsx: styles.root: [Theme]
+| app/[...404].tsx: styles.root: [Theme]
+| app/[...404].tsx: styles.title: [Theme]
+| app/[...404].tsx: styles.description: [Theme]
+| app/(drawer)/results.tsx: styles.appTitle: [Theme]
+| app/(drawer)/results.tsx: styles.appTitleDot: [Theme]
+| app/(drawer)/results.tsx: styles.scrollView: [Theme]
+| app/(drawer)/results.tsx: styles.questionCard: [Theme]
+| app/(drawer)/results.tsx: styles.h2: [Theme]
+| app/(drawer)/results.tsx: styles.h3: [Theme]
+| app/(drawer)/results.tsx: styles.actionTextSubtext: [Theme]
+| app/screens/forgot-password.tsx: styles.root: [Theme]
+| app/screens/ai-voice.tsx: styles.root: [Theme]
+| app/screens/edit-profile.tsx: styles.photo: [Theme]
+| app/screens/forgot-password.tsx: styles.title: [Theme]
+| app/screens/forgot-password.tsx: styles.subtitle: [Theme]
+| app/screens/forgot-password.tsx: styles.footerText: [Theme]
+| app/screens/edit-profile.tsx: styles.photoPlaceholder: [Theme]
+| app/screens/edit-profile.tsx: styles.card: [Theme]
+| app/screens/help.tsx: styles.root: [Theme]
+| app/screens/ai-voice.tsx: styles.scrollContent: [Theme]
+| app/screens/profile.tsx: styles.root: [Theme]
+| app/screens/profile.tsx: styles.headerSection: [Theme]
+| app/screens/profile.tsx: styles.name: [Theme]
+| app/screens/profile.tsx: styles.email: [Theme]
+| app/screens/profile.tsx: styles.card: [Theme]
+| app/screens/help.tsx: styles.sectionHeader: [Theme]
+| app/screens/help.tsx: styles.sectionHeaderSpaced: [Theme]
+| app/screens/help.tsx: styles.sectionBody: [Theme]
+| app/screens/help.tsx: styles.faqAnswer: [Theme]
+| app/screens/help.tsx: styles.contactSection: [Theme]
+| app/screens/help.tsx: styles.contactRow: [Theme]
+| app/screens/help.tsx: styles.contactIconWrap: [Theme]
+| app/screens/help.tsx: styles.contactType: [Theme]
+| app/screens/provider.tsx: styles.hero: [Theme]
+| app/screens/provider.tsx: styles.logoWrap: [Theme]
+| app/screens/provider.tsx: styles.title: [Theme]
+| app/screens/provider.tsx: styles.subtext: [Theme]
+| app/screens/provider.tsx: styles.statsRow: [Theme]
+| app/screens/provider.tsx: styles.statsValue: [Theme]
+| app/screens/provider.tsx: styles.ratingsTitle: [Theme]
+| app/screens/provider.tsx: styles.ratingTrack: [Theme]
+| app/screens/provider.tsx: styles.ratingFill: [Theme]
+| app/screens/login.tsx: styles.root: [Theme]
+| app/screens/login.tsx: styles.brand: [Theme]
+| app/screens/login.tsx: styles.title: [Theme]
+| app/screens/login.tsx: styles.subtitle: [Theme]
+| app/screens/login.tsx: styles.forgotLink: [Theme]
+| app/screens/login.tsx: styles.footerText: [Theme]
+| app/screens/signup.tsx: styles.root: [Theme]
+| app/screens/welcome.tsx: styles.safeArea: [Theme]
+| app/screens/search-form.tsx: styles.header: [Theme]
+| app/screens/search-form.tsx: styles.searchBar: [Theme]
+| app/screens/search-form.tsx: styles.input: [Theme]
+| app/screens/search-form.tsx: styles.resultsWrap: [Theme]
+| app/screens/search-form.tsx: styles.resultIconWrap: [Theme]
+| app/screens/search-form.tsx: styles.resultName: [Theme]
+| app/screens/search-form.tsx: styles.resultCreator: [Theme]
+| app/screens/search-form.tsx: styles.emptyTitle: [Theme]
+| app/screens/search-form.tsx: styles.emptySubtitle: [Theme]
+| app/screens/signup.tsx: styles.brand: [Theme]
+| app/screens/signup.tsx: styles.title: [Theme]
+| app/screens/signup.tsx: styles.strengthTrack: [Theme]
+| app/screens/signup.tsx: styles.strengthText: [Theme]
+| app/screens/signup.tsx: styles.footerText: [Theme]
+| app/screens/welcome.tsx: styles.root: [Theme]
+| app/screens/welcome.tsx: styles.slideTitle: [Theme]
+| app/screens/welcome.tsx: styles.slideDescription: [Theme]
+| app/screens/welcome.tsx: styles.dotActive: [Theme]
+| app/screens/welcome.tsx: styles.dotInactive: [Theme]
+| app/screens/welcome.tsx: styles.actionsWrap: [Theme]
+| app/screens/welcome.tsx: styles.providerButton: [Theme]
+| app/screens/welcome.tsx: styles.emailButton: [Theme]
+| app/screens/subscription.tsx: styles.root: [Theme]
+| app/screens/subscription.tsx: styles.brand: [Theme]
+| app/screens/subscription.tsx: styles.proBadge: [Theme]
+| app/screens/subscription.tsx: styles.proBadgeText: [Theme]
+| app/screens/subscription.tsx: styles.closeButton: [Theme]
+| app/screens/subscription.tsx: styles.footer: [Theme]
+| app/screens/subscription.tsx: styles.footerNote: [Theme]
+| app/screens/subscription.tsx: styles.sheetHeaderText: [Theme]
+| app/screens/subscription.tsx: styles.planRowSelected: [Theme]
+| app/screens/subscription.tsx: styles.planRowUnselected: [Theme]
+| app/screens/subscription.tsx: styles.planPeriod: [Theme]
+| app/screens/subscription.tsx: styles.planBadge: [Theme]
+| app/screens/subscription.tsx: styles.planPrice: [Theme]
+| app/screens/subscription.tsx: styles.planSave: [Theme]
+| app/screens/subscription.tsx: styles.radioOuter: [Theme]
+| app/screens/subscription.tsx: styles.featureRow: [Theme]
+| app/screens/subscription.tsx: styles.featureCheckPro: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.container: [Theme]
+iOS ./index.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 74.9% (739/964)
+| components/ui/CustomDrawerContent.tsx: styles.scroller: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.searchContainer: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.searchInput: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.navSection: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.profileButton: [Theme]
+| components/ui/CustomDrawerContent.tsx: styles.navIconContainer: [Theme]
+| components/ui/BotSwitch.tsx: styles.trigger: [Theme]
+| components/ui/BotSwitch.tsx: styles.subtitle: [Theme]
+| components/ui/BotSwitch.tsx: styles.optionRowSelected: [Theme]
+| components/ui/BotSwitch.tsx: styles.cancelButton: [Theme]
+| components/ui/ThemedText.tsx: styles.text: [Theme]
+| components/ui/Icon.tsx: styles.bordered: [Theme]
+| components/ui/AiCircle.tsx: styles.outerCircle: [Theme]
+| components/ui/CardScroller.tsx: styles.linkText: [Theme]
+| components/ui/Header.tsx: styles.blurredContainer: [Theme]
+| components/ui/CardScroller.tsx: styles.linkUnderline: [Theme]
+| components/ui/Icon.tsx: styles.contained: [Theme]
+| components/ui/AiCircle.tsx: styles.innerCircle: [Theme]
+| components/ui/ThemeScroller.tsx: styles.scroller: [Theme]
+| components/ui/ChatInput.tsx: styles.root: [Theme]
+| components/ui/Header.tsx: styles.backButton: [Theme]
+| components/ui/Header.tsx: styles.titleWhite: [Theme]
+| components/ui/Header.tsx: styles.rightItem: [Theme]
+| components/ui/Header.tsx: styles.transparentContainer: [Theme]
+| components/ui/Header.tsx: styles.transparentBackButton: [Theme]
+| components/ui/Header.tsx: styles.defaultContainer: [Theme]
+| components/ui/Header.tsx: styles.defaultBackButton: [Theme]
+| components/ui/Header.tsx: styles.defaultLeftContent: [Theme]
+| components/ui/Header.tsx: styles.title: [Theme]
+| components/ui/Header.tsx: styles.defaultMiddleSection: [Theme]
+| components/ui/Header.tsx: styles.headerIconBadge: [Theme]
+| components/ui/Header.tsx: styles.headerIconBadgeOffset: [Theme]
+| components/ui/Sphere.tsx: styles.sphere: [Theme]
+| components/ui/Button.tsx: styles.variant_primary: [Theme]
+| components/ui/ChatInput.tsx: styles.composer: [Theme]
+| components/ui/ChatInput.tsx: styles.input: [Theme]
+| components/ui/ChatInput.tsx: styles.toolbar: [Theme]
+| components/ui/ChatInput.tsx: styles.sendButton: [Theme]
+| components/ui/ChatInput.tsx: styles.pickerItem: [Theme]
+| components/ui/Button.tsx: styles.variant_secondary: [Theme]
+| components/ui/Button.tsx: styles.variant_outline: [Theme]
+| components/ui/Button.tsx: styles.textPrimary: [Theme]
+| components/ui/Button.tsx: styles.textInverse: [Theme]
+| components/forms/Input.tsx: styles.container: [Theme]
+| components/ui/Avatar.tsx: styles.container: [Theme]
+| components/layout/Section.tsx: styles.subtitle: [Theme]
+| components/ui/Avatar.tsx: styles.border: [Theme]
+| components/ui/ListLink.tsx: styles.description: [Theme]
+| components/ui/VoiceSelectCard.tsx: styles.pressable: [Theme]
+| components/forms/Input.tsx: styles.animatedLabelPressable: [Theme]
+| components/forms/Input.tsx: styles.animatedLabelText: [Theme]
+| components/forms/Input.tsx: styles.underlinedLabelPressable: [Theme]
+| components/forms/Input.tsx: styles.underlinedAnimatedLabel: [Theme]
+| components/forms/Input.tsx: styles.inputBase: [Theme]
+| components/forms/Input.tsx: styles.inputFocused: [Theme]
+| components/forms/Input.tsx: styles.inputUnfocused: [Theme]
+| components/ui/ListLink.tsx: styles.border: [Theme]
+| components/ui/ThemeFooter.tsx: styles.footer: [Theme]
+| components/ui/Expandable.tsx: styles.container: [Theme]
+| components/ui/Expandable.tsx: styles.description: [Theme]
+| components/ui/Chip.tsx: styles.chipSelected: [Theme]
+| components/ui/Chip.tsx: styles.chipUnselected: [Theme]
+| components/ui/Chip.tsx: styles.textSelected: [Theme]
+| components/ui/Chip.tsx: styles.textUnselected: [Theme]
+iOS ./index.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 74.9% (2328/3180)
+iOS Bundled 9709ms index.js (3634 modules)
+[React] [runtime not ready]: TypeError: Cannot convert undefined value to object
+ ERROR  [runtime not ready]: TypeError: Cannot convert undefined value to object 
+
+Code: construct.js
+[0m [90m 2 |[39m [36mvar[39m setPrototypeOf [33m=[39m require([32m"./setPrototypeOf.js"[39m)[33m;[39m
+ [90m 3 |[39m [36mfunction[39m _construct(t[33m,[39m e[33m,[39m r) {
+[31m[1m>[22m[39m[90m 4 |[39m   [36mif[39m (isNativeReflectConstruct()) [36mreturn[39m [33mReflect[39m[33m.[39mconstruct[33m.[39mapply([36mnull[39m[33m,[39m arguments)[33m;[39m
+ [90m   |[39m                                                                 [31m[1m^[22m[39m
+ [90m 5 |[39m   [36mvar[39m o [33m=[39m [[36mnull[39m][33m;[39m
+ [90m 6 |[39m   o[33m.[39mpush[33m.[39mapply(o[33m,[39m e)[33m;[39m
+ [90m 7 |[39m   [36mvar[39m p [33m=[39m [36mnew[39m (t[33m.[39mbind[33m.[39mapply(t[33m,[39m o))()[33m;[39m[0m
+Call Stack
+  construct (<native>)
+  apply (<native>)
+  _construct (node_modules/@babel/runtime/helpers/construct.js:4:65)
+  Wrapper (node_modules/@babel/runtime/helpers/wrapNativeSuper.js:15:23)
+  construct (<native>)
+  _callSuper (node_modules/@babel/runtime/helpers/callSuper.js:5:108)
+  NamelessError (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:102:20)
+  captureCurrentStack (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:106:27)
+  HMRClient.log (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:39:79)
+  console.level (node_modules/react-native/Libraries/Core/setUpDeveloperTools.js:41:24)
+  handleException (<native>)
+  handleException (node_modules/react-native/Libraries/Core/ExceptionsManager.js:156:31)
+  handleError (node_modules/react-native/Libraries/Core/setUpErrorHandling.js:25:42)
+  ErrorUtils.reportFatalError (node_modules/@react-native/js-polyfills/error-guard.js:53:37)
+  global (http:/localhost:8081/index.bundle) 
+
+Code: construct.js
+[0m [90m 2 |[39m [36mvar[39m setPrototypeOf [33m=[39m require([32m"./setPrototypeOf.js"[39m)[33m;[39m
+ [90m 3 |[39m [36mfunction[39m _construct(t[33m,[39m e[33m,[39m r) {
+[31m[1m>[22m[39m[90m 4 |[39m   [36mif[39m (isNativeReflectConstruct()) [36mreturn[39m [33mReflect[39m[33m.[39mconstruct[33m.[39mapply([36mnull[39m[33m,[39m arguments)[33m;[39m
+ [90m   |[39m                                                                 [31m[1m^[22m[39m
+ [90m 5 |[39m   [36mvar[39m o [33m=[39m [[36mnull[39m][33m;[39m
+ [90m 6 |[39m   o[33m.[39mpush[33m.[39mapply(o[33m,[39m e)[33m;[39m
+ [90m 7 |[39m   [36mvar[39m p [33m=[39m [36mnew[39m (t[33m.[39mbind[33m.[39mapply(t[33m,[39m o))()[33m;[39m[0m
+Call Stack
+  construct (<native>)
+  apply (<native>)
+  _construct (node_modules/@babel/runtime/helpers/construct.js:4:65)
+  Wrapper (node_modules/@babel/runtime/helpers/wrapNativeSuper.js:15:23)
+  construct (<native>)
+  _callSuper (node_modules/@babel/runtime/helpers/callSuper.js:5:108)
+  NamelessError (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:102:20)
+  captureCurrentStack (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:106:27)
+  HMRClient.log (node_modules/@expo/metro-runtime/src/metroServerLogs.native.ts:39:79)
+  pendingLogs.forEach$argument_0 (node_modules/expo/src/async-require/hmr.ts:339:20)
+  forEach (<native>)
+  flushEarlyLogs (node_modules/expo/src/async-require/hmr.ts:338:24)
+  HMRClient.setup (node_modules/expo/src/async-require/hmr.ts:261:19)
+Starting project at /Users/daniel/Documents/DEV/luna
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Dependency validation might be unreliable when using canary SDK versions
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+› Detected a change in babel.config.js. Restart the server to see the new results. You may need to clear the bundler cache with the --clear flag for your changes to take effect.

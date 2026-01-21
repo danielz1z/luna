@@ -1,8 +1,6 @@
 {
-  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/luna-cutting-edge-migration.md",
-  "started_at": "2026-01-20T12:35:10.973Z",
-  "session_ids": [
-    "ses_428ec3a0affeii8J0Do5Qw2J85"
-  ],
-  "plan_name": "luna-cutting-edge-migration"
+  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/undefined-object-crash-fix.md",
+  "started_at": "2026-01-21T13:35:00.000Z",
+  "session_ids": ["ses_41f4c7d5fffe3XNTgV90p42bQg"],
+  "plan_name": "undefined-object-crash-fix"
 }
