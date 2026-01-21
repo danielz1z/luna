@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   FlatList,
-  Image,
   Dimensions,
   Pressable,
   LayoutChangeEvent,
   ImageSourcePropType,
   ViewStyle,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '@/components/ui/ThemedText';
@@ -98,7 +98,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
             height,
           },
         ]}
-        resizeMode="cover"
+        contentFit="cover"
       />
     </Pressable>
   );

@@ -1,6 +1,15 @@
 {
-  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/undefined-object-crash-fix.md",
-  "started_at": "2026-01-21T13:35:00.000Z",
+  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/world-class-stack-upgrade.md",
+  "started_at": "2026-01-22T10:31:20.346Z",
   "session_ids": ["ses_41f4c7d5fffe3XNTgV90p42bQg"],
-  "plan_name": "undefined-object-crash-fix"
+  "plan_name": "world-class-stack-upgrade",
+  "completed_plans": [
+    {
+      "plan_name": "undefined-object-crash-fix",
+      "plan_path": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/undefined-object-crash-fix.md",
+      "completed_at": "2026-01-22T10:31:20.346Z",
+      "session_ids": ["ses_41f4c7d5fffe3XNTgV90p42bQg"],
+      "commit": "dc7c588b0f5cef8629932c5231eddc1cc2d7e51e"
+    }
+  ]
 }

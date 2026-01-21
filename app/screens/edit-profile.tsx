@@ -1,6 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/ui/Button';
@@ -38,10 +39,7 @@ export default function EditProfileScreen() {
         <View style={styles.photoSection}>
           <TouchableOpacity onPress={pickImage} style={styles.photoPressable} activeOpacity={0.9}>
             {profileImage ? (
-              <Image
-                source={{ uri: profileImage }}
-                style={styles.photo}
-              />
+              <Image source={{ uri: profileImage }} style={styles.photo} />
             ) : (
               <View style={styles.photoPlaceholder}>
                 <Icon name="Plus" size={25} />

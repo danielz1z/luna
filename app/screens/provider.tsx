@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
+import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Button } from '@/components/ui/Button';
@@ -57,9 +58,7 @@ const RatingProgress = (props: any) => {
     <View style={styles.ratingRow}>
       <ShowRating rating={props.rating} size="md" />
       <View style={styles.ratingTrack}>
-        <View
-          style={[styles.ratingFill, { width: `${props.progress}%` }]}
-        />
+        <View style={[styles.ratingFill, { width: `${props.progress}%` }]} />
       </View>
     </View>
   );

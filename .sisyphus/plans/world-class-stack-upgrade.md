@@ -53,7 +53,7 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Phase 1: Remove Dead Weight
 
-- [ ] 1. Remove unused dependencies
+- [x] 1. Remove unused dependencies
 
   **What to do**:
   - Run `npm uninstall react-native-chart-kit react-native-navigation-bar-color --legacy-peer-deps`
@@ -71,7 +71,7 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Phase 2: Add World-Class Libraries
 
-- [ ] 2. Install new dependencies
+- [x] 2. Install new dependencies
 
   **What to do**:
 

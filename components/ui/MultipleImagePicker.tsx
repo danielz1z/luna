@@ -1,6 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { View, Image, Pressable, Dimensions, Text, ScrollView } from 'react-native';
+import { View, Pressable, Dimensions, Text, ScrollView } from 'react-native';
+import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { CardScroller } from './CardScroller';
@@ -67,9 +68,7 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
               android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
               <Image style={styles.tileImage} source={{ uri: mainImage }} />
             </Pressable>
-            <Pressable
-              onPress={() => handleDelete()}
-              style={styles.deleteButton}>
+            <Pressable onPress={() => handleDelete()} style={styles.deleteButton}>
               <Icon name="Trash2" size={18} />
             </Pressable>
           </View>
@@ -80,9 +79,7 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
               style={styles.tileEmpty}
               android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
               <Icon name="Camera" size={24} />
-              <Text style={styles.mainPhotoText}>
-                Main photo
-              </Text>
+              <Text style={styles.mainPhotoText}>Main photo</Text>
             </Pressable>
           )
         )}
@@ -98,9 +95,7 @@ export const MultipleImagePicker: React.FC<MultipleImagePickerProps> = ({
                     android_ripple={{ color: 'rgba(0,0,0,0.3)', borderless: false }}>
                     <Image style={styles.tileImage} source={{ uri: image }} />
                   </Pressable>
-                  <Pressable
-                    onPress={() => handleDelete(index)}
-                    style={styles.deleteButton}>
+                  <Pressable onPress={() => handleDelete(index)} style={styles.deleteButton}>
                     <Icon name="Trash2" size={18} />
                   </Pressable>
                 </>
@@ -141,23 +136,23 @@ const styles = StyleSheet.create((theme) => ({
   tileEmpty: {
     height: 112,
     width: 112,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 12,
     borderWidth: 1,
     borderColor: theme.colors.text,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: 16,
   },
   tilePlaceholder: {
     height: 112,
     width: 112,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 12,
     borderWidth: 1,
     borderColor: theme.colors.text,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: 16,
     opacity: 0.4,
   },

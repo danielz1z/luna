@@ -1,6 +1,7 @@
 import { Link, router } from 'expo-router';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Image, Pressable, TextInput } from 'react-native';
+import { View, Pressable, TextInput } from 'react-native';
+import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -122,9 +123,7 @@ const SearchScreen = () => {
 
   return (
     <>
-      <View
-        style={[styles.header, { paddingTop: insets.top }]}
-      >
+      <View style={[styles.header, { paddingTop: insets.top }]}>
         <View
           style={{
             elevation: 10,
@@ -132,37 +131,36 @@ const SearchScreen = () => {
             shadowOpacity: 0.15,
             shadowRadius: 6.84,
             shadowOffset: { width: 0, height: 4 },
-          }}
-          >
+          }}>
           <View style={styles.searchBar}>
-          <Icon
-            name="ArrowLeft"
-            onPress={() => router.back()}
-            style={styles.backIcon}
-            size={20}
-          />
+            <Icon
+              name="ArrowLeft"
+              onPress={() => router.back()}
+              style={styles.backIcon}
+              size={20}
+            />
 
-          <TextInput
-            ref={inputRef}
-            style={styles.input}
-            placeholder="Search AI models..."
-            placeholderTextColor={colors.placeholder}
-            onChangeText={setSearchQuery}
-            value={searchQuery}
-            returnKeyType="done"
-            autoFocus={false}
-          />
+            <TextInput
+              ref={inputRef}
+              style={styles.input}
+              placeholder="Search AI models..."
+              placeholderTextColor={colors.placeholder}
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+              returnKeyType="done"
+              autoFocus={false}
+            />
 
-          {searchQuery.length > 0 && (
-            <Pressable
-              onPress={() => {
-                setSearchQuery('');
-                inputRef.current?.focus();
-              }}
-              style={styles.clearButton}>
-              <Icon name="X" size={20} />
-            </Pressable>
-          )}
+            {searchQuery.length > 0 && (
+              <Pressable
+                onPress={() => {
+                  setSearchQuery('');
+                  inputRef.current?.focus();
+                }}
+                style={styles.clearButton}>
+                <Icon name="X" size={20} />
+              </Pressable>
+            )}
           </View>
         </View>
 
@@ -209,18 +207,14 @@ const SearchScreen = () => {
                     <ThemedText style={styles.resultDescription} numberOfLines={1}>
                       {item.description}
                     </ThemedText>
-                    <ThemedText style={styles.resultCreator}>
-                      by {item.creator}
-                    </ThemedText>
+                    <ThemedText style={styles.resultCreator}>by {item.creator}</ThemedText>
                   </View>
                 </Pressable>
               </Link>
             ))
           ) : (
             <View style={styles.emptyState}>
-              <ThemedText style={styles.emptyTitle}>
-                No results found
-              </ThemedText>
+              <ThemedText style={styles.emptyTitle}>No results found</ThemedText>
               <ThemedText style={styles.emptySubtitle}>
                 Try different keywords or categories
               </ThemedText>

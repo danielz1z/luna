@@ -1,6 +1,7 @@
 import { Link, router } from 'expo-router';
 import React from 'react';
-import { Image, Pressable, View, Text, ViewStyle, ImageSourcePropType } from 'react-native';
+import { Pressable, View, Text, ViewStyle, ImageSourcePropType } from 'react-native';
+import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
@@ -96,7 +97,7 @@ const styles = StyleSheet.create((theme) => ({
     height: '100%',
     width: '100%',
     borderRadius: 9999,
-    resizeMode: 'cover',
+    contentFit: 'cover',
   },
   initialsText: {
     textAlign: 'center',

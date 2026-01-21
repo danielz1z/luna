@@ -1,6 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect, useRef } from 'react';
-import { Pressable, Image, Platform, Keyboard, TouchableOpacity, View } from 'react-native';
+import { Pressable, Platform, Keyboard, TouchableOpacity, View } from 'react-native';
+import { Image } from 'expo-image';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 import Animated, {
@@ -18,7 +19,6 @@ import ThemedText from './ThemedText';
 
 import useThemeColors from '@/app/contexts/ThemeColors';
 import { palette, withOpacity } from '@/lib/unistyles';
-
 
 type ChatInputProps = {
   attachVisible?: boolean;
@@ -198,8 +198,7 @@ export const ChatInput = (props: ChatInputProps) => {
           <AnimatedPickerItem icon="File" label="File" delay={80} isExiting={isAnimatingOut} />
         </View>
       )}
-      <View
-        style={styles.composer}>
+      <View style={styles.composer}>
         <TextInput
           placeholder="Ask me anything..."
           placeholderTextColor={colors.text}
@@ -210,9 +209,7 @@ export const ChatInput = (props: ChatInputProps) => {
         />
         <View style={styles.toolbar}>
           <View style={styles.toolbarGroup}>
-            <Pressable
-              onPress={handleToggle}
-              style={styles.iconButton}>
+            <Pressable onPress={handleToggle} style={styles.iconButton}>
               <Animated.View style={iconStyle}>
                 <Icon name="Plus" size={18} />
               </Animated.View>
@@ -228,9 +225,7 @@ export const ChatInput = (props: ChatInputProps) => {
             <Pressable style={styles.iconButton}>
               <Icon name="Mic" size={18} />
             </Pressable>
-            <Pressable
-              onPress={handleSendMessage}
-              style={styles.sendIconButton}>
+            <Pressable onPress={handleSendMessage} style={styles.sendIconButton}>
               <Icon name="Send" size={17} color={colors.invert} />
             </Pressable>
           </View>
@@ -257,9 +252,7 @@ const ScrollableImageList = ({
           delay={200}
           style={styles.imageItemContainer}>
           <Image source={{ uri }} style={styles.image} />
-          <Pressable
-            onPress={() => onRemove(index)}
-            style={styles.removeImageButton}>
+          <Pressable onPress={() => onRemove(index)} style={styles.removeImageButton}>
             <Icon name="X" size={12} color="white" />
           </Pressable>
         </AnimatedView>
@@ -284,9 +277,7 @@ const AnimatedPickerItem = (props: {
       delay={props.isExiting ? 0 : props.delay}
       style={styles.pickerItemWrapper}
       shouldResetAnimation>
-      <TouchableOpacity
-        style={styles.pickerItem}
-        onPress={props.onPress}>
+      <TouchableOpacity style={styles.pickerItem} onPress={props.onPress}>
         <Icon name={props.icon} size={18} />
         <ThemedText style={styles.pickerItemLabel}>{props.label}</ThemedText>
       </TouchableOpacity>
@@ -306,7 +297,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   composer: {
     elevation: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 3.84,
     shadowOffset: { width: 0, height: 2 },
@@ -343,8 +334,8 @@ const styles = StyleSheet.create((theme) => ({
   sendIconButton: {
     height: 40,
     width: 40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 9999,
     backgroundColor: theme.colors.text,
   },
@@ -379,7 +370,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   pickerItem: {
     elevation: 15,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 10.84,
     shadowOffset: { width: 0, height: 10 },
