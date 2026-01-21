@@ -28,4 +28,6 @@ const ActionSheetThemed = forwardRef<ActionSheetRef, ActionSheetThemedProps>(
   }
 );
 
+ActionSheetThemed.displayName = "ActionSheetThemed";
+
 export default ActionSheetThemed;

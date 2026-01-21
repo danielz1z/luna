@@ -74,6 +74,7 @@ const Icon: React.FC<IconProps> = ({
 
   const { containerSize, icon } = getSize();
 
+  // eslint-disable-next-line import/namespace -- Dynamic icon lookup by name is intentional
   const IconComponent = LucideIcons[name] as React.ComponentType<LucideProps>;
 
   const containerStyle = [

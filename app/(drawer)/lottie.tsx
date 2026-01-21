@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const rightComponents = [<BotSwitch />];
+  const rightComponents = [<BotSwitch key="bot-switch" />];
 
   const leftComponent = [
     <DrawerButton key="drawer-button" />,

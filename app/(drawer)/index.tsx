@@ -12,7 +12,7 @@ import ThemeScroller from '@/components/ui/ThemeScroller';
 import ThemedText from '@/components/ui/ThemedText';
 
 const HomeScreen = () => {
-  const rightComponents = [<BotSwitch />];
+  const rightComponents = [<BotSwitch key="bot-switch" />];
 
   const leftComponent = [
     <DrawerButton key="drawer-button" />,

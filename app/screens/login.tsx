@@ -103,7 +103,7 @@ export default function LoginScreen() {
 
         <View style={styles.footerRow}>
           <ThemedText style={styles.footerText}>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
           </ThemedText>
           <Link href="/screens/signup" asChild>
             <Pressable>

@@ -32,7 +32,7 @@ export default function EditProfileScreen() {
       <Header
         title="Profile settings"
         showBackButton
-        rightComponents={[<Button title="Save changes" />]}
+        rightComponents={[<Button key="save-btn" title="Save changes" />]}
       />
       <ThemedScroller>
         <View style={styles.photoSection}>

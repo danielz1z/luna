@@ -18,7 +18,7 @@ export default function AiVoiceScreen() {
 
   return (
     <View style={styles.root}>
-      <Header showBackButton rightComponents={[<Button title="Save" />]} />
+      <Header showBackButton rightComponents={[<Button key="save-btn" title="Save" />]} />
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <Section

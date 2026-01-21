@@ -26,7 +26,7 @@ const ResultsScreen = () => {
   const [liked2, setLiked2] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const rightComponents = [<BotSwitch />];
+  const rightComponents = [<BotSwitch key="bot-switch" />];
 
   const leftComponent = [
     <DrawerButton key="drawer-button" />,
@@ -80,7 +80,7 @@ const ResultsScreen = () => {
                   Developer Experience
                 </ThemedText>
                 <ThemedText style={styles.mb5}>
-                  Luna's architecture emphasizes developer productivity with clear conventions,
+                  Luna&apos;s architecture emphasizes developer productivity with clear conventions,
                   minimal boilerplate, and extensive documentation. The component system is designed
                   for maximum reusability while maintaining the flexibility to customize for your
                   specific needs.
@@ -119,14 +119,14 @@ const ResultsScreen = () => {
                 <ThemedText style={styles.mb5}>
                   Luna provides everything you need to launch your startup quickly and efficiently.
                   With its beautiful UI components, responsive design, and thoughtful architecture,
-                  you'll save weeks of development time while delivering a premium user experience.
+                  you&apos;ll save weeks of development time while delivering a premium user experience.
                 </ThemedText>
                 <ThemedText style={[styles.h3, styles.mt2, styles.mb3]}>
                   Built for Modern Experiences
                 </ThemedText>
                 <ThemedText style={styles.mb5}>
                   The template includes AI integration, dark/light mode support, and animations
-                  right out of the box. Luna's component system is designed for flexibility and
+                  right out of the box. Luna&apos;s component system is designed for flexibility and
                   reuse, making it easy to customize while maintaining a consistent look and feel
                   across your app.
                 </ThemedText>

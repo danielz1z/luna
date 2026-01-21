@@ -154,7 +154,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
               styles.addOptionTextDisabled,
               { color: isDark ? colors.text : palette.neutral400 },
             ]}>
-            You've reached 3 options limit
+            You&apos;ve reached 3 options limit
           </Text>
         </View>
       )}

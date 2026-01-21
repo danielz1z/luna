@@ -177,3 +177,5 @@ const styles = StyleSheet.create(() => ({
 }));
 
 export default TabButton;
+
+TabButton.displayName = "TabButton";
