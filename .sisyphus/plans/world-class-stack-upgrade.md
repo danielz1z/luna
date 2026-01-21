@@ -132,7 +132,7 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Phase 4: Migrate FlatList Components
 
-- [ ] 4. Replace FlatList with FlashList
+- [x] 4. Replace FlatList with FlashList
 
   **Files to update** (3 files):
   - `app/screens/welcome.tsx`
