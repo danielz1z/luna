@@ -11,13 +11,15 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { theme } = useUnistyles();
 
-  const isDark = UnistylesRuntime.themeName === 'dark';
+  const isDark = theme.colors.primary === '#171717';
 
   const toggleTheme = () => {
+    // Read current theme name INSIDE the function to avoid stale closure issues
+    const currentIsDark = UnistylesRuntime.themeName === 'dark';
     if (UnistylesRuntime.hasAdaptiveThemes) {
       UnistylesRuntime.setAdaptiveThemes(false);
     }
-    UnistylesRuntime.setTheme(isDark ? 'light' : 'dark');
+    UnistylesRuntime.setTheme(currentIsDark ? 'light' : 'dark');
   };
 
   return <ThemeContext.Provider value={{ isDark, toggleTheme }}>{children}</ThemeContext.Provider>;
