@@ -32,7 +32,6 @@ interface SelectProps {
   value?: string | number;
   onChange: (value: string | number) => void;
   error?: string;
-  className?: string;
   style?: ViewStyle;
   variant?: InputVariant;
 }
@@ -44,7 +43,6 @@ const Select: React.FC<SelectProps> = ({
   value,
   onChange,
   error,
-  className,
   style,
   variant = 'animated',
 }) => {
@@ -150,16 +148,12 @@ const Select: React.FC<SelectProps> = ({
         damping: 500,
         mass: 3,
         overshootClamping: true,
-        restDisplacementThreshold: 0.01,
-        restSpeedThreshold: 0.01,
       }}
       closeAnimationConfig={{
         stiffness: 1000,
         damping: 500,
         mass: 3,
         overshootClamping: true,
-        restDisplacementThreshold: 0.01,
-        restSpeedThreshold: 0.01,
       }}>
       <View style={styles.sheetContent}>
         {options.map((option) => (
