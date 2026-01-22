@@ -13,7 +13,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import Icon, { IconName } from '../ui/Icon';
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette } from '@/lib/unistyles';
 
 interface SwitchProps {
@@ -37,7 +37,7 @@ const Switch: React.FC<SwitchProps> = ({
   className = '',
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [isOn, setIsOn] = useState(value ?? false);
   const slideAnim = useRef(new Animated.Value((value ?? false) ? 1 : 0)).current;
 
@@ -75,7 +75,7 @@ const Switch: React.FC<SwitchProps> = ({
       style={[styles.container, disabled && styles.disabled, style]}>
       {icon && (
         <View style={styles.iconWrapper}>
-          <Icon name={icon} size={20} color={colors.text} />
+          <Icon name={icon} size={20} color={theme.colors.text} />
         </View>
       )}
 

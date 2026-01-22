@@ -1,5 +1,5 @@
 import { DrawerActions, useNavigation, NavigationProp } from '@react-navigation/native';
-import { useThemeColors } from 'app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import React from 'react';
 import { Pressable, View, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
@@ -18,7 +18,7 @@ export default function DrawerButton({
   style,
   isAvatar = false,
 }: DrawerButtonProps) {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const navigation = useNavigation<NavigationProp<any>>();
 
   const sizeMap = {
@@ -41,7 +41,7 @@ export default function DrawerButton({
         {isAvatar ? (
           <Avatar src="https://mighty.tools/mockmind-api/content/human/5.jpg" size="xs" />
         ) : (
-          <Icon name="Menu" size={sizeMap[size]} color={colors.text} />
+          <Icon name="Menu" size={sizeMap[size]} color={theme.colors.text} />
         )}
       </Pressable>
     </View>

@@ -6,7 +6,7 @@ import AnimatedView from '../ui/AnimatedView';
 import Icon, { IconName } from '../ui/Icon';
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 interface SelectableProps {
@@ -36,7 +36,7 @@ const Selectable: React.FC<SelectableProps> = ({
   containerClassName = '',
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const isDark = UnistylesRuntime.themeName === 'dark';
 
   return (
@@ -63,7 +63,7 @@ const Selectable: React.FC<SelectableProps> = ({
                 name={icon}
                 size={20}
                 strokeWidth={1.2}
-                color={iconColor || (selected ? 'white' : colors.icon)}
+                color={iconColor || (selected ? 'white' : theme.colors.icon)}
               />
             </View>
           )}
@@ -82,7 +82,7 @@ const Selectable: React.FC<SelectableProps> = ({
           </View>
           {selected ? (
             <AnimatedView style={styles.checkIcon} animation="bounceIn" duration={500}>
-              <Icon name="CheckCircle2" size={24} color={colors.highlight} />
+              <Icon name="CheckCircle2" size={24} color={theme.colors.highlight} />
             </AnimatedView>
           ) : (
             <></>

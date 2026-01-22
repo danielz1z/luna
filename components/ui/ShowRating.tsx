@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
-import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 interface ShowRatingProps {
   rating: number;
@@ -26,9 +26,9 @@ const ShowRating: React.FC<ShowRatingProps> = ({
   color,
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
-  const starColor = color || colors.text;
+  const starColor = color || theme.colors.text;
 
   const getSize = () => {
     switch (size) {

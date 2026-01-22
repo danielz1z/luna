@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Animated, Easing, Dimensions } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -15,7 +15,7 @@ interface SkeletonLoaderProps {
 }
 
 const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, className = '' }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const animatedValue = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -49,14 +49,14 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
   const renderListItem = () => (
     <View style={styles.listRow}>
       <Animated.View
-        style={[styles.avatar, { opacity, backgroundColor: colors.secondary }]}
+        style={[styles.avatar, { opacity, backgroundColor: theme.colors.secondary }]}
       />
       <View style={styles.listTextContainer}>
         <Animated.View
-          style={[styles.listLine1, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.listLine1, { opacity, backgroundColor: theme.colors.secondary }]}
         />
         <Animated.View
-          style={[styles.listLine2, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.listLine2, { opacity, backgroundColor: theme.colors.secondary }]}
         />
       </View>
     </View>
@@ -65,13 +65,13 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
   const renderGridItem = () => (
     <View style={styles.gridItem}>
       <Animated.View
-        style={[styles.gridSquare, { opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridSquare, { opacity, backgroundColor: theme.colors.secondary }]}
       />
       <Animated.View
-        style={[styles.gridLine1, { opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridLine1, { opacity, backgroundColor: theme.colors.secondary }]}
       />
       <Animated.View
-        style={[styles.gridLine2, { opacity, backgroundColor: colors.secondary }]}
+        style={[styles.gridLine2, { opacity, backgroundColor: theme.colors.secondary }]}
       />
     </View>
   );
@@ -81,24 +81,24 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
       <Animated.View
         style={[
           styles.articleImage,
-          { opacity, backgroundColor: colors.secondary },
+          { opacity, backgroundColor: theme.colors.secondary },
         ]}
       />
       <View style={styles.articleContent}>
         <Animated.View
-          style={[styles.articleTitle, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleTitle, { opacity, backgroundColor: theme.colors.secondary }]}
         />
         <Animated.View
-          style={[styles.articleSubtitle, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleSubtitle, { opacity, backgroundColor: theme.colors.secondary }]}
         />
         <Animated.View
-          style={[styles.articleLine, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLine, { opacity, backgroundColor: theme.colors.secondary }]}
         />
         <Animated.View
-          style={[styles.articleLine, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLine, { opacity, backgroundColor: theme.colors.secondary }]}
         />
         <Animated.View
-          style={[styles.articleLineLast, { opacity, backgroundColor: colors.secondary }]}
+          style={[styles.articleLineLast, { opacity, backgroundColor: theme.colors.secondary }]}
         />
       </View>
     </View>
@@ -109,21 +109,21 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({ variant, count = 1, cla
       <View style={styles.chatRowLeft}>
         <View style={styles.chatBubbleWrapperWide}>
           <Animated.View
-            style={[styles.chatBubbleSmall, { opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleSmall, { opacity, backgroundColor: theme.colors.secondary }]}
           />
         </View>
       </View>
       <View style={styles.chatRowRight}>
         <View style={styles.chatBubbleWrapperWide}>
           <Animated.View
-            style={[styles.chatBubbleLarge, { opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleLarge, { opacity, backgroundColor: theme.colors.secondary }]}
           />
         </View>
       </View>
       <View style={styles.chatRowLeft}>
         <View style={styles.chatBubbleWrapperNarrow}>
           <Animated.View
-            style={[styles.chatBubbleSmall, { opacity, backgroundColor: colors.secondary }]}
+            style={[styles.chatBubbleSmall, { opacity, backgroundColor: theme.colors.secondary }]}
           />
         </View>
       </View>

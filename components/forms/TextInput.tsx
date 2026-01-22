@@ -15,7 +15,7 @@ import Icon from '../ui/Icon';
 import type { IconName } from '../ui/Icon';
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 interface CustomTextInputProps extends TextInputProps {
@@ -44,7 +44,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
   inputStyle,
   ...props
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const animatedLabelValue = useRef(new Animated.Value(value ? 1 : 0)).current;
@@ -70,7 +70,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 12, // Consistent left padding
     paddingHorizontal: 8, // Consistent padding on both sides
@@ -85,7 +85,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
     if (isPassword) {
       return (
         <Pressable onPress={togglePasswordVisibility} style={styles.rightIcon}>
-          <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={colors.text} />
+          <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={theme.colors.text} />
         </Pressable>
       );
     }
@@ -93,7 +93,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
     if (rightIcon) {
       return (
         <Pressable onPress={onRightIconPress} style={styles.rightIcon}>
-          <Icon name={rightIcon} size={20} color={colors.text} />
+          <Icon name={rightIcon} size={20} color={theme.colors.text} />
         </Pressable>
       );
     }

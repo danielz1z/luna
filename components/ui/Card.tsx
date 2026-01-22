@@ -20,7 +20,7 @@ import Favorite from './Favorite';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 
 const { width: windowWidth } = Dimensions.get('window');
@@ -113,13 +113,13 @@ const Card: React.FC<CardProps> = ({
     );
   };
 
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   const renderRating = () => {
     if (!rating) return null;
     return (
       <View style={styles.ratingContainer}>
-        <MaterialIcons name="star" size={16} color={colors.text} />
+        <MaterialIcons name="star" size={16} color={theme.colors.text} />
         <ThemedText style={styles.ratingText}>{rating}</ThemedText>
       </View>
     );

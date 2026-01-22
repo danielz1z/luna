@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 const { width: windowWidth } = Dimensions.get('window');
 type AnimatedFabProps = {
@@ -38,7 +38,7 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
   onClose,
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [isOpen, setIsOpen] = useState(false);
 
   // Default size of the FAB in collapsed state
@@ -67,7 +67,7 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
     } else {
       animation.value = withTiming(0, { duration: 300 });
     }
-  }, [colors.isDark]);
+  }, [theme.isDark]);
 
   // Measure content using an invisible clone
   useEffect(() => {
@@ -167,7 +167,7 @@ const AnimatedFab: React.FC<AnimatedFabProps> = ({
     };
   });
 
-  const bgColor = backgroundColor || colors.highlight;
+  const bgColor = backgroundColor || theme.colors.highlight;
 
   return (
     <>

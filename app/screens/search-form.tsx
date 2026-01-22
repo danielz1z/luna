@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { CardScroller } from '@/components/ui/CardScroller';
 import { Chip } from '@/components/ui/Chip';
 import Icon from '@/components/ui/Icon';
@@ -15,7 +15,7 @@ import ThemedText from '@/components/ui/ThemedText';
 type SearchCategory = 'top-picks' | 'featured' | 'trending' | 'productivity' | 'education';
 
 const SearchScreen = () => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [searchQuery, setSearchQuery] = useState('');
   const [category, setCategory] = useState<SearchCategory>('top-picks');
   const inputRef = useRef<TextInput>(null);
@@ -144,7 +144,7 @@ const SearchScreen = () => {
               ref={inputRef}
               style={styles.input}
               placeholder="Search AI models..."
-              placeholderTextColor={colors.placeholder}
+              placeholderTextColor={theme.colors.placeholder}
               onChangeText={setSearchQuery}
               value={searchQuery}
               returnKeyType="done"

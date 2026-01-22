@@ -9,7 +9,7 @@ import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 import Input from '../forms/Input';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 interface ProductVariantCreatorProps {
@@ -28,8 +28,8 @@ interface Variant extends Record<string, string | null> {
 }
 
 const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock }) => {
-  const colors = useThemeColors();
-  const isDark = colors.isDark;
+  const { theme } = useUnistyles();
+  const isDark = theme.isDark;
   const [options, setOptions] = useState<Option[]>([]);
   const [variants, setVariants] = useState<Variant[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -135,7 +135,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
           onPress={addOption} // Calls addValue to add a new empty input
           style={styles.addOptionButton}>
           <Icon name="Plus" size={20} />
-          <Text style={[styles.addOptionText, { color: colors.text }]}>Add option </Text>
+          <Text style={[styles.addOptionText, { color: theme.colors.text }]}>Add option </Text>
         </Pressable>
       ) : (
         <View style={styles.addOptionButtonDisabled}>
@@ -143,7 +143,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
             style={[
               styles.addOptionText,
               styles.addOptionTextDisabled,
-              { color: isDark ? colors.text : palette.neutral400 },
+              { color: isDark ? theme.colors.text : palette.neutral400 },
             ]}>
             You&apos;ve reached 3 options limit
           </Text>
@@ -152,11 +152,11 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
 
       {variants.length > 0 && (
         <View style={styles.variantsSection}>
-          <Text style={[styles.variantsTitle, { color: colors.text }]}>Variants</Text>
+          <Text style={[styles.variantsTitle, { color: theme.colors.text }]}>Variants</Text>
           {variants.map((variant, index) => (
             <View key={index} style={styles.variantCard}>
               <View style={styles.variantRow}>
-                <Text style={[styles.variantLabel, { color: colors.text }]}>
+                <Text style={[styles.variantLabel, { color: theme.colors.text }]}>
                   {Object.values(variant).slice(0, -3).join(' / ')}
                 </Text>
                 <View style={styles.variantInputsRow}>
@@ -196,7 +196,7 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
       )}
 
       <Modal visible={modalVisible} transparent animationType="slide">
-        <SafeAreaView style={[styles.modalSafeArea, { backgroundColor: colors.bg }]}>
+        <SafeAreaView style={[styles.modalSafeArea, { backgroundColor: theme.colors.bg }]}>
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Pressable onPress={() => setModalVisible(false)} style={styles.modalCloseButton}>
@@ -239,9 +239,9 @@ const ProductVariantCreator: React.FC<ProductVariantCreatorProps> = ({ hasStock 
                   renderItem={({ item, index }) => (
                     <View style={styles.valuesRow}>
                       <TextInput
-                        style={[styles.valueInput, { color: colors.text }]}
+                        style={[styles.valueInput, { color: theme.colors.text }]}
                         placeholder="Enter value"
-                        placeholderTextColor={colors.placeholder}
+                        placeholderTextColor={theme.colors.placeholder}
                         value={item}
                         onChangeText={(text) => {
                           const updatedValues = currentOption.values.map((val, i) =>

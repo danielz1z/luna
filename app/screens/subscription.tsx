@@ -5,7 +5,7 @@ import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '../contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette } from '@/lib/unistyles';
 
 import Icon from '@/components/ui/Icon';
@@ -23,7 +23,7 @@ const Subscription = () => {
     }, 0);
   }, []);
 
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [selectedPlan, setSelectedPlan] = useState('Annual'); // State to keep track of the selected plan
   const handleSelect = (plan: React.SetStateAction<string>) => {
     setSelectedPlan(plan); // Update the selected plan
@@ -94,7 +94,7 @@ const Subscription = () => {
             containerStyle={{
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
-              backgroundColor: colors.bg,
+              backgroundColor: theme.colors.bg,
             }}>
             <View style={styles.sheetContent}>
               <View style={styles.sheetHeader}>

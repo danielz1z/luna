@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, Animated } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { useTheme } from '@/app/contexts/ThemeContext';
 import { palette } from '@/lib/unistyles';
 
@@ -23,7 +23,7 @@ const Toast: React.FC<ToastProps> = ({
   onHide,
   isVisible,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const { isDark } = useTheme();
   const translateY = useRef(new Animated.Value(-100)).current;
 
@@ -70,7 +70,7 @@ const Toast: React.FC<ToastProps> = ({
         styles.container,
         {
           transform: [{ translateY }],
-          shadowColor: colors.text,
+          shadowColor: theme.colors.text,
         },
       ]}>
       <View style={styles.body}>

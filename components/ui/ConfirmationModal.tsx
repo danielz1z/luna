@@ -4,7 +4,7 @@ import { View, Text, Pressable, Platform } from 'react-native';
 import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { useTheme } from '@/app/contexts/ThemeContext';
 import ThemedText from '@/components/ui/ThemedText';
 import { palette } from '@/lib/unistyles';
@@ -30,20 +30,20 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   actionSheetRef,
 }) => {
   const { isDark } = useTheme();
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   React.useEffect(() => {
     if (Platform.OS === 'android') {
-      NavigationBar.setBackgroundColorAsync(colors.bg);
+      NavigationBar.setBackgroundColorAsync(theme.colors.bg);
       NavigationBar.setButtonStyleAsync(isDark ? 'light' : 'dark');
 
       return () => {
         // Reset to default theme color when modal closes
-        NavigationBar.setBackgroundColorAsync(colors.bg);
+        NavigationBar.setBackgroundColorAsync(theme.colors.bg);
         NavigationBar.setButtonStyleAsync(isDark ? 'light' : 'dark');
       };
     }
-  }, [isDark, colors.bg]);
+  }, [isDark, theme.colors.bg]);
 
   const handleConfirm = () => {
     actionSheetRef.current?.hide();
@@ -62,7 +62,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       drawUnderStatusBar={false}
       statusBarTranslucent
       containerStyle={{
-        backgroundColor: colors.bg,
+        backgroundColor: theme.colors.bg,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
       }}>

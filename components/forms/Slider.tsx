@@ -12,7 +12,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 type SliderSize = 's' | 'm' | 'l';
 
@@ -65,7 +65,7 @@ const Slider = ({
   step = 1,
   size = 'm',
 }: SliderProps) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const currentSize = sizeStyles[size];
 
   // This assures initialValue takes precedence when value is undefined
@@ -228,7 +228,7 @@ const Slider = ({
           <ThemedText style={[styles.labelText, { fontSize: currentSize.labelFontSize }]}>
             {label}
           </ThemedText>
-          <Animated.Text style={[styles.valueText, { fontSize: currentSize.valueFontSize, color: colors.text }]}>
+          <Animated.Text style={[styles.valueText, { fontSize: currentSize.valueFontSize, color: theme.colors.text }]}>
             {formatValue.value}
           </Animated.Text>
         </View>
@@ -242,7 +242,7 @@ const Slider = ({
               style={{
                 position: 'absolute',
                 height: currentSize.trackHeight,
-                backgroundColor: colors.secondary,
+                backgroundColor: theme.colors.secondary,
                 borderRadius: currentSize.trackHeight / 2,
                 width: '100%',
               }}
@@ -254,7 +254,7 @@ const Slider = ({
                 {
                   position: 'absolute',
                   height: currentSize.trackHeight,
-                  backgroundColor: colors.highlight,
+                  backgroundColor: theme.colors.highlight,
                   borderRadius: currentSize.trackHeight / 2,
                 },
                 activeTrackStyle,
@@ -269,7 +269,7 @@ const Slider = ({
                   width: currentSize.thumbSize,
                   height: currentSize.thumbSize,
                   borderRadius: currentSize.thumbSize / 2,
-                  backgroundColor: colors.highlight,
+                  backgroundColor: theme.colors.highlight,
                   justifyContent: 'center',
                   alignItems: 'center',
                   elevation: 3,

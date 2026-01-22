@@ -14,7 +14,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import { InputVariant } from './Input';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { useTheme } from '@/app/contexts/ThemeContext';
 import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
@@ -47,7 +47,7 @@ const Select: React.FC<SelectProps> = ({
   variant = 'animated',
 }) => {
   const { isDark } = useTheme();
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const actionSheetRef = useRef<ActionSheetRef>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(
@@ -56,16 +56,16 @@ const Select: React.FC<SelectProps> = ({
 
   React.useEffect(() => {
     if (Platform.OS === 'android') {
-      NavigationBar.setBackgroundColorAsync(colors.bg);
+      NavigationBar.setBackgroundColorAsync(theme.colors.bg);
       NavigationBar.setButtonStyleAsync(isDark ? 'light' : 'dark');
 
       return () => {
         // Reset to default theme color when component unmounts
-        NavigationBar.setBackgroundColorAsync(colors.bg);
+        NavigationBar.setBackgroundColorAsync(theme.colors.bg);
         NavigationBar.setButtonStyleAsync(isDark ? 'light' : 'dark');
       };
     }
-  }, [isDark, colors.bg]);
+  }, [isDark, theme.colors.bg]);
 
   const animatedLabelValue = useRef(new Animated.Value(value ? 1 : 0)).current;
 
@@ -90,7 +90,7 @@ const Select: React.FC<SelectProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 12,
     paddingHorizontal: 8,
@@ -107,7 +107,7 @@ const Select: React.FC<SelectProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 0,
     paddingHorizontal: 0,
@@ -138,7 +138,7 @@ const Select: React.FC<SelectProps> = ({
       statusBarTranslucent
       drawUnderStatusBar={false}
       containerStyle={{
-        backgroundColor: colors.bg,
+        backgroundColor: theme.colors.bg,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
       }}

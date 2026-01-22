@@ -1,4 +1,4 @@
-import { useThemeColors } from 'app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { TabTriggerSlotProps } from 'expo-router/ui';
 import { ComponentProps, forwardRef, useEffect, useState, ReactNode } from 'react';
 import { Text, Pressable, View, Animated } from 'react-native';
@@ -34,7 +34,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
     },
     ref
   ) => {
-    const colors = useThemeColors();
+    const { theme } = useUnistyles();
 
     // Use Animated Values to control opacity and translateY
     const [labelOpacity] = useState(new Animated.Value(isFocused ? 1 : 0));
@@ -79,11 +79,11 @@ export const TabButton = forwardRef<View, TabButtonProps>(
                 name={icon}
                 size={24}
                 strokeWidth={isFocused ? 2.5 : 2}
-                color={isFocused ? colors.highlight : colors.icon}
+                color={isFocused ? theme.colors.highlight : theme.colors.icon}
               />
             </View>
             {hasBadge && (
-              <View style={[styles.badge, { borderColor: colors.bg }]} />
+              <View style={[styles.badge, { borderColor: theme.colors.bg }]} />
             )}
           </View>
         );
@@ -91,7 +91,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
       if (avatar) {
         return (
           <View
-            style={[styles.avatarBorder, { borderColor: isFocused ? colors.highlight : 'transparent' }]}>
+            style={[styles.avatarBorder, { borderColor: isFocused ? theme.colors.highlight : 'transparent' }]}>
             <Avatar src={avatar} size="xxs" />
           </View>
         );
@@ -117,7 +117,7 @@ export const TabButton = forwardRef<View, TabButtonProps>(
                   transform: [{ translateY: labelMarginBottom }],
                 },
               ]}>
-              <ThemedText style={[styles.labelText, { color: colors.highlight }]}>{children}</ThemedText>
+              <ThemedText style={[styles.labelText, { color: theme.colors.highlight }]}>{children}</ThemedText>
             </Animated.View>
           ) : (
             <ThemedText style={styles.labelText}>{children}</ThemedText>

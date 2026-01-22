@@ -6,7 +6,7 @@ import Avatar from './Avatar';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 interface ReviewProps {
   rating: number;
@@ -27,7 +27,7 @@ const Review: React.FC<ReviewProps> = ({
   className = '',
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   const renderStars = () => {
     const stars = [];
@@ -38,8 +38,8 @@ const Review: React.FC<ReviewProps> = ({
           key={i}
           name="Star"
           size={16}
-          fill={i < rating ? colors.text : 'none'}
-          color={i < rating ? colors.text : colors.text}
+          fill={i < rating ? theme.colors.text : 'none'}
+          color={i < rating ? theme.colors.text : theme.colors.text}
           strokeWidth={1.5}
           style={styles.star}
         />

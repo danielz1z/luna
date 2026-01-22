@@ -14,7 +14,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import { InputVariant } from './Input';
 
-import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { Button } from '@/components/ui/Button';
 import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
@@ -49,7 +49,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
   const [tempDate, setTempDate] = useState<Date>(value || new Date());
   const [isFocused, setIsFocused] = useState(false);
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const animatedLabelValue = useRef(new Animated.Value(value ? 1 : 0)).current;
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 12,
     paddingHorizontal: 8,
@@ -90,7 +90,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 0,
     paddingHorizontal: 0,
@@ -155,8 +155,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               onChange={handleDateChange}
               maximumDate={maxDate}
               minimumDate={minDate}
-              themeVariant={colors.isDark ? 'dark' : 'light'}
-              style={{ backgroundColor: colors.bg }}
+              themeVariant={theme.isDark ? 'dark' : 'light'}
+              style={{ backgroundColor: theme.colors.bg }}
             />
           </View>
         </Modal>
@@ -196,7 +196,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             </ThemedText>
           </TouchableOpacity>
           <Pressable style={styles.iconRight}>
-            <Icon name="Calendar" size={20} color={colors.text} />
+            <Icon name="Calendar" size={20} color={theme.colors.text} />
           </Pressable>
         </View>
         {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
@@ -231,7 +231,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             </ThemedText>
           </TouchableOpacity>
           <Pressable style={styles.iconRightUnderlined}>
-            <Icon name="Calendar" size={20} color={colors.text} />
+            <Icon name="Calendar" size={20} color={theme.colors.text} />
           </Pressable>
         </View>
         {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}
@@ -265,7 +265,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           </ThemedText>
         </TouchableOpacity>
         <Pressable style={styles.iconRight}>
-          <Icon name="Calendar" size={20} color={colors.text} />
+          <Icon name="Calendar" size={20} color={theme.colors.text} />
         </Pressable>
       </View>
       {error && <ThemedText style={styles.errorText}>{error}</ThemedText>}

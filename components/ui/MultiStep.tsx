@@ -21,7 +21,7 @@ import Header from '@/components/ui/Header';
 import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
 import BackHandlerManager from '@/utils/BackHandlerManager';
-import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 // Step component that will be used as children
@@ -71,7 +71,7 @@ export default function MultiStep({
   onStepChange,
   style,
 }: MultiStepProps) {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   // Filter and validate children to only include Step components
   const validChildren = Children.toArray(children).filter(isStepComponent);
 
@@ -238,7 +238,7 @@ export default function MultiStep({
                 onPress={onClose}
                 style={({ pressed }) => [styles.closeButton, pressed && styles.closeButtonPressed]}
                 hitSlop={8}>
-                <Icon name="X" size={24} color={colors.text} />
+                <Icon name="X" size={24} color={theme.colors.text} />
               </Pressable>
             ) : undefined,
           ]}
@@ -251,7 +251,7 @@ export default function MultiStep({
                 name="ArrowLeft"
                 key="back"
                 size={24}
-                color={colors.text}
+                color={theme.colors.text}
                 onPress={handleBack}
               />
             ),

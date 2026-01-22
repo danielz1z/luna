@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import Icon from '../ui/Icon';
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette } from '@/lib/unistyles';
 
 interface CheckboxProps {
@@ -25,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   className = '',
   style,
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   // Internal state if no onChange provided (for mockups)
   const [internalChecked, setInternalChecked] = React.useState(checked);

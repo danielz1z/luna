@@ -5,7 +5,7 @@ import React from 'react';
 import { Pressable, View, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 type IconVariant = 'plain' | 'bordered' | 'contained';
 type IconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
@@ -40,7 +40,7 @@ const Icon: React.FC<IconProps> = ({
   strokeWidth = 2,
   fill = 'none',
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   const sizeMap = {
     xs: { containerSize: 32, icon: 16 },
@@ -88,7 +88,7 @@ const Icon: React.FC<IconProps> = ({
     <View style={containerStyle}>
       <IconComponent
         size={icon}
-        color={color || colors.text}
+        color={color || theme.colors.text}
         strokeWidth={strokeWidth}
         fill={fill}
       />
@@ -111,7 +111,7 @@ const Icon: React.FC<IconProps> = ({
         style={containerStyle}>
         <IconComponent
           size={icon}
-          color={color || colors.text}
+          color={color || theme.colors.text}
           strokeWidth={strokeWidth}
           fill={fill}
         />

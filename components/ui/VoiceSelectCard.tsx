@@ -7,8 +7,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Button } from './Button';
 import Icon from './Icon';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
-
+import { useUnistyles } from 'react-native-unistyles';
 
 interface VoiceItemProps {
   name: string;
@@ -19,7 +18,7 @@ interface VoiceItemProps {
 
 export const VoiceSelectCard = (props: VoiceItemProps) => {
   const windowWidth = Dimensions.get('window').width;
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [isVisible, setIsVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(10)).current;
 
@@ -83,7 +82,7 @@ export const VoiceSelectCard = (props: VoiceItemProps) => {
           toggleScale();
         }}>
         <View style={styles.content}>
-          <Icon name={isVisible ? 'Pause' : 'Play'} fill={colors.icon} size={20} />
+          <Icon name={isVisible ? 'Pause' : 'Play'} fill={theme.colors.icon} size={20} />
           <Text style={styles.name}>{props.name}</Text>
           <Text style={styles.description}>{props.description}</Text>
         </View>
@@ -137,7 +136,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   pressable: {
     elevation: 4,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 3.84,
     shadowOffset: { width: 0, height: 2 },

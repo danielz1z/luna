@@ -17,7 +17,7 @@ import { CardScroller } from './CardScroller';
 import Icon, { IconName } from './Icon';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 type ChatInputProps = {
@@ -27,7 +27,7 @@ type ChatInputProps = {
 };
 
 export const ChatInput = (props: ChatInputProps) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const insets = useSafeAreaInsets();
   // Add internal state to handle toggle independently
   const [isAttachVisible, setIsAttachVisible] = useState(props.attachVisible || false);
@@ -201,7 +201,7 @@ export const ChatInput = (props: ChatInputProps) => {
       <View style={styles.composer}>
         <TextInput
           placeholder="Ask me anything..."
-          placeholderTextColor={colors.text}
+          placeholderTextColor={theme.colors.text}
           style={[styles.input, { height: 60 }]}
           value={inputText}
           onChangeText={setInputText}
@@ -226,7 +226,7 @@ export const ChatInput = (props: ChatInputProps) => {
               <Icon name="Mic" size={18} />
             </Pressable>
             <Pressable onPress={handleSendMessage} style={styles.sendIconButton}>
-              <Icon name="Send" size={17} color={colors.invert} />
+              <Icon name="Send" size={17} color={theme.colors.invert} />
             </Pressable>
           </View>
         </View>

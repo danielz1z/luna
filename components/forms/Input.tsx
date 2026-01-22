@@ -14,7 +14,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import Icon, { IconName } from '../ui/Icon';
 import ThemedText from '../ui/ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 export type InputVariant = 'animated' | 'classic' | 'underlined';
@@ -51,7 +51,7 @@ const Input: React.FC<CustomTextInputProps> = ({
   inRow = false,
   ...props
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [localValue, setLocalValue] = useState(value || '');
@@ -90,13 +90,13 @@ const Input: React.FC<CustomTextInputProps> = ({
     }),
     color: animatedLabelValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [colors.placeholder, colors.text],
+      outputRange: [theme.colors.placeholder, theme.colors.text],
     }),
     left: 12, // Consistent left padding
     paddingHorizontal: 8, // Consistent padding on both sides
     position: 'absolute' as 'absolute',
     zIndex: 50,
-    backgroundColor: colors.bg,
+    backgroundColor: theme.colors.bg,
   };
 
   const togglePasswordVisibility = () => {
@@ -109,18 +109,19 @@ const Input: React.FC<CustomTextInputProps> = ({
       return (
         <Pressable
           onPress={togglePasswordVisibility}
-          style={[styles.rightIcon, variant === 'classic' ? styles.rightIconPasswordClassic : styles.rightIconPassword]}>
-          <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={colors.text} />
+          style={[
+            styles.rightIcon,
+            variant === 'classic' ? styles.rightIconPasswordClassic : styles.rightIconPassword,
+          ]}>
+          <Icon name={showPassword ? 'EyeOff' : 'Eye'} size={20} color={theme.colors.text} />
         </Pressable>
       );
     }
 
     if (rightIcon) {
       return (
-        <Pressable
-          onPress={onRightIconPress}
-          style={styles.rightIcon}>
-          <Icon name={rightIcon} size={20} color={colors.text} />
+        <Pressable onPress={onRightIconPress} style={styles.rightIcon}>
+          <Icon name={rightIcon} size={20} color={theme.colors.text} />
         </Pressable>
       );
     }
@@ -150,7 +151,7 @@ const Input: React.FC<CustomTextInputProps> = ({
             value={localValue}
             onChangeText={handleChangeText}
             secureTextEntry={isPassword && !showPassword}
-            placeholderTextColor={colors.placeholder}
+            placeholderTextColor={theme.colors.placeholder}
             numberOfLines={isMultiline ? 4 : 1}
             textAlignVertical={isMultiline ? 'top' : 'center'}
             multiline={isMultiline}
@@ -184,13 +185,13 @@ const Input: React.FC<CustomTextInputProps> = ({
                   }),
                   color: animatedLabelValue.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [colors.placeholder, colors.text],
+                    outputRange: [theme.colors.placeholder, theme.colors.text],
                   }),
                   left: 0, // No left padding for underlined variant
                   paddingHorizontal: 0, // No horizontal padding
                   position: 'absolute',
                   zIndex: 50,
-                  //backgroundColor: colors.bg,
+                  //backgroundColor: theme.colors.bg,
                 },
                 styles.underlinedAnimatedLabel,
               ]}>
@@ -235,10 +236,7 @@ const Input: React.FC<CustomTextInputProps> = ({
       <Pressable
         style={styles.animatedLabelPressablePosition}
         onPress={() => inputRef.current?.focus()}>
-        <Animated.Text
-          style={[labelStyle, styles.animatedLabelText]}>
-          {label}
-        </Animated.Text>
+        <Animated.Text style={[labelStyle, styles.animatedLabelText]}>{label}</Animated.Text>
       </Pressable>
 
       <RNTextInput

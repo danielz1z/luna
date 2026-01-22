@@ -9,7 +9,7 @@ import { Button } from './Button';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
 
-import { useThemeColors } from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 interface FavoriteProps {
   initialState?: boolean;
@@ -28,7 +28,7 @@ const Favorite: React.FC<FavoriteProps> = ({
 }) => {
   const [isFavorite, setIsFavorite] = useState(initialState);
   const actionSheetRef = useRef<ActionSheetRef>(null);
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   const handleToggle = () => {
     const newState = !isFavorite;
@@ -61,8 +61,8 @@ const Favorite: React.FC<FavoriteProps> = ({
           <Icon
             name="Bookmark"
             size={size}
-            fill={isFavorite ? colors.highlight : 'none'}
-            color={isFavorite ? colors.highlight : colors.icon}
+            fill={isFavorite ? theme.colors.highlight : 'none'}
+            color={isFavorite ? theme.colors.highlight : theme.colors.icon}
             strokeWidth={1.8}
           />
         )}

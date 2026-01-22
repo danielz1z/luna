@@ -2,12 +2,12 @@ import { useFonts, Outfit_400Regular, Outfit_700Bold } from '@expo-google-fonts/
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 
-import { useThemeColors } from '../contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 import CustomDrawerContent from '@/components/ui/CustomDrawerContent';
 
 export default function DrawerLayout() {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [fontsLoaded] = useFonts({
     Outfit_400Regular,
     Outfit_700Bold,
@@ -24,7 +24,7 @@ export default function DrawerLayout() {
         drawerType: 'slide',
         drawerPosition: 'left',
         drawerStyle: {
-          backgroundColor: colors.bg,
+          backgroundColor: theme.colors.bg,
           //backgroundColor: 'red',
           width: '85%',
           flex: 1,

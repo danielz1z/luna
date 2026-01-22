@@ -2,14 +2,14 @@ import React, { forwardRef } from 'react';
 import ActionSheet, { ActionSheetProps, ActionSheetRef } from 'react-native-actions-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 type ActionSheetThemedProps = ActionSheetProps;
 
 const ActionSheetThemed = forwardRef<ActionSheetRef, ActionSheetThemedProps>(
   ({ containerStyle, ...props }, ref) => {
     const mergedContainerStyle = typeof containerStyle === 'object' ? containerStyle : {};
-    const colors = useThemeColors();
+    const { theme } = useUnistyles();
     const insets = useSafeAreaInsets();
 
     return (
@@ -17,7 +17,7 @@ const ActionSheetThemed = forwardRef<ActionSheetRef, ActionSheetThemedProps>(
         {...props}
         ref={ref}
         containerStyle={{
-          backgroundColor: colors.sheet,
+          backgroundColor: theme.colors.sheet,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           ...mergedContainerStyle,

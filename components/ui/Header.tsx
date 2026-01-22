@@ -1,4 +1,4 @@
-import { useThemeColors } from 'app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Link, router } from 'expo-router';
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
   visible = true,
   variant = 'default',
 }) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const translateY = useRef(new Animated.Value(0)).current;
 
   // Determine if we should use the transparent or blurred variant styling
@@ -190,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({
         <View style={styles.defaultLeftSection}>
           {showBackButton && (
             <TouchableOpacity onPress={handleBackPress} style={styles.defaultBackButton}>
-              <Icon name="ArrowLeft" size={24} color={isTransparent ? 'white' : colors.icon} />
+              <Icon name="ArrowLeft" size={24} color={isTransparent ? 'white' : theme.colors.icon} />
             </TouchableOpacity>
           )}
 

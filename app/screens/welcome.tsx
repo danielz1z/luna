@@ -6,7 +6,7 @@ import { View, Text, FlatList, Dimensions, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
-import useThemeColors from '../contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 import Icon from '@/components/ui/Icon';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -36,7 +36,7 @@ const slides = [
 ];
 
 export default function OnboardingScreen() {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
   const insets = useSafeAreaInsets();
@@ -95,21 +95,21 @@ export default function OnboardingScreen() {
               <Pressable
                 onPress={() => router.push('/(drawer)/')}
                 style={styles.providerButton}>
-                <AntDesign name="google" size={22} color={colors.text} />
+                <AntDesign name="google" size={22} color={theme.colors.text} />
                 <ThemedText style={styles.providerButtonText}>Google</ThemedText>
               </Pressable>
               <Pressable
                 onPress={() => router.push('/(drawer)/')}
                 style={styles.providerButton}>
-                <AntDesign name="apple" size={22} color={colors.text} />
+                <AntDesign name="apple" size={22} color={theme.colors.text} />
                 <ThemedText style={styles.providerButtonText}>Apple</ThemedText>
               </Pressable>
             </View>
             <Pressable
               onPress={() => router.push('/screens/signup')}
               style={styles.emailButton}>
-              <Icon name="Mail" size={20} color={colors.invert} />
-              <ThemedText style={[styles.providerButtonText, { color: colors.invert }]}>Email</ThemedText>
+              <Icon name="Mail" size={20} color={theme.colors.invert} />
+              <ThemedText style={[styles.providerButtonText, { color: theme.colors.invert }]}>Email</ThemedText>
             </Pressable>
           </View>
         </View>

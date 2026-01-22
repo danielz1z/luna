@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import ImageCarousel from './ImageCarousel';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -34,7 +34,7 @@ const SliderCard = ({
   className = '',
   ...props
 }: SliderCardProps) => {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   const images = Array.isArray(image) ? image : [image];
 
   return (
@@ -54,7 +54,7 @@ const SliderCard = ({
             <ThemedText style={styles.title}>{title}</ThemedText>
             {rating && (
               <View style={styles.ratingRow}>
-                <MaterialIcons name="star" size={18} color={colors.text} />
+                <MaterialIcons name="star" size={18} color={theme.colors.text} />
                 <ThemedText style={styles.ratingText}>{rating}</ThemedText>
               </View>
             )}

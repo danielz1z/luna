@@ -4,18 +4,18 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 interface PageLoaderProps {
   text?: string;
 }
 
 export default function PageLoader({ text }: PageLoaderProps) {
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={colors.highlight} />
+      <ActivityIndicator size="large" color={theme.colors.highlight} />
       {text && (
         <ThemedText style={styles.text}>{text}</ThemedText>
       )}

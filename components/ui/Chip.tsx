@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import Icon, { IconName } from './Icon';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 type ChipSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 interface ChipProps {
@@ -80,7 +80,7 @@ export const Chip = ({
   };
 
   const isChipSelected = selectable ? selected : isSelected;
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
 
   const renderLeftContent = () => {
     if (leftContent) {
@@ -92,7 +92,7 @@ export const Chip = ({
         <Icon
           name={icon}
           size={getDefaultIconSize()}
-          color={iconColor || colors.icon}
+          color={iconColor || theme.colors.icon}
           style={styles.iconLeft}
         />
       );

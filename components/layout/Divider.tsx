@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ViewStyle } from 'react-native';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 
 interface DividerProps {
   orientation?: 'horizontal' | 'vertical';
@@ -18,8 +18,8 @@ export const Divider: React.FC<DividerProps> = ({
   spacing = 0,
   style,
 }) => {
-  const colors = useThemeColors();
-  const dividerColor = color || colors.border;
+  const { theme } = useUnistyles();
+  const dividerColor = color || theme.colors.border;
 
   return (
     <View

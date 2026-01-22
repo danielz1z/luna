@@ -8,7 +8,7 @@ import Icon, { IconName } from './Icon';
 import ThemedScroller from './ThemeScroller';
 import ThemedText from './ThemedText';
 
-import useThemeColors from '@/app/contexts/ThemeColors';
+import { useUnistyles } from 'react-native-unistyles';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { palette, withOpacity } from '@/lib/unistyles';
 
@@ -21,7 +21,7 @@ const History = [
 
 export default function CustomDrawerContent() {
   const insets = useSafeAreaInsets();
-  const colors = useThemeColors();
+  const { theme } = useUnistyles();
   return (
     <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <ThemedScroller style={styles.scroller}>
@@ -31,7 +31,7 @@ export default function CustomDrawerContent() {
             <TextInput
               style={styles.searchInput}
               placeholder="Search"
-              placeholderTextColor={colors.placeholder}
+              placeholderTextColor={theme.colors.placeholder}
               returnKeyType="done"
               autoFocus={false}
             />
