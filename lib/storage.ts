@@ -1,6 +1,5 @@
-// lib/storage.ts
-// CRITICAL: This file must NOT import from lib/unistyles.ts to avoid circular dependency
 import { createMMKV } from 'react-native-mmkv';
+import { UnistylesRuntime } from 'react-native-unistyles';
 
 export const storage = createMMKV({ id: 'app-preferences' });
 
@@ -21,4 +20,15 @@ export const getThemePreference = (): ThemePreference => {
 
 export const setThemePreference = (preference: ThemePreference): void => {
   storage.set(THEME_KEY, preference);
+};
+
+export const setThemeMode = (mode: ThemePreference): void => {
+  setThemePreference(mode);
+
+  if (mode === 'system') {
+    UnistylesRuntime.setAdaptiveThemes(true);
+  } else {
+    UnistylesRuntime.setAdaptiveThemes(false);
+    UnistylesRuntime.setTheme(mode);
+  }
 };

@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { useUnistyles } from 'react-native-unistyles';
 
 import Icon from '@/components/ui/Icon';
-import ThemeSelector from '@/components/ui/ThemeSelector';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import ThemedText from '@/components/ui/ThemedText';
 const { width } = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
@@ -49,7 +49,7 @@ export default function OnboardingScreen() {
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <View style={styles.root}>
         <View style={styles.topRight}>
-          <ThemeSelector />
+          <ThemeToggle />
         </View>
         <FlatList
           ref={flatListRef}
