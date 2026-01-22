@@ -15,7 +15,6 @@ import { StyleSheet } from 'react-native-unistyles';
 import { InputVariant } from './Input';
 
 import { useUnistyles } from 'react-native-unistyles';
-import { useTheme } from '@/app/contexts/ThemeContext';
 import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
 import { palette, withOpacity } from '@/lib/unistyles';
@@ -46,8 +45,8 @@ const Select: React.FC<SelectProps> = ({
   style,
   variant = 'animated',
 }) => {
-  const { isDark } = useTheme();
   const { theme } = useUnistyles();
+  const isDark = theme.isDark;
   const actionSheetRef = useRef<ActionSheetRef>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [selectedOption, setSelectedOption] = useState<SelectOption | undefined>(

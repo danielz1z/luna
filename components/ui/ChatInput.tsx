@@ -314,10 +314,9 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: 'space-between',
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    backgroundColor:
-      theme.colors.primary === '#171717'
-        ? withOpacity(palette.black, 0.3)
-        : withOpacity(palette.neutral200, 0.5),
+    backgroundColor: theme.isDark
+      ? withOpacity(palette.black, 0.3)
+      : withOpacity(palette.neutral200, 0.5),
     padding: 8,
   },
   toolbarGroup: {

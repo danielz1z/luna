@@ -4,15 +4,14 @@ import React, { useEffect } from 'react';
 import { Platform, StatusBar as RNStatusBar } from 'react-native';
 
 import { useUnistyles } from 'react-native-unistyles';
-import { useTheme } from '@/app/contexts/ThemeContext';
 
 /**
  * A hook that handles theme-dependent styling for navigation and status bars
  * Returns configuration objects and components for themed navigation
  */
 export default function useThemedNavigation() {
-  const { isDark } = useTheme();
   const { theme } = useUnistyles();
+  const isDark = theme.isDark;
 
   // Set up status/navigation bar styling based on theme
   useEffect(() => {

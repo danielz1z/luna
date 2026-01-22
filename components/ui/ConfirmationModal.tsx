@@ -5,7 +5,6 @@ import ActionSheet, { ActionSheetRef } from 'react-native-actions-sheet';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { useUnistyles } from 'react-native-unistyles';
-import { useTheme } from '@/app/contexts/ThemeContext';
 import ThemedText from '@/components/ui/ThemedText';
 import { palette } from '@/lib/unistyles';
 
@@ -29,8 +28,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   cancelText = 'Cancel',
   actionSheetRef,
 }) => {
-  const { isDark } = useTheme();
   const { theme } = useUnistyles();
+  const isDark = theme.isDark;
 
   React.useEffect(() => {
     if (Platform.OS === 'android') {
@@ -68,19 +67,13 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       }}>
       <View style={styles.content}>
         <ThemedText style={styles.title}>{title}</ThemedText>
-        <ThemedText style={styles.message}>
-          {message}
-        </ThemedText>
+        <ThemedText style={styles.message}>{message}</ThemedText>
 
         <View style={styles.buttonsRow}>
-          <Pressable
-            onPress={handleCancel}
-            style={styles.cancelButton}>
+          <Pressable onPress={handleCancel} style={styles.cancelButton}>
             <ThemedText>{cancelText}</ThemedText>
           </Pressable>
-          <Pressable
-            onPress={handleConfirm}
-            style={styles.confirmButton}>
+          <Pressable onPress={handleConfirm} style={styles.confirmButton}>
             <Text style={styles.confirmText}>{confirmText}</Text>
           </Pressable>
         </View>

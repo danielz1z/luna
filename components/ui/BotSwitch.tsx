@@ -38,9 +38,7 @@ export const BotSwitch = () => {
 
   return (
     <>
-      <Pressable
-        style={styles.trigger}
-        onPress={openModelSelector}>
+      <Pressable style={styles.trigger} onPress={openModelSelector}>
         <ThemedText style={styles.triggerText}>{selectedModel}</ThemedText>
         <Icon name="ChevronDown" size={16} style={styles.chevronIcon} />
       </Pressable>
@@ -50,24 +48,23 @@ export const BotSwitch = () => {
         <View style={styles.sheetContent}>
           <View style={styles.sheetHeader}>
             <ThemedText style={styles.title}>Select AI Model</ThemedText>
-            <ThemedText style={styles.subtitle}>
-              Choose the AI model to chat with
-            </ThemedText>
+            <ThemedText style={styles.subtitle}>Choose the AI model to chat with</ThemedText>
           </View>
 
           {modelOptions.map((option) => (
             <Pressable
               key={option.value}
               onPress={() => handleModelSelect(option.value)}
-              style={[styles.optionRow, selectedModel === option.value && styles.optionRowSelected]}>
+              style={[
+                styles.optionRow,
+                selectedModel === option.value && styles.optionRowSelected,
+              ]}>
               <ThemedText style={styles.optionLabel}>{option.label}</ThemedText>
               {selectedModel === option.value && <Icon name="Check" size={20} />}
             </Pressable>
           ))}
 
-          <Pressable
-            onPress={() => actionSheetRef.current?.hide()}
-            style={styles.cancelButton}>
+          <Pressable onPress={() => actionSheetRef.current?.hide()} style={styles.cancelButton}>
             <ThemedText style={styles.cancelText}>Cancel</ThemedText>
           </Pressable>
         </View>
@@ -81,7 +78,7 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     borderRadius: 9999,
     borderWidth: 1,
-    borderColor: theme.colors.primary === '#171717' ? 'transparent' : palette.neutral300,
+    borderColor: theme.isDark ? 'transparent' : palette.neutral300,
     backgroundColor: theme.colors.secondary,
     paddingVertical: 4,
     paddingLeft: 12,
@@ -116,10 +113,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: 12,
   },
   optionRowSelected: {
-    backgroundColor:
-      theme.colors.primary === '#171717'
-        ? theme.colors.primary
-        : withOpacity(theme.colors.primary, 0.1),
+    backgroundColor: theme.isDark ? theme.colors.primary : withOpacity(theme.colors.primary, 0.1),
   },
   optionLabel: {
     fontSize: 16,

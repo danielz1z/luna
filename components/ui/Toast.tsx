@@ -3,7 +3,6 @@ import { View, Text, Animated } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { useUnistyles } from 'react-native-unistyles';
-import { useTheme } from '@/app/contexts/ThemeContext';
 import { palette } from '@/lib/unistyles';
 
 type ToastType = 'success' | 'error' | 'info' | 'warning';
@@ -24,7 +23,7 @@ const Toast: React.FC<ToastProps> = ({
   isVisible,
 }) => {
   const { theme } = useUnistyles();
-  const { isDark } = useTheme();
+  const isDark = theme.isDark;
   const translateY = useRef(new Animated.Value(-100)).current;
 
   const getBackgroundColor = () => {
