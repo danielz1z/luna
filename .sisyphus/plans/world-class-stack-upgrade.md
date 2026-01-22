@@ -34,12 +34,12 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Definition of Done
 
-- [ ] `npm ls` shows no unused packages
-- [ ] `npx expo start` runs without errors
-- [ ] App launches and functions correctly on iOS simulator
-- [ ] No TypeScript errors
-- [ ] Images load with blur placeholder effect (expo-image working)
-- [ ] Lists scroll at 60fps (FlashList working)
+- [x] `npm ls` shows no unused packages
+- [x] `npx expo start` runs without errors
+- [x] App launches and functions correctly on iOS simulator
+- [x] No TypeScript errors
+- [x] Images load with blur placeholder effect (expo-image working)
+- [x] Lists scroll at 60fps (FlashList working)
 
 ### Must NOT Have
 
@@ -165,7 +165,7 @@ Transform Luna from a good stack to a world-class stack by adding essential data
 
 ### Phase 5: Native Rebuild & Verification
 
-- [ ] 5. Rebuild native app and verify
+- [x] 5. Rebuild native app and verify
 
   **What to do**:
   - Run `npx expo prebuild --clean`
@@ -216,10 +216,10 @@ npx expo start
 
 ### Final Checklist
 
-- [ ] Dead weight removed (2 packages)
-- [ ] New libraries added (5 packages)
-- [ ] All Image components migrated to expo-image
-- [ ] All FlatList components migrated to FlashList
-- [ ] Native app rebuilt
-- [ ] App runs without errors
-- [ ] No visual regressions
+- [x] Dead weight removed (2 packages)
+- [x] New libraries added (5 packages)
+- [x] All Image components migrated to expo-image
+- [x] All FlatList components migrated to FlashList
+- [x] Native app rebuilt
+- [x] App runs without errors
+- [x] No visual regressions
