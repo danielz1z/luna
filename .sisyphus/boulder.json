@@ -1,22 +1,8 @@
 {
-  "active_plan": null,
-  "started_at": null,
-  "session_ids": [],
-  "plan_name": null,
-  "completed_plans": [
-    {
-      "plan_name": "undefined-object-crash-fix",
-      "plan_path": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/undefined-object-crash-fix.md",
-      "completed_at": "2026-01-22T10:31:20.346Z",
-      "session_ids": ["ses_41f4c7d5fffe3XNTgV90p42bQg"],
-      "commit": "dc7c588b0f5cef8629932c5231eddc1cc2d7e51e"
-    },
-    {
-      "plan_name": "world-class-stack-upgrade",
-      "plan_path": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/world-class-stack-upgrade.md",
-      "completed_at": "2026-01-22T10:50:00.000Z",
-      "session_ids": ["ses_41f4c7d5fffe3XNTgV90p42bQg"],
-      "commits": ["7329f51", "32029ca", "d7bf0f2", "d7610fa", "5af8ac6"]
-    }
-  ]
+  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/theme-system-upgrade.md",
+  "started_at": "2026-01-22T07:50:47.719Z",
+  "session_ids": [
+    "ses_41f4c7d5fffe3XNTgV90p42bQg"
+  ],
+  "plan_name": "theme-system-upgrade"
 }

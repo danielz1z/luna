@@ -5,7 +5,6 @@ import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { ThemeProvider } from './contexts/ThemeContext';
 import useThemedNavigation from './hooks/useThemedNavigation';
 
 import { DrawerProvider } from '@/app/contexts/DrawerContext';
@@ -26,11 +25,9 @@ function ThemedLayout() {
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={styles.root}>
-      <ThemeProvider>
-        <DrawerProvider>
-          <ThemedLayout />
-        </DrawerProvider>
-      </ThemeProvider>
+      <DrawerProvider>
+        <ThemedLayout />
+      </DrawerProvider>
     </GestureHandlerRootView>
   );
 }

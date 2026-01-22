@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { useUnistyles } from 'react-native-unistyles';
 
 import Icon from '@/components/ui/Icon';
-import ThemeToggle from '@/components/ui/ThemeToggle';
+import ThemeSelector from '@/components/ui/ThemeSelector';
 import ThemedText from '@/components/ui/ThemedText';
 const { width } = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
@@ -49,7 +49,7 @@ export default function OnboardingScreen() {
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <View style={styles.root}>
         <View style={styles.topRight}>
-          <ThemeToggle />
+          <ThemeSelector />
         </View>
         <FlatList
           ref={flatListRef}
@@ -70,9 +70,7 @@ export default function OnboardingScreen() {
                 style={{ width: windowWidth, height: 300 }}
               />
               <ThemedText style={styles.slideTitle}>{item.title}</ThemedText>
-              <Text style={styles.slideDescription}>
-                {item.description}
-              </Text>
+              <Text style={styles.slideDescription}>{item.description}</Text>
             </View>
           )}
           ListFooterComponent={() => <View style={styles.listFooter} />}
@@ -92,24 +90,20 @@ export default function OnboardingScreen() {
         <View style={styles.actionsWrap}>
           <View style={styles.actionsInner}>
             <View style={styles.providerRow}>
-              <Pressable
-                onPress={() => router.push('/(drawer)/')}
-                style={styles.providerButton}>
+              <Pressable onPress={() => router.push('/(drawer)/')} style={styles.providerButton}>
                 <AntDesign name="google" size={22} color={theme.colors.text} />
                 <ThemedText style={styles.providerButtonText}>Google</ThemedText>
               </Pressable>
-              <Pressable
-                onPress={() => router.push('/(drawer)/')}
-                style={styles.providerButton}>
+              <Pressable onPress={() => router.push('/(drawer)/')} style={styles.providerButton}>
                 <AntDesign name="apple" size={22} color={theme.colors.text} />
                 <ThemedText style={styles.providerButtonText}>Apple</ThemedText>
               </Pressable>
             </View>
-            <Pressable
-              onPress={() => router.push('/screens/signup')}
-              style={styles.emailButton}>
+            <Pressable onPress={() => router.push('/screens/signup')} style={styles.emailButton}>
               <Icon name="Mail" size={20} color={theme.colors.invert} />
-              <ThemedText style={[styles.providerButtonText, { color: theme.colors.invert }]}>Email</ThemedText>
+              <ThemedText style={[styles.providerButtonText, { color: theme.colors.invert }]}>
+                Email
+              </ThemedText>
             </Pressable>
           </View>
         </View>

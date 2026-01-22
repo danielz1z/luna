@@ -9,7 +9,7 @@ import ThemedScroller from './ThemeScroller';
 import ThemedText from './ThemedText';
 
 import { useUnistyles } from 'react-native-unistyles';
-import ThemeToggle from '@/components/ui/ThemeToggle';
+import ThemeSelector from '@/components/ui/ThemeSelector';
 import { palette, withOpacity } from '@/lib/unistyles';
 
 const History = [
@@ -36,7 +36,7 @@ export default function CustomDrawerContent() {
               autoFocus={false}
             />
           </View>
-          <ThemeToggle />
+          <ThemeSelector />
         </View>
 
         <View style={styles.navSection}>
