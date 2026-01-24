@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useState, useEffect, useRef } from 'react';
-import { Pressable, Platform, Keyboard, TouchableOpacity, View } from 'react-native';
+import { Pressable, Platform, Keyboard, TouchableOpacity, View, Alert } from 'react-native';
 import { Image } from 'expo-image';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
@@ -193,9 +193,25 @@ export const ChatInput = (props: ChatInputProps) => {
             onPress={pickImage}
           />
 
-          <AnimatedPickerItem icon="Camera" label="Camera" delay={40} isExiting={isAnimatingOut} />
+          <AnimatedPickerItem
+            icon="Camera"
+            label="Camera"
+            delay={40}
+            isExiting={isAnimatingOut}
+            onPress={() =>
+              Alert.alert('Coming Soon', 'Camera will be available in a future update')
+            }
+          />
 
-          <AnimatedPickerItem icon="File" label="File" delay={80} isExiting={isAnimatingOut} />
+          <AnimatedPickerItem
+            icon="File"
+            label="File"
+            delay={80}
+            isExiting={isAnimatingOut}
+            onPress={() =>
+              Alert.alert('Coming Soon', 'File upload will be available in a future update')
+            }
+          />
         </View>
       )}
       <View style={styles.composer}>
@@ -214,15 +230,27 @@ export const ChatInput = (props: ChatInputProps) => {
                 <Icon name="Plus" size={18} />
               </Animated.View>
             </Pressable>
-            <Pressable style={styles.iconButton}>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() =>
+                Alert.alert('Coming Soon', 'Web search will be available in a future update')
+              }>
               <Icon name="Globe" size={18} />
             </Pressable>
-            <Pressable style={styles.iconButton}>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() =>
+                Alert.alert('Coming Soon', 'Deep research will be available in a future update')
+              }>
               <Icon name="Telescope" size={18} />
             </Pressable>
           </View>
           <View style={styles.toolbarGroup}>
-            <Pressable style={styles.iconButton}>
+            <Pressable
+              style={styles.iconButton}
+              onPress={() =>
+                Alert.alert('Coming Soon', 'Voice input will be available in a future update')
+              }>
               <Icon name="Mic" size={18} />
             </Pressable>
             <Pressable onPress={handleSendMessage} style={styles.sendIconButton}>

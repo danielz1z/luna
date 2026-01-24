@@ -1,3 +1,4 @@
+import { useSignUp } from '@clerk/clerk-expo';
 import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Pressable } from 'react-native';
@@ -10,13 +11,17 @@ import ThemedText from '@/components/ui/ThemedText';
 import Input from '@/components/forms/Input';
 
 export default function SignupScreen() {
+  const { signUp, setActive, isLoaded } = useSignUp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [authError, setAuthError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingVerification, setPendingVerification] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [strengthText, setStrengthText] = useState('');
 
@@ -99,19 +104,56 @@ export default function SignupScreen() {
     return true;
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
+    if (!isLoaded) return;
+
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
     const isConfirmPasswordValid = validateConfirmPassword(confirmPassword);
 
-    if (isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        setIsLoading(false);
-        // Navigate to home screen after successful login
+    if (!isEmailValid || !isPasswordValid || !isConfirmPasswordValid) return;
+
+    setIsLoading(true);
+    setAuthError('');
+
+    try {
+      await signUp.create({
+        emailAddress: email,
+        password,
+      });
+
+      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      setPendingVerification(true);
+    } catch (err: any) {
+      const errorMessage = err.errors?.[0]?.message || 'Sign up failed. Please try again.';
+      setAuthError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerification = async () => {
+    if (!isLoaded) return;
+
+    setIsLoading(true);
+    setAuthError('');
+
+    try {
+      const result = await signUp.attemptEmailAddressVerification({
+        code: verificationCode,
+      });
+
+      if (result.status === 'complete') {
+        await setActive({ session: result.createdSessionId });
         router.replace('/(drawer)/(tabs)/');
-      }, 1500);
+      } else {
+        setAuthError('Verification could not be completed. Please try again.');
+      }
+    } catch (err: any) {
+      const errorMessage = err.errors?.[0]?.message || 'Verification failed. Please try again.';
+      setAuthError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -124,15 +166,54 @@ export default function SignupScreen() {
         ? palette.yellow500
         : palette.red500;
 
+  if (pendingVerification) {
+    return (
+      <View style={[styles.root, { paddingTop: insets.top }]}>
+        <View style={styles.content}>
+          <ThemedText style={styles.brand}>Luna.</ThemedText>
+          <ThemedText style={styles.title}>Verify your email</ThemedText>
+          <ThemedText style={styles.subtitle}>We sent a verification code to {email}</ThemedText>
+
+          {authError ? <ThemedText style={styles.authError}>{authError}</ThemedText> : null}
+
+          <Input
+            label="Verification code"
+            variant="underlined"
+            value={verificationCode}
+            onChangeText={setVerificationCode}
+            keyboardType="number-pad"
+            autoCapitalize="none"
+          />
+
+          <View style={styles.buttonSpacer}>
+            <Button
+              title="Verify Email"
+              onPress={handleVerification}
+              loading={isLoading}
+              size="large"
+            />
+          </View>
+
+          <View style={styles.footerRow}>
+            <Pressable onPress={() => setPendingVerification(false)}>
+              <ThemedText style={styles.underline}>Go back</ThemedText>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <View style={styles.content}>
         <ThemedText style={styles.brand}>Luna.</ThemedText>
         <ThemedText style={styles.title}>Create account</ThemedText>
 
+        {authError ? <ThemedText style={styles.authError}>{authError}</ThemedText> : null}
+
         <Input
           label="Email"
-          //leftIcon="mail"
           variant="underlined"
           value={email}
           onChangeText={(text) => {
@@ -175,12 +256,13 @@ export default function SignupScreen() {
           <View style={styles.strengthWrap}>
             <View style={styles.strengthTrack}>
               <View
-                style={[styles.strengthFill, { width: `${passwordStrength}%`, backgroundColor: strengthColor }]}
+                style={[
+                  styles.strengthFill,
+                  { width: `${passwordStrength}%`, backgroundColor: strengthColor },
+                ]}
               />
             </View>
-            <ThemedText style={styles.strengthText}>
-              {strengthText}
-            </ThemedText>
+            <ThemedText style={styles.strengthText}>{strengthText}</ThemedText>
           </View>
         )}
 
@@ -189,10 +271,8 @@ export default function SignupScreen() {
         </View>
 
         <View style={styles.footerRow}>
-          <ThemedText style={styles.footerText}>
-            Already have an account?{' '}
-          </ThemedText>
-          <Link href="/screens/login" asChild>
+          <ThemedText style={styles.footerText}>Already have an account? </ThemedText>
+          <Link href="/(auth)/login" asChild>
             <Pressable>
               <ThemedText style={styles.underline}>Log in</ThemedText>
             </Pressable>
@@ -219,9 +299,20 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: 36,
   },
   title: {
-    marginBottom: 40,
+    marginBottom: 8,
     fontSize: 20,
     fontFamily: theme.fonts.bold,
+  },
+  subtitle: {
+    marginBottom: 24,
+    color: theme.colors.subtext,
+    fontSize: 14,
+  },
+  authError: {
+    marginBottom: 24,
+    color: '#ef4444',
+    fontSize: 14,
+    textAlign: 'center',
   },
   strengthWrap: {
     marginBottom: 16,

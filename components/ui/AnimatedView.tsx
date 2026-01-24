@@ -12,7 +12,6 @@ import {
   InteractionManager,
 } from 'react-native';
 
-
 export type AnimationType =
   | 'fadeIn'
   | 'scaleIn'
@@ -95,7 +94,7 @@ function AnimatedViewComponent({
   // Important: initial state is false if triggerOnVisible is true, otherwise we animate immediately
   const [isVisible, setIsVisible] = useState(false);
   const { height: windowHeight } = Dimensions.get('window');
-  const measureInterval = useRef<NodeJS.Timeout | null>(null);
+  const measureInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const isFirstRender = useRef(true);
   // Track the last animation type to detect changes
   const lastAnimationType = useRef<AnimationType>(animation);
@@ -473,13 +472,10 @@ function AnimatedViewComponent({
       style={[style, initialHiddenStyle]}
       onLayout={handleLayout}
       collapsable={false}>
-      <Animated.View style={[getAnimationStyle(), style]}>
-        {children}
-      </Animated.View>
+      <Animated.View style={[getAnimationStyle(), style]}>{children}</Animated.View>
     </View>
   );
 }
 
 // Export a memoized version of the component
 export default memo(AnimatedViewComponent, propsAreEqual);
-

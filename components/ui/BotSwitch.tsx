@@ -1,25 +1,32 @@
-import React, { useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import React, { useRef } from 'react';
+import { Pressable, View, ActivityIndicator } from 'react-native';
 import { ActionSheetRef } from 'react-native-actions-sheet';
 import { StyleSheet } from 'react-native-unistyles';
+import { useQuery } from 'convex/react';
 
 import ActionSheetThemed from './ActionSheetThemed';
 import Icon from './Icon';
 import ThemedText from './ThemedText';
 
 import { palette, withOpacity } from '@/lib/unistyles';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
 
-export const BotSwitch = () => {
-  const [selectedModel, setSelectedModel] = useState('GPT-4o');
+interface BotSwitchProps {
+  selectedModel: Id<'models'> | null;
+  onModelSelect: (modelId: Id<'models'>) => void;
+}
+
+export const BotSwitch = ({ selectedModel, onModelSelect }: BotSwitchProps) => {
+  const models = useQuery(api.queries.getModels);
   const actionSheetRef = useRef<ActionSheetRef>(null);
 
-  // AI model options
-  const modelOptions = [
-    { label: 'GPT-4o', value: 'GPT-4o' },
-    { label: 'Claude 3', value: 'Claude 3' },
-    { label: 'Llama 3', value: 'Llama 3' },
-    { label: 'Gemini', value: 'Gemini' },
-  ];
+  // Build model options from Convex data
+  const modelOptions =
+    models?.map((m) => ({
+      label: m.name,
+      value: m._id,
+    })) || [];
 
   // Open the action sheet
   const openModelSelector = () => {
@@ -29,17 +36,29 @@ export const BotSwitch = () => {
   };
 
   // Handle model selection
-  const handleModelSelect = (model: string) => {
-    setSelectedModel(model);
+  const handleModelSelect = (modelId: Id<'models'>) => {
+    onModelSelect(modelId);
     if (actionSheetRef.current) {
       actionSheetRef.current.hide();
     }
   };
 
+  // Show loading state while fetching models
+  if (!models) {
+    return (
+      <View style={styles.trigger}>
+        <ActivityIndicator size="small" />
+      </View>
+    );
+  }
+
+  // Get the selected model name
+  const selectedModelName = models.find((m) => m._id === selectedModel)?.name || 'Select Model';
+
   return (
     <>
       <Pressable style={styles.trigger} onPress={openModelSelector}>
-        <ThemedText style={styles.triggerText}>{selectedModel}</ThemedText>
+        <ThemedText style={styles.triggerText}>{selectedModelName}</ThemedText>
         <Icon name="ChevronDown" size={16} style={styles.chevronIcon} />
       </Pressable>
 

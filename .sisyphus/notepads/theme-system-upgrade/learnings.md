@@ -117,3 +117,55 @@ Using `theme.isDark` is explicit, maintainable, and doesn't couple to color valu
 
 ### Next Steps
 Task 6 will delete `ThemeContext.tsx` and `ThemeToggle.tsx` (the old theme system).
+
+## Task 6: Cleanup Redundant Theme Files (Completed)
+
+### Files Deleted
+Successfully removed 3 redundant theme abstraction files:
+1. `app/contexts/ThemeColors.tsx` - Wrapper around useUnistyles, now redundant
+2. `app/contexts/ThemeContext.tsx` - Provided isDark and toggleTheme, now redundant
+3. `components/ui/ThemeToggle.tsx` - Replaced by ThemeSelector
+
+### Integration Points Updated
+Updated 2 files to use ThemeSelector instead of ThemeToggle:
+1. `components/ui/CustomDrawerContent.tsx` (line 12, 39)
+   - Import: `ThemeToggle` → `ThemeSelector`
+   - JSX: `<ThemeToggle />` → `<ThemeSelector />`
+
+2. `app/screens/welcome.tsx` (line 12, 52)
+   - Import: `ThemeToggle` → `ThemeSelector`
+   - JSX: `<ThemeToggle />` → `<ThemeSelector />`
+
+### Root Layout Cleanup
+Updated `app/_layout.tsx`:
+- Removed `ThemeProvider` import from `./contexts/ThemeContext`
+- Removed `<ThemeProvider>` wrapper from component tree
+- App now relies solely on Unistyles runtime for theme management
+
+**Rationale:** `useThemedNavigation` uses `useUnistyles()` directly, so ThemeProvider was unnecessary.
+
+### Verification Results
+- ✅ `grep -r "ThemeColors" --include="*.tsx"` → 0 matches (excluding node_modules)
+- ✅ `grep -r "ThemeContext" --include="*.tsx"` → 0 matches (excluding node_modules, React Navigation's ThemeContext is OK)
+- ✅ `grep -r "ThemeToggle" --include="*.tsx"` → 0 matches
+- ✅ `npx tsc --noEmit` → Clean compilation
+- ✅ Git commit: `863ef8c` - 12 files changed, 1163 insertions(+), 183 deletions(-)
+
+### Files Modified
+1. `components/ui/CustomDrawerContent.tsx` - Use ThemeSelector
+2. `app/screens/welcome.tsx` - Use ThemeSelector
+3. `app/_layout.tsx` - Remove ThemeProvider wrapper
+
+### Architecture After Cleanup
+The theme system now has a clean, single-source-of-truth architecture:
+- **Storage:** MMKV persists theme preference
+- **Runtime:** Unistyles runtime manages active theme
+- **UI:** ThemeSelector component for user selection
+- **Consumers:** All components use `useUnistyles()` directly
+- **No abstractions:** Removed all intermediate wrapper contexts
+
+### Key Learnings
+1. **Pre-deletion verification critical:** Checked for imports before deleting files
+2. **ThemeProvider removal safe:** useThemedNavigation already used useUnistyles directly
+3. **React Navigation ThemeContext:** Expected to see in node_modules, not our code
+4. **Clean migration path:** Tasks 1-5 prepared the codebase perfectly for this cleanup

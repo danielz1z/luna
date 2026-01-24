@@ -8,14 +8,9 @@ import ListLink from '@/components/ui/ListLink';
 import ThemedScroller from '@/components/ui/ThemeScroller';
 import ThemedText from '@/components/ui/ThemedText';
 
-
 export default function ProfileScreen() {
   return (
-    <AnimatedView
-      style={styles.root}
-      animation="fadeIn"
-      duration={350}
-      playOnlyOnce={false}>
+    <AnimatedView style={styles.root} animation="fadeIn" duration={350} playOnlyOnce={false}>
       <Header showBackButton title="Profile" />
       <ThemedScroller>
         <View style={styles.headerSection}>
@@ -30,30 +25,29 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        <View
-          style={styles.card}
-        >
-          <ListLink
+        <View style={styles.card}>
+          {/* TODO: Wire these to real functionality */}
+          {/* <ListLink
             style={styles.listLink}
             hasBorder
             title="Settings"
             icon="Settings"
             href="/screens/edit-profile"
-          />
-          <ListLink
+          /> */}
+          {/* <ListLink
             style={styles.listLink}
             hasBorder
             title="Upgrade to plus"
             icon="MapPin"
             href="/screens/subscription"
-          />
-          <ListLink
+          /> */}
+          {/* <ListLink
             style={styles.listLink}
             hasBorder
             title="Ai Voice"
             icon="MicVocal"
             href="/screens/ai-voice"
-          />
+          /> */}
           <ListLink
             style={styles.listLink}
             hasBorder
@@ -61,12 +55,12 @@ export default function ProfileScreen() {
             icon="HelpCircle"
             href="/screens/help"
           />
-          <ListLink
+          {/* <ListLink
             style={styles.listLink}
             title="Logout"
             icon="LogOut"
             href="/screens/welcome"
-          />
+          /> */}
         </View>
       </ThemedScroller>
     </AnimatedView>
@@ -107,7 +101,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   card: {
     elevation: 8,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 3 },

@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
-import { Image } from 'expo-image';
+import React, { useState } from 'react';
+import { View, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { BotSwitch } from '@/components/ui/BotSwitch';
 import { ChatInput } from '@/components/ui/ChatInput';
 import DrawerButton from '@/components/ui/DrawerButton';
-import Header, { HeaderIcon } from '@/components/ui/Header';
-import Icon from '@/components/ui/Icon';
+import Header from '@/components/ui/Header';
 import { Sphere } from '@/components/ui/Sphere';
 import ThemeScroller from '@/components/ui/ThemeScroller';
 import ThemedText from '@/components/ui/ThemedText';

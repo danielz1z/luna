@@ -68,14 +68,17 @@ export default function ForgotPasswordScreen() {
         />
 
         <View style={styles.buttonSpacer}>
-          <Button title="Send Reset Link" onPress={handleResetPassword} loading={isLoading} size="large" />
+          <Button
+            title="Send Reset Link"
+            onPress={handleResetPassword}
+            loading={isLoading}
+            size="large"
+          />
         </View>
 
         <View style={styles.footerRow}>
-          <ThemedText style={styles.footerText}>
-            Remember your password?{' '}
-          </ThemedText>
-          <Link href="/screens/login" asChild>
+          <ThemedText style={styles.footerText}>Remember your password? </ThemedText>
+          <Link href="/(auth)/login" asChild>
             <Pressable>
               <ThemedText style={styles.underline}>Log in</ThemedText>
             </Pressable>

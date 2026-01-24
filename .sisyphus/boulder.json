@@ -1,8 +1,6 @@
 {
-  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/theme-system-upgrade.md",
-  "started_at": "2026-01-22T07:50:47.719Z",
-  "session_ids": [
-    "ses_41f4c7d5fffe3XNTgV90p42bQg"
-  ],
-  "plan_name": "theme-system-upgrade"
+  "active_plan": "/Users/daniel/Documents/DEV/luna/.sisyphus/plans/luna-frontend-production.md",
+  "started_at": "2026-01-24T09:13:29.029Z",
+  "session_ids": ["ses_41e84d551ffeiJ38uvIIX4rfB2"],
+  "plan_name": "luna-frontend-production"
 }

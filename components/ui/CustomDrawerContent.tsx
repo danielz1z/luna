@@ -1,7 +1,10 @@
-import { Link, router } from 'expo-router';
-import { View, Text, Pressable, TouchableOpacity, TextInput } from 'react-native';
+import { useMemo, useState } from 'react';
+import { useClerk, useUser } from '@clerk/clerk-expo';
+import { router } from 'expo-router';
+import { View, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, UnistylesRuntime } from 'react-native-unistyles';
+import { useQuery } from 'convex/react';
 
 import Avatar from './Avatar';
 import Icon, { IconName } from './Icon';
@@ -11,17 +14,73 @@ import ThemedText from './ThemedText';
 import { useUnistyles } from 'react-native-unistyles';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { palette, withOpacity } from '@/lib/unistyles';
-
-const History = [
-  { label: 'Home', href: '/' },
-  { label: 'Chat with suggestions', href: '/(drawer)/suggestions' },
-  { label: 'Lottie animation', href: '/(drawer)/lottie' },
-  { label: 'Chat with results', href: '/(drawer)/results' },
-];
+import { api } from '@/convex/_generated/api';
+import { useChatContext } from '@/contexts/ChatContext';
 
 export default function CustomDrawerContent() {
+  const { onSelectConversation, onNewChat } = useChatContext();
   const insets = useSafeAreaInsets();
   const { theme } = useUnistyles();
+  const { user, isSignedIn } = useUser();
+  const { signOut } = useClerk();
+  const [searchQuery, setSearchQuery] = useState('');
+  const conversations = useQuery(api.conversations.list, {});
+
+  const groupedConversations = useMemo(() => {
+    if (!conversations) return {};
+
+    const groups: Record<string, typeof conversations> = {};
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    conversations.forEach((conv) => {
+      const convDate = new Date(conv.updatedAt);
+      let label: string;
+
+      if (convDate.toDateString() === today.toDateString()) {
+        label = 'Today';
+      } else if (convDate.toDateString() === yesterday.toDateString()) {
+        label = 'Yesterday';
+      } else {
+        label = convDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      }
+
+      if (!groups[label]) groups[label] = [];
+      groups[label].push(conv);
+    });
+
+    return groups;
+  }, [conversations]);
+
+  const filteredConversations = useMemo(() => {
+    if (!searchQuery.trim()) return groupedConversations;
+
+    const filtered: Record<string, typeof conversations> = {};
+    Object.entries(groupedConversations).forEach(([date, convs]) => {
+      if (!convs) return;
+      const matches = convs.filter((c) =>
+        c.title?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      if (matches.length) filtered[date] = matches;
+    });
+    return filtered;
+  }, [groupedConversations, searchQuery]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.replace('/(auth)/login');
+    } catch (err) {
+      Alert.alert('Error', 'Failed to sign out. Please try again.');
+    }
+  };
+
+  const userEmail = user?.emailAddresses?.[0]?.emailAddress || '';
+  const userName = user?.firstName
+    ? `${user.firstName}${user.lastName ? ` ${user.lastName}` : ''}`
+    : userEmail.split('@')[0] || 'User';
+
   return (
     <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
       <ThemedScroller style={styles.scroller}>
@@ -34,30 +93,81 @@ export default function CustomDrawerContent() {
               placeholderTextColor={theme.colors.placeholder}
               returnKeyType="done"
               autoFocus={false}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
             />
           </View>
           <ThemeToggle />
         </View>
 
         <View style={styles.navSection}>
-          <NavItem href="/" icon="Plus" label="New chat" />
-          <NavItem href="/screens/search-form" icon="LayoutGrid" label="Explore" />
+          <TouchableOpacity onPress={onNewChat} style={styles.navItem}>
+            <View style={styles.navIconContainer}>
+              <Icon name="Plus" size={18} />
+            </View>
+            <View style={styles.navContent}>
+              <ThemedText style={styles.navLabel}>New chat</ThemedText>
+            </View>
+          </TouchableOpacity>
+          {/* TODO: Wire Explore to real functionality */}
+          {/* <NavItem href="/screens/search-form" icon="LayoutGrid" label="Explore" /> */}
+          {isSignedIn && (
+            <TouchableOpacity onPress={handleSignOut} style={styles.navItem}>
+              <View style={styles.navIconContainer}>
+                <Icon name="LogOut" size={18} />
+              </View>
+              <View style={styles.navContent}>
+                <ThemedText style={styles.navLabel}>Sign out</ThemedText>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
 
-        {History.map((item, index) => (
-          <Link key={index} href={item.href} asChild>
-            <ThemedText style={styles.historyLink}>{item.label}</ThemedText>
-          </Link>
+        {Object.entries(filteredConversations).map(([date, convs]) => (
+          <View key={date} style={styles.dateGroup}>
+            <ThemedText style={styles.dateHeader}>{date}</ThemedText>
+            {convs?.map((conv) => (
+              <TouchableOpacity
+                key={conv._id}
+                onPress={() => onSelectConversation(conv._id)}
+                style={styles.conversationItem}
+                activeOpacity={0.7}>
+                <ThemedText style={styles.conversationTitle} numberOfLines={1}>
+                  {conv.title || 'Untitled conversation'}
+                </ThemedText>
+              </TouchableOpacity>
+            ))}
+          </View>
         ))}
+
+        {conversations && conversations.length === 0 && (
+          <View style={styles.emptyState}>
+            <ThemedText style={styles.emptyText}>No conversations yet</ThemedText>
+            <ThemedText style={styles.emptySubtext}>Start a new chat to begin</ThemedText>
+          </View>
+        )}
+
+        {searchQuery.trim() &&
+          Object.keys(filteredConversations).length === 0 &&
+          conversations &&
+          conversations.length > 0 && (
+            <View style={styles.emptyState}>
+              <ThemedText style={styles.emptyText}>No results found</ThemedText>
+              <ThemedText style={styles.emptySubtext}>Try a different search term</ThemedText>
+            </View>
+          )}
       </ThemedScroller>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => router.push('/screens/profile')}
         style={styles.profileButton}>
-        <Avatar src={require('@/assets/img/thomino.jpg')} size="md" />
+        <Avatar
+          src={user?.imageUrl ? { uri: user.imageUrl } : require('@/assets/img/thomino.jpg')}
+          size="md"
+        />
         <View style={styles.profileInfo}>
-          <ThemedText style={styles.profileName}>Thomino</ThemedText>
-          <ThemedText style={styles.profileEmail}>thomino@gmail.com</ThemedText>
+          <ThemedText style={styles.profileName}>{userName}</ThemedText>
+          <ThemedText style={styles.profileEmail}>{userEmail}</ThemedText>
         </View>
         <Icon name="ChevronRight" size={18} style={styles.chevron} />
       </TouchableOpacity>
@@ -187,6 +297,40 @@ const styles = StyleSheet.create((theme) => {
     navDescription: {
       fontSize: 12,
       opacity: 0.5,
+    },
+    dateGroup: {
+      marginTop: 16,
+    },
+    dateHeader: {
+      fontSize: 12,
+      fontWeight: '600',
+      opacity: 0.5,
+      marginBottom: 8,
+      paddingHorizontal: 4,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    conversationItem: {
+      paddingVertical: 10,
+      paddingHorizontal: 8,
+      borderRadius: 8,
+    },
+    conversationTitle: {
+      fontSize: 14,
+      fontWeight: '400',
+    },
+    emptyState: {
+      paddingVertical: 32,
+      alignItems: 'center',
+    },
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      marginBottom: 8,
+    },
+    emptySubtext: {
+      fontSize: 14,
+      opacity: 0.6,
     },
   };
 });
