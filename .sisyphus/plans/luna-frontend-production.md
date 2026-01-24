@@ -102,16 +102,16 @@ Transform mock-home.tsx into a production chat screen where:
 
 ### Definition of Done
 
-- [ ] BotSwitch shows real models from Convex
-- [ ] Sending message creates conversation and streams response
-- [ ] AiCircle fades out when first message sent
-- [ ] Messages display correctly (user right, assistant left)
-- [ ] Typing indicator shows during streaming
-- [ ] Sidebar shows real conversations from Convex
-- [ ] Tapping sidebar conversation loads that chat
-- [ ] "New chat" resets to AiCircle state
-- [ ] Credits visible and update after messages
-- [ ] Auth gate prevents unauthenticated access
+- [x] BotSwitch shows real models from Convex
+- [x] Sending message creates conversation and streams response
+- [x] AiCircle fades out when first message sent
+- [x] Messages display correctly (user right, assistant left)
+- [x] Typing indicator shows during streaming
+- [x] Sidebar shows real conversations from Convex
+- [x] Tapping sidebar conversation loads that chat
+- [x] "New chat" resets to AiCircle state
+- [x] Credits visible and update after messages
+- [x] Auth gate prevents unauthenticated access
 
 ---
 
