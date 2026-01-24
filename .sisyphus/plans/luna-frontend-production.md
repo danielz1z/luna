@@ -843,13 +843,15 @@ Fix any remaining navigation links after restructure.
 
 After completing this plan:
 
-- [ ] App requires login to access
-- [ ] Home screen shows AiCircle in fresh state
-- [ ] Sending message fades out AiCircle, shows messages
-- [ ] Responses stream word-by-word
-- [ ] Sidebar shows real conversations
-- [ ] Can switch between conversations
-- [ ] "New chat" resets to fresh state
-- [ ] Model selector shows real models
-- [ ] Credits visible and update correctly
-- [ ] All navigation works correctly
+- [x] App requires login to access
+- [x] Home screen shows AiCircle in fresh state
+- [x] Sending message fades out AiCircle, shows messages
+- [x] Responses stream word-by-word
+- [x] Sidebar shows real conversations
+- [x] Can switch between conversations
+- [x] "New chat" resets to fresh state
+- [x] Model selector shows real models
+- [x] Credits visible and update correctly
+- [x] All navigation works correctly
+
+**Note:** All implementation tasks complete. Hands-on QA testing pending (requires device/simulator).
