@@ -2,6 +2,8 @@ import { useAuth } from '@clerk/clerk-expo';
 import { Redirect, Slot } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
+import { AuthModalProvider } from '@/app/contexts/AuthModalContext';
+import AuthModal from '@/components/auth/AuthModal';
 
 export default function AppLayout() {
   const { isSignedIn, isLoaded } = useAuth();
@@ -21,7 +23,12 @@ export default function AppLayout() {
     );
   }
 
-  if (!isSignedIn) return <Redirect href="/(auth)/login" />;
+  if (!isSignedIn) return <Redirect href="/(auth)/continue" />;
 
-  return <Slot />;
+  return (
+    <AuthModalProvider>
+      <Slot />
+      <AuthModal />
+    </AuthModalProvider>
+  );
 }
