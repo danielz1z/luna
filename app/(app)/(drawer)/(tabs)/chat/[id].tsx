@@ -102,13 +102,15 @@ export default function ChatScreen() {
   }, [messages.length, streamingMessage?.content, scrollToEnd]);
 
   const handleSendMessage = useCallback(
-    async (text: string) => {
-      if (!text.trim()) return;
+    async (text: string, _images?: string[]): Promise<boolean> => {
+      if (!text.trim()) return false;
       try {
         await sendMessage({ conversationId, content: text });
         scrollToEnd();
+        return true;
       } catch (error) {
         console.error('Failed to send message:', error);
+        return false;
       }
     },
     [conversationId, sendMessage, scrollToEnd]

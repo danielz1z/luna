@@ -140,8 +140,8 @@ const HomeScreen = () => {
 
   // Handle sending a message
   const handleSendMessage = useCallback(
-    async (text: string, _images?: string[]) => {
-      if (!text.trim() || !selectedModelId) return;
+    async (text: string, _images?: string[]): Promise<boolean> => {
+      if (!text.trim() || !selectedModelId) return false;
 
       try {
         let convId = conversationId;
@@ -162,8 +162,10 @@ const HomeScreen = () => {
         });
 
         scrollToEnd();
+        return true;
       } catch (error) {
         console.error('Failed to send message:', error);
+        return false;
       }
     },
     [conversationId, selectedModelId, createConversation, sendMessage, scrollToEnd]

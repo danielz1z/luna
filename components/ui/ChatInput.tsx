@@ -23,7 +23,7 @@ import { palette, withOpacity } from '@/lib/unistyles';
 type ChatInputProps = {
   attachVisible?: boolean;
   setAttachVisible?: (visible: boolean) => void;
-  onSendMessage?: (text: string, images?: string[]) => void;
+  onSendMessage?: (text: string, images?: string[]) => Promise<boolean>;
 };
 
 export const ChatInput = (props: ChatInputProps) => {
@@ -165,11 +165,23 @@ export const ChatInput = (props: ChatInputProps) => {
   };
 
   // Handle message send
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (props.onSendMessage && (inputText.trim() || selectedImages.length > 0)) {
-      props.onSendMessage(inputText, selectedImages.length > 0 ? selectedImages : undefined);
-      setInputText('');
-      setSelectedImages([]);
+      try {
+        const success = await props.onSendMessage(
+          inputText,
+          selectedImages.length > 0 ? selectedImages : undefined
+        );
+        // Only clear input if send was successful
+        if (success) {
+          setInputText('');
+          setSelectedImages([]);
+        }
+      } catch (error) {
+        // If callback throws, treat as failure - preserve input
+        console.error('Send failed:', error);
+        // Input preserved automatically (no clearing)
+      }
     }
   };
   const { bottom } = useSafeAreaInsets();
