@@ -16,6 +16,8 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 import { palette, withOpacity } from '@/lib/unistyles';
 import { api } from '@/convex/_generated/api';
 import { useChatContext } from '@/contexts/ChatContext';
+import { useAuthModal } from '@/app/contexts/AuthModalContext';
+import { useDrawer } from '@/app/contexts/DrawerContext';
 
 export default function CustomDrawerContent() {
   const { onSelectConversation, onNewChat } = useChatContext();
@@ -23,6 +25,8 @@ export default function CustomDrawerContent() {
   const { theme } = useUnistyles();
   const { user, isSignedIn } = useUser();
   const { signOut } = useClerk();
+  const { showAuthModal } = useAuthModal();
+  const { closeDrawer } = useDrawer();
   const [searchQuery, setSearchQuery] = useState('');
   const conversations = useQuery(api.conversations.list, {});
 
@@ -111,6 +115,21 @@ export default function CustomDrawerContent() {
           </TouchableOpacity>
           {/* TODO: Wire Explore to real functionality */}
           {/* <NavItem href="/screens/search-form" icon="LayoutGrid" label="Explore" /> */}
+          {!isSignedIn && (
+            <TouchableOpacity
+              onPress={() => {
+                closeDrawer();
+                showAuthModal();
+              }}
+              style={styles.navItem}>
+              <View style={styles.navIconContainer}>
+                <Icon name="LogIn" size={18} />
+              </View>
+              <View style={styles.navContent}>
+                <ThemedText style={styles.navLabel}>Sign in</ThemedText>
+              </View>
+            </TouchableOpacity>
+          )}
           {isSignedIn && (
             <TouchableOpacity onPress={handleSignOut} style={styles.navItem}>
               <View style={styles.navIconContainer}>
@@ -157,20 +176,22 @@ export default function CustomDrawerContent() {
             </View>
           )}
       </ThemedScroller>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => router.push('/screens/profile')}
-        style={styles.profileButton}>
-        <Avatar
-          src={user?.imageUrl ? { uri: user.imageUrl } : require('@/assets/img/thomino.jpg')}
-          size="md"
-        />
-        <View style={styles.profileInfo}>
-          <ThemedText style={styles.profileName}>{userName}</ThemedText>
-          <ThemedText style={styles.profileEmail}>{userEmail}</ThemedText>
-        </View>
-        <Icon name="ChevronRight" size={18} style={styles.chevron} />
-      </TouchableOpacity>
+      {isSignedIn && (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => router.push('/screens/profile')}
+          style={styles.profileButton}>
+          <Avatar
+            src={user?.imageUrl ? { uri: user.imageUrl } : require('@/assets/img/thomino.jpg')}
+            size="md"
+          />
+          <View style={styles.profileInfo}>
+            <ThemedText style={styles.profileName}>{userName}</ThemedText>
+            <ThemedText style={styles.profileEmail}>{userEmail}</ThemedText>
+          </View>
+          <Icon name="ChevronRight" size={18} style={styles.chevron} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
