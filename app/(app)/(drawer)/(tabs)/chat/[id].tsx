@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useCallback } from 'react';
 import { View, FlatList, Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { useQuery, useMutation } from 'convex/react';
+import { useAuth } from '@clerk/clerk-expo';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -18,6 +19,7 @@ import { ChatInput } from '@/components/ui/ChatInput';
 import Header from '@/components/ui/Header';
 import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
+import { useAuthModal } from '@/app/contexts/AuthModalContext';
 
 type Message = {
   _id: Id<'messages'>;
@@ -80,11 +82,19 @@ export default function ChatScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { theme } = useUnistyles();
   const flatListRef = useRef<FlatList<Message>>(null);
+  const { isSignedIn } = useAuth();
+  const { showAuthModal } = useAuthModal();
 
   const conversationId = id as Id<'conversations'>;
 
-  const conversation = useQuery(api.queries.getConversation, { conversationId });
-  const streamingMessage = useQuery(api.queries.getStreamingMessage, { conversationId });
+  const conversation = useQuery(
+    api.queries.getConversation,
+    isSignedIn ? { conversationId } : 'skip'
+  );
+  const streamingMessage = useQuery(
+    api.queries.getStreamingMessage,
+    isSignedIn && conversationId ? { conversationId } : 'skip'
+  );
   const sendMessage = useMutation(api.messages.send);
 
   const messages = conversation?.messages ?? [];
@@ -103,17 +113,34 @@ export default function ChatScreen() {
 
   const handleSendMessage = useCallback(
     async (text: string, _images?: string[]): Promise<boolean> => {
+      // Auth check FIRST - before any other validation
+      if (!isSignedIn) {
+        showAuthModal();
+        return false; // Signal to ChatInput: don't clear input
+      }
+
       if (!text.trim()) return false;
+
       try {
         await sendMessage({ conversationId, content: text });
         scrollToEnd();
-        return true;
+        return true; // Signal to ChatInput: clear input
       } catch (error) {
-        console.error('Failed to send message:', error);
-        return false;
+        // Handle session expiry: if mutation fails due to auth, show modal
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        // Exact match for Convex auth errors (verified from convex/*.ts):
+        // - convex/messages.ts:84 throws Error('User not authenticated')
+        // - convex/conversations.ts:49,213 throws Error('User not authenticated')
+        if (errorMessage.includes('User not authenticated')) {
+          console.warn('Session expired, showing auth modal');
+          showAuthModal();
+        } else {
+          console.error('Failed to send message:', error);
+        }
+        return false; // Input preserved in all error cases
       }
     },
-    [conversationId, sendMessage, scrollToEnd]
+    [isSignedIn, showAuthModal, conversationId, sendMessage, scrollToEnd]
   );
 
   const renderMessage = useCallback(
@@ -132,6 +159,17 @@ export default function ChatScreen() {
       <Icon name="ChevronLeft" size={24} color={theme.colors.text} />
     </Pressable>,
   ];
+
+  if (!isSignedIn) {
+    return (
+      <View style={styles.container}>
+        <Header title="Chat" leftComponent={leftComponent} />
+        <View style={styles.loadingContainer}>
+          <ThemedText style={styles.loadingText}>Sign in to view your conversations</ThemedText>
+        </View>
+      </View>
+    );
+  }
 
   if (!conversation) {
     return (
