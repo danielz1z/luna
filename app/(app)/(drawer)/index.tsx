@@ -3,6 +3,7 @@ import { View, Text, KeyboardAvoidingView, Platform, FlatList } from 'react-nati
 import { StyleSheet } from 'react-native-unistyles';
 import { useQuery, useMutation } from 'convex/react';
 import { useUnistyles } from 'react-native-unistyles';
+import { useAuth } from '@clerk/clerk-expo';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -23,6 +24,7 @@ import Icon from '@/components/ui/Icon';
 import ThemedText from '@/components/ui/ThemedText';
 import { withOpacity } from '@/lib/unistyles';
 import { useChatContext } from '@/contexts/ChatContext';
+import { useAuthModal } from '@/app/contexts/AuthModalContext';
 
 type Message = {
   _id: Id<'messages'>;
@@ -84,6 +86,8 @@ function MessageBubble({ message, isStreaming }: { message: Message; isStreaming
 const HomeScreen = () => {
   const flatListRef = useRef<FlatList<Message>>(null);
   const { theme } = useUnistyles();
+  const { isSignedIn } = useAuth();
+  const { showAuthModal } = useAuthModal();
 
   // Current conversation from context
   const { conversationId, setConversationId } = useChatContext();
@@ -110,8 +114,8 @@ const HomeScreen = () => {
   // Get models to set default
   const models = useQuery(api.queries.getModels);
 
-  // Get user credits
-  const credits = useQuery(api.queries.getUserCredits);
+  // Get user credits - skip when not signed in to avoid auth errors
+  const credits = useQuery(api.queries.getUserCredits, isSignedIn ? {} : 'skip');
 
   // Set default model when loaded
   useEffect(() => {
@@ -141,6 +145,12 @@ const HomeScreen = () => {
   // Handle sending a message
   const handleSendMessage = useCallback(
     async (text: string, _images?: string[]): Promise<boolean> => {
+      // Auth check FIRST - before any other validation
+      if (!isSignedIn) {
+        showAuthModal();
+        return false; // Signal to ChatInput: don't clear input
+      }
+
       if (!text.trim() || !selectedModelId) return false;
 
       try {
@@ -162,13 +172,31 @@ const HomeScreen = () => {
         });
 
         scrollToEnd();
-        return true;
+        return true; // Signal to ChatInput: clear input
       } catch (error) {
-        console.error('Failed to send message:', error);
-        return false;
+        // Handle session expiry: if mutation fails due to auth, show modal
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        // Exact match for Convex auth errors (verified from convex/*.ts):
+        // - convex/messages.ts:84 throws Error('User not authenticated')
+        // - convex/conversations.ts:49,213 throws Error('User not authenticated')
+        if (errorMessage.includes('User not authenticated')) {
+          console.warn('Session expired, showing auth modal');
+          showAuthModal();
+        } else {
+          console.error('Failed to send message:', error);
+        }
+        return false; // Input preserved in all error cases
       }
     },
-    [conversationId, selectedModelId, createConversation, sendMessage, scrollToEnd]
+    [
+      isSignedIn,
+      showAuthModal,
+      conversationId,
+      selectedModelId,
+      createConversation,
+      sendMessage,
+      scrollToEnd,
+    ]
   );
 
   // Render message item
@@ -187,7 +215,7 @@ const HomeScreen = () => {
     <View key="credits" style={styles.creditsContainer}>
       <Icon name="Coins" size={14} color={theme.colors.highlight} />
       <ThemedText style={styles.creditsText}>
-        {credits !== undefined ? credits.toLocaleString() : '...'}
+        {isSignedIn ? (credits !== undefined ? credits.toLocaleString() : '...') : '---'}
       </ThemedText>
     </View>,
     <BotSwitch
