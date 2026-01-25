@@ -9,26 +9,17 @@
     "experiments": {
       "tsconfigPaths": true
     },
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "@react-native-community/datetimepicker"
-    ],
+    "platforms": ["ios", "android"],
+    "plugins": ["expo-router", "expo-font", "@react-native-community/datetimepicker"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.blobsid.luna"

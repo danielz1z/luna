@@ -15,6 +15,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery, useMutation } from 'convex/react';
 import { ConvexError } from 'convex/values';
 import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
+import { useAuth } from '@clerk/clerk-expo';
+import { useAuthModal } from '@/app/contexts/AuthModalContext';
 
 import { api } from '@/convex/_generated/api';
 import type { Id } from '@/convex/_generated/dataModel';
@@ -38,6 +40,8 @@ export default function ImagesScreen() {
   const { theme } = useUnistyles();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const { isSignedIn } = useAuth();
+  const { showAuthModal } = useAuthModal();
 
   const [prompt, setPrompt] = useState('');
   const [resolution, setResolution] = useState<Resolution>('1024');
@@ -50,7 +54,7 @@ export default function ImagesScreen() {
     api.queries.getImageJob,
     activeJobId ? { jobId: activeJobId } : 'skip'
   );
-  const userCredits = useQuery(api.queries.getUserCredits);
+  const userCredits = useQuery(api.queries.getUserCredits, isSignedIn ? {} : 'skip');
   const createJob = useMutation(api.imageJobs.create);
 
   const numColumns = 2;
@@ -58,6 +62,11 @@ export default function ImagesScreen() {
   const imageSize = (width - 32 - spacing * (numColumns - 1)) / numColumns;
 
   const handleGenerate = useCallback(async () => {
+    if (!isSignedIn) {
+      showAuthModal();
+      return;
+    }
+
     if (!prompt.trim()) {
       setError('Please enter a prompt');
       return;
@@ -84,7 +93,7 @@ export default function ImagesScreen() {
         setError('Failed to start generation');
       }
     }
-  }, [prompt, resolution, userCredits, createJob]);
+  }, [prompt, resolution, userCredits, createJob, isSignedIn, showAuthModal]);
 
   React.useEffect(() => {
     if (activeJob?.status === 'completed' || activeJob?.status === 'failed') {
@@ -181,10 +190,12 @@ export default function ImagesScreen() {
     </ThemedText>,
   ];
 
-  const rightComponent = userCredits !== undefined && (
+  const rightComponent = (
     <View style={styles.creditsContainer}>
       <Icon name="Coins" size={16} color={theme.colors.highlight} />
-      <ThemedText style={styles.creditsText}>{userCredits}</ThemedText>
+      <ThemedText style={styles.creditsText}>
+        {isSignedIn ? (userCredits !== undefined ? userCredits : '...') : '---'}
+      </ThemedText>
     </View>
   );
 

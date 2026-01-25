@@ -74,7 +74,7 @@ export default function CustomDrawerContent() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.replace('/(auth)/login');
+      // Stay in app - unauthenticated access is now allowed
     } catch (err) {
       Alert.alert('Error', 'Failed to sign out. Please try again.');
     }

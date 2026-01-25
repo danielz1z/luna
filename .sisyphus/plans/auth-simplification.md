@@ -323,7 +323,7 @@ Task 3 must complete BEFORE Task 4B (unauth UI hardening before removing gate).
 
 ---
 
-- [ ] 2. Modify SignInWith and Create AuthModal Component
+- [x] 2. Modify SignInWith and Create AuthModal Component
 
   **What to do**:
 
@@ -489,7 +489,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 2.5. Modify ChatInput and ALL Call Sites for Async Callback
+- [x] 2.5. Modify ChatInput and ALL Call Sites for Async Callback
 
   **What to do**:
 
@@ -616,7 +616,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 3. Handle Unauthenticated UI State (CRITICAL)
+- [x] 3. Handle Unauthenticated UI State (CRITICAL)
 
   **DEPENDENCY**: Task 4A (AuthModalProvider wiring) MUST complete BEFORE this task, because Parts A.5 and A.6 use `useAuthModal()`.
 
@@ -767,7 +767,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 4A. Wire AuthModalProvider (Keep Auth Gate)
+- [x] 4A. Wire AuthModalProvider (Keep Auth Gate)
 
   **What to do**:
   - Modify `app/(app)/_layout.tsx`
@@ -845,7 +845,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 4B. Remove Auth Gate (After Task 3 Unauth UI Hardening)
+- [x] 4B. Remove Auth Gate (After Task 3 Unauth UI Hardening)
 
   **What to do**:
   - Modify `app/(app)/_layout.tsx`
@@ -903,7 +903,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 5. Add Sign-in Button to Drawer
+- [x] 5. Add Sign-in Button to Drawer
 
   **What to do**:
 
@@ -986,7 +986,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 6. Intercept Send on Home Screen
+- [x] 6. Intercept Send on Home Screen
 
   **What to do**:
   - Modify `app/(app)/(drawer)/index.tsx`
@@ -1105,7 +1105,7 @@ The key behavior: tapping the semi-transparent overlay dismisses the modal; tapp
 
 ---
 
-- [ ] 7. Intercept Send on Chat Screen (Session Expiry Handling)
+- [x] 7. Intercept Send on Chat Screen (Session Expiry Handling)
 
   **What to do**:
   - Modify `app/(app)/(drawer)/(tabs)/chat/[id].tsx`

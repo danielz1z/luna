@@ -4,6 +4,8 @@ import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { useQuery, useMutation } from 'convex/react';
+import { useAuth } from '@clerk/clerk-expo';
+import { useAuthModal } from '@/app/contexts/AuthModalContext';
 
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
@@ -41,16 +43,22 @@ type Conversation = {
 export default function ConversationsScreen() {
   const { theme } = useUnistyles();
   const insets = useSafeAreaInsets();
+  const { isSignedIn } = useAuth();
+  const { showAuthModal } = useAuthModal();
   const [showModelPicker, setShowModelPicker] = useState(false);
   const [selectedModel, setSelectedModel] = useState<Model | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
   const conversations = useQuery(api.conversations.list, { limit: 50 });
   const models = useQuery(api.queries.getModels);
-  const credits = useQuery(api.queries.getUserCredits);
+  const credits = useQuery(api.queries.getUserCredits, isSignedIn ? {} : 'skip');
   const createConversation = useMutation(api.conversations.create);
 
   const handleNewConversation = () => {
+    if (!isSignedIn) {
+      showAuthModal();
+      return;
+    }
     if (models && models.length > 0) {
       setSelectedModel(models[0]);
       setShowModelPicker(true);
@@ -144,7 +152,7 @@ export default function ConversationsScreen() {
     <View key="credits" style={styles.creditsContainer}>
       <Icon name="Coins" size={16} color={theme.colors.highlight} />
       <ThemedText style={styles.creditsText}>
-        {credits !== undefined ? formatCredits(credits) : '...'}
+        {isSignedIn ? (credits !== undefined ? formatCredits(credits) : '...') : '---'}
       </ThemedText>
     </View>,
   ];

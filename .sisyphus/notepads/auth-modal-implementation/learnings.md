@@ -1,0 +1,3 @@
+- Found `AuthModalContext` in `app/contexts/AuthModalContext.tsx` instead of `contexts/AuthModalContext.tsx`.
+- Updated import path in `AuthModal.tsx` to `@/app/contexts/AuthModalContext`.
+- `SignInWith` component now supports `onSuccess` callback to override default navigation.

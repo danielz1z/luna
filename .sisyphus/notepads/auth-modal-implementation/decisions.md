@@ -1,0 +1,2 @@
+- Decided to use `@/app/contexts/AuthModalContext` for `AuthModalContext` import because the file exists there, despite the prompt suggesting `@/contexts/AuthModalContext`.
+- Kept the navigation fallback in `SignInWith.tsx` for backward compatibility with existing auth flows.
