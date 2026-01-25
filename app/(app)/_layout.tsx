@@ -6,7 +6,7 @@ import { AuthModalProvider } from '@/app/contexts/AuthModalContext';
 import AuthModal from '@/components/auth/AuthModal';
 
 export default function AppLayout() {
-  const { isSignedIn, isLoaded } = useAuth();
+  const { isLoaded } = useAuth();
   const { theme } = useUnistyles();
 
   if (!isLoaded) {
@@ -22,8 +22,6 @@ export default function AppLayout() {
       </View>
     );
   }
-
-  if (!isSignedIn) return <Redirect href="/(auth)/continue" />;
 
   return (
     <AuthModalProvider>
